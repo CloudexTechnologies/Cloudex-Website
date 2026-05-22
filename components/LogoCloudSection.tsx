@@ -40,8 +40,8 @@ const logos = [
   {
     src: 'https://svgl.app/library/tensorflow-wordmark-light.svg',
     alt: 'TensorFlow',
-    width: 180,
-    height: 48,
+    width: 220,
+    height: 56,
   },
 ];
 

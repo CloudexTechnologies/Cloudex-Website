@@ -33,7 +33,7 @@ export function LogoCloud({ logos, className, ...props }: LogoCloudProps) {
             <img
               alt={logo.alt}
               className="pointer-events-none select-none dark:brightness-0 dark:invert"
-              style={{ maxHeight: '100%', maxWidth: '100%', width: 'auto', height: 'auto' }}
+              style={{ height: '100%', width: 'auto', maxWidth: '100%' }}
               loading="lazy"
               src={logo.src}
             />
