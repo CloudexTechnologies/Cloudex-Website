@@ -23,28 +23,32 @@ export function LogoCloud({ logos, className, ...props }: LogoCloudProps) {
       )}
       {...props}
     >
-      <InfiniteSlider gap={42} reverse speed={60} speedOnHover={20}>
+      <InfiniteSlider gap={48} reverse speed={50}>
         {logos.map((logo) => (
-          <img
+          <div
             key={`logo-${logo.alt}`}
-            alt={logo.alt}
-            className="pointer-events-none h-7 w-auto select-none md:h-9 dark:brightness-0 dark:invert"
-            height="auto"
-            loading="lazy"
-            src={logo.src}
-            width="auto"
-          />
+            className="flex items-center justify-center"
+            style={{ width: 140, height: 36 }}
+          >
+            <img
+              alt={logo.alt}
+              className="pointer-events-none select-none dark:brightness-0 dark:invert"
+              style={{ maxHeight: '100%', maxWidth: '100%', width: 'auto', height: 'auto' }}
+              loading="lazy"
+              src={logo.src}
+            />
+          </div>
         ))}
       </InfiniteSlider>
 
       <ProgressiveBlur
-        blurIntensity={1}
-        className="pointer-events-none absolute top-0 left-0 h-full w-[160px]"
+        blurIntensity={0.35}
+        className="pointer-events-none absolute -top-8 -bottom-8 left-0 w-[160px]"
         direction="left"
       />
       <ProgressiveBlur
-        blurIntensity={1}
-        className="pointer-events-none absolute top-0 right-0 h-full w-[160px]"
+        blurIntensity={0.35}
+        className="pointer-events-none absolute -top-8 -bottom-8 right-0 w-[160px]"
         direction="right"
       />
     </div>
