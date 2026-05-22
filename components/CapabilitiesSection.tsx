@@ -74,7 +74,7 @@ function AnimatedChart() {
   const xLabels = ["Jan", "Mar", "May", "Jul", "Oct", "Dec"];
   const yUnit = "%";
 
-  const W = 520, H = 240;
+  const W = 520, H = 360;
   const pad = { top: 24, right: 24, bottom: 40, left: 48 };
   const cw = W - pad.left - pad.right;
   const ch = H - pad.top - pad.bottom;
