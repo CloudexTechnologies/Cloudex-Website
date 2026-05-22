@@ -32,52 +32,207 @@ const hoverOn = (e: React.MouseEvent<HTMLDivElement>) =>
 const hoverOff = (e: React.MouseEvent<HTMLDivElement>) =>
   (e.currentTarget.style.boxShadow = "");
 
-/* ── Animated chart: reveals left→right on scroll into view ── */
+/* ── Animated line chart (design-spec): draw-in + axes + grid + dots + tooltip ── */
 function AnimatedChart() {
   const svgRef = useRef<SVGSVGElement>(null);
-  const [revealed, setRevealed] = useState(false);
+  const pathRef = useRef<SVGPathElement>(null);
+  const [drawn, setDrawn] = useState(false);
+  const [hoverIdx, setHoverIdx] = useState<number | null>(null);
+  const [pathLen, setPathLen] = useState(1600);
+  const [isDark, setIsDark] = useState(true);
+
+  useEffect(() => {
+    const update = () =>
+      setIsDark(document.documentElement.getAttribute("data-theme") !== "light");
+    update();
+    const mo = new MutationObserver(update);
+    mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+    return () => mo.disconnect();
+  }, []);
 
   useEffect(() => {
     const el = svgRef.current;
     if (!el) return;
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setRevealed(true); observer.disconnect(); } },
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => setDrawn(true), 60);
+          observer.disconnect();
+        }
+      },
       { threshold: 0.35 }
     );
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    if (pathRef.current) setPathLen(pathRef.current.getTotalLength());
+  }, [drawn]);
+
+  const points = [18, 25, 22, 30, 28, 35, 33, 42, 40, 50, 55, 65];
+  const xLabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const yUnit = "%";
+
+  const W = 520, H = 240;
+  const pad = { top: 24, right: 24, bottom: 40, left: 48 };
+  const cw = W - pad.left - pad.right;
+  const ch = H - pad.top - pad.bottom;
+
+  const niceMin = Math.floor(Math.min(...points) / 10) * 10;
+  const niceMax = Math.ceil(Math.max(...points) / 10) * 10;
+  const niceRange = niceMax - niceMin || 1;
+
+  const toX = (i: number) => pad.left + (i / (points.length - 1)) * cw;
+  const toY = (v: number) => pad.top + ch - ((v - niceMin) / niceRange) * ch;
+
+  const linePath = (() => {
+    const pts = points.map((v, i) => [toX(i), toY(v)]);
+    let d = `M ${pts[0][0]},${pts[0][1]}`;
+    for (let i = 0; i < pts.length - 1; i++) {
+      const [x0, y0] = pts[i], [x1, y1] = pts[i + 1];
+      const cpx = (x0 + x1) / 2;
+      d += ` C ${cpx},${y0} ${cpx},${y1} ${x1},${y1}`;
+    }
+    return d;
+  })();
+
+  const areaPath = `${linePath} L ${toX(points.length - 1)},${pad.top + ch} L ${toX(0)},${pad.top + ch} Z`;
+  const yTickVals = Array.from({ length: 6 }, (_, i) => niceMin + (niceRange / 5) * i);
+
+  const tok = isDark
+    ? { chartBg: "#111832", textSec: "#8694b2", axisLine: "#1e2a4a", gridLine: "#151d35", dotFill: "#080c18" }
+    : { chartBg: "#f4f6fb", textSec: "#6b7280", axisLine: "#d1d5db", gridLine: "#e8ebf0", dotFill: "#ffffff" };
+
+  const ANIM = 2000;
+  const cellW = cw / (points.length - 1);
+
   return (
-    <svg ref={svgRef} className="w-full" viewBox="0 0 386 123" fill="none">
-      <defs>
-        <linearGradient id="growthGradient" x1="3" y1="15" x2="3" y2="123" gradientUnits="userSpaceOnUse">
-          <stop stopColor="rgba(37,99,235,0.22)" />
-          <stop offset="1" stopColor="rgba(37,99,235,0)" />
-        </linearGradient>
-        <clipPath id="chartClip">
-          <rect
-            x="0" y="0" height="123"
-            width={revealed ? 386 : 0}
-            style={{ transition: "width 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)" }}
+    <div style={{ background: tok.chartBg, borderRadius: 14, padding: "8px 0 0 0", overflow: "hidden" }}>
+      <svg
+        ref={svgRef}
+        viewBox={`0 0 ${W} ${H}`}
+        width="100%"
+        height="auto"
+        style={{ display: "block" }}
+        onMouseLeave={() => setHoverIdx(null)}
+      >
+        <defs>
+          <linearGradient id="cx-area-grad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="var(--accent)" stopOpacity={isDark ? 0.25 : 0.18} />
+            <stop offset="100%" stopColor="var(--accent)" stopOpacity={0} />
+          </linearGradient>
+          {isDark && (
+            <filter id="cx-line-glow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="4" result="blur" />
+              <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+            </filter>
+          )}
+        </defs>
+
+        {/* Grid lines */}
+        {yTickVals.map((v, i) => (
+          <line key={i} x1={pad.left} y1={toY(v)} x2={W - pad.right} y2={toY(v)}
+            stroke={tok.gridLine} strokeWidth={1} strokeDasharray="4 4" />
+        ))}
+
+        {/* Axes */}
+        <line x1={pad.left} y1={pad.top + ch} x2={W - pad.right} y2={pad.top + ch} stroke={tok.axisLine} strokeWidth={1} />
+        <line x1={pad.left} y1={pad.top} x2={pad.left} y2={pad.top + ch} stroke={tok.axisLine} strokeWidth={1} />
+
+        {/* Y labels */}
+        {yTickVals.map((v, i) => (
+          <text key={i} x={pad.left - 10} y={toY(v) + 4} textAnchor="end"
+            fill={tok.textSec} fontSize={11} fontFamily="'DM Sans', sans-serif">
+            {Math.round(v)}{yUnit}
+          </text>
+        ))}
+
+        {/* X labels */}
+        {xLabels.map((l, i) => (
+          <text key={i} x={toX(i)} y={pad.top + ch + 24} textAnchor="middle"
+            fill={tok.textSec} fontSize={11} fontFamily="'DM Sans', sans-serif">
+            {l}
+          </text>
+        ))}
+
+        {/* Area fill */}
+        <path d={areaPath} fill="url(#cx-area-grad)"
+          style={{ opacity: drawn ? 1 : 0, transition: `opacity ${ANIM * 0.6}ms ease ${ANIM * 0.4}ms` }} />
+
+        {/* Animated line */}
+        <path
+          ref={pathRef}
+          d={linePath}
+          fill="none"
+          stroke="var(--accent)"
+          strokeWidth={2.5}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          filter={isDark ? "url(#cx-line-glow)" : undefined}
+          style={{
+            strokeDasharray: pathLen,
+            strokeDashoffset: drawn ? 0 : pathLen,
+            transition: `stroke-dashoffset ${ANIM}ms cubic-bezier(0.4,0,0.2,1)`,
+          }}
+        />
+
+        {/* Data dots */}
+        {points.map((v, i) => (
+          <circle key={i}
+            cx={toX(i)} cy={toY(v)}
+            r={hoverIdx === i ? 6 : 3.5}
+            fill={hoverIdx === i ? "var(--accent)" : tok.dotFill}
+            stroke="var(--accent)" strokeWidth={2}
+            style={{
+              opacity: drawn ? 1 : 0,
+              transition: `opacity 0.3s ease ${(i / (points.length - 1)) * ANIM}ms`,
+              cursor: "pointer",
+            }}
+            onMouseEnter={() => setHoverIdx(i)}
           />
-        </clipPath>
-      </defs>
-      <rect width="386" height="123" rx="10" />
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M3 123C3 123 30 96 40 98C50 100 58 106 65 104C74 102 80 88 88 88C96 84 102 96 108 94C116 92 120 76 128 78C136 76 146 88 152 86C158 84 168 64 174 66C180 66 190 75 196 73C204 71 214 52 220 54C228 52 238 62 244 60C252 58 262 42 268 44C276 42 286 52 292 50C300 48 312 30 318 33C326 31 338 40 344 38C352 36 374 18 383 20C383 60 383 123 383 123"
-        fill="url(#growthGradient)"
-        clipPath="url(#chartClip)"
-      />
-      <path
-        d="M3 110C12 109 30 96 40 98C50 100 58 106 65 104C74 102 80 88 88 88C96 84 102 96 108 94C116 92 120 76 128 78C136 76 146 88 152 86C158 84 168 64 174 66C180 66 190 75 196 73C204 71 214 52 220 54C228 52 238 62 244 60C252 58 262 42 268 44C276 42 286 52 292 50C300 48 312 30 318 33C326 31 338 40 344 38C352 36 374 18 383 20"
-        stroke="var(--accent)"
-        strokeWidth="3"
-        clipPath="url(#chartClip)"
-      />
-    </svg>
+        ))}
+
+        {/* Hover tooltip */}
+        {hoverIdx !== null && (() => {
+          const px = toX(hoverIdx), py = toY(points[hoverIdx]);
+          const tW = 70, tH = 34;
+          let tx = Math.min(Math.max(px - tW / 2, pad.left), W - pad.right - tW);
+          let ty = py - tH - 12;
+          if (ty < 4) ty = py + 16;
+          const tooltipBg = isDark ? "#1a2340" : "#ffffff";
+          const tooltipBorder = isDark ? "#283556" : "#e5e7eb";
+          const valColor = isDark ? "#ffffff" : "#111827";
+          return (
+            <g>
+              <line x1={px} y1={py + 8} x2={px} y2={pad.top + ch}
+                stroke="var(--accent)" strokeWidth={1} strokeDasharray="3 3" opacity={0.4} />
+              <rect x={tx} y={ty} width={tW} height={tH} rx={8}
+                fill={tooltipBg} stroke={tooltipBorder} strokeWidth={1} />
+              <text x={tx + tW / 2} y={ty + 14} textAnchor="middle"
+                fill={tok.textSec} fontSize={10} fontFamily="'DM Sans', sans-serif">
+                {xLabels[hoverIdx]}
+              </text>
+              <text x={tx + tW / 2} y={ty + 27} textAnchor="middle"
+                fill={valColor} fontSize={13} fontWeight={600} fontFamily="'DM Sans', sans-serif">
+                {points[hoverIdx]}{yUnit}
+              </text>
+            </g>
+          );
+        })()}
+
+        {/* Invisible hover hit zones */}
+        {points.map((_, i) => (
+          <rect key={`hit-${i}`}
+            x={toX(i) - cellW / 2} y={pad.top}
+            width={cellW} height={ch}
+            fill="transparent"
+            onMouseEnter={() => setHoverIdx(i)}
+            style={{ cursor: "crosshair" }}
+          />
+        ))}
+      </svg>
+    </div>
   );
 }
 
