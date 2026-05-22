@@ -75,7 +75,7 @@ function AnimatedChart() {
   const yUnit = "%";
 
   const W = 520, H = 360;
-  const pad = { top: 24, right: 24, bottom: 40, left: 48 };
+  const pad = { top: 24, right: 24, bottom: 48, left: 56 };
   const cw = W - pad.left - pad.right;
   const ch = H - pad.top - pad.bottom;
 
@@ -143,7 +143,7 @@ function AnimatedChart() {
         {/* Y labels */}
         {yTickVals.map((v, i) => (
           <text key={i} x={pad.left - 10} y={toY(v) + 4} textAnchor="end"
-            fill={tok.textSec} fontSize={11} fontFamily="'DM Sans', sans-serif">
+            fill={tok.textSec} fontSize={14} fontFamily="'DM Sans', sans-serif">
             {Math.round(v)}{yUnit}
           </text>
         ))}
@@ -151,7 +151,7 @@ function AnimatedChart() {
         {/* X labels */}
         {xLabels.map((l, i) => (
           <text key={i} x={toX(i)} y={pad.top + ch + 24} textAnchor="middle"
-            fill={tok.textSec} fontSize={11} fontFamily="'DM Sans', sans-serif">
+            fill={tok.textSec} fontSize={14} fontFamily="'DM Sans', sans-serif">
             {l}
           </text>
         ))}
