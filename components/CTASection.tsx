@@ -92,7 +92,7 @@ export function CTASection() {
                 e.currentTarget.style.background = "var(--accent)";
               }}
             >
-              Start the Conversation →
+              Schedule a Consultation
             </MagneticButton>
           </div>
         </ScrollReveal>
