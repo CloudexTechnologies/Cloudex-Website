@@ -567,152 +567,148 @@ export function IndustriesSection() {
   }, []);
 
   return (
-    <section
-      style={{
-        width: "100%",
-        padding: "80px 0 0",
-        position: "relative",
-      }}
-    >
-      {/* Ambient glow */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%,-40%)",
-          width: "70%",
-          height: "70%",
-          background: "radial-gradient(ellipse, rgba(37,99,235,0.04) 0%, transparent 70%)",
-          pointerEvents: "none",
-        }}
-      />
-
-      {/* Header */}
-      <ScrollReveal>
-        <div style={{ textAlign: "center", marginBottom: 52, position: "relative", zIndex: 1 }}>
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              padding: "7px 18px",
-              borderRadius: 100,
-              background: "var(--accent-subtle)",
-              border: "1px solid rgba(37,99,235,0.18)",
-              color: "var(--accent-hover)",
-              fontSize: 12,
-              fontWeight: 600,
-              letterSpacing: "0.06em",
-              textTransform: "uppercase",
-              marginBottom: 22,
-            }}
-          >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2" />
-              <circle cx="9" cy="7" r="4" />
-              <path d="M22 21v-2a4 4 0 00-3-3.87" />
-              <path d="M16 3.13a4 4 0 010 7.75" />
-            </svg>
-            Industries We Serve
-          </div>
-
-          <h2
-            style={{
-              fontFamily: "var(--font-heading)",
-              fontSize: "clamp(28px,4vw,42px)",
-              fontWeight: 800,
-              lineHeight: 1.15,
-              letterSpacing: "-0.025em",
-              marginBottom: 14,
-              color: "var(--text-1)",
-            }}
-          >
-            Built for every fast-moving industry
-          </h2>
-          <p
-            style={{
-              fontSize: "clamp(14px,1.4vw,17px)",
-              color: "var(--text-2)",
-              lineHeight: 1.65,
-              maxWidth: 480,
-              margin: "0 auto",
-            }}
-          >
-            Intelligent solutions where automation creates competitive advantage.
-          </p>
-        </div>
-      </ScrollReveal>
-
-      {/* Bento Grid */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1.35fr 1fr",
-          gap: 14,
-          position: "relative",
-          zIndex: 1,
-        }}
-        className="ind-grid"
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
-      >
-        <FeaturedCard
-          industry={INDUSTRIES[activeIdx]}
-          duration={AUTO_ROTATE_SPEED}
-          isPaused={isPaused}
-          cycleKey={cycleKey}
+    <section className="section" style={{ background: "var(--bg)" }}>
+      <div className="container" style={{ position: "relative" }}>
+        {/* Ambient glow */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%,-40%)",
+            width: "70%",
+            height: "70%",
+            background: "radial-gradient(ellipse, rgba(37,99,235,0.04) 0%, transparent 70%)",
+            pointerEvents: "none",
+          }}
         />
-        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-          {INDUSTRIES.map((ind, i) => (
-            <SmallCard
-              key={ind.id}
-              industry={ind}
-              isActive={i === activeIdx}
-              onClick={() => pick(i)}
-              index={i}
-            />
-          ))}
-        </div>
-      </div>
 
-      <style>{`
-        @keyframes ind-progress-fill { from { width: 0%; } to { width: 100%; } }
-        @keyframes ind-enter-up {
-          from { opacity: 0; transform: translateY(14px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes ind-float1 {
-          0%,100% { transform: translate(0,0) scale(1); }
-          33%  { transform: translate(-30px,25px) scale(1.08); }
-          66%  { transform: translate(20px,-15px) scale(0.92); }
-        }
-        @keyframes ind-float2 {
-          0%,100% { transform: translate(0,0) scale(1); }
-          33%  { transform: translate(20px,-20px) scale(0.9); }
-          66%  { transform: translate(-18px,18px) scale(1.1); }
-        }
-        @media (max-width: 860px) {
-          .ind-grid { grid-template-columns: 1fr !important; }
-          .ind-grid > div:last-child {
-            display: grid !important;
-            grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+        {/* Header */}
+        <ScrollReveal>
+          <div style={{ textAlign: "center", marginBottom: 52, position: "relative", zIndex: 1 }}>
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                padding: "7px 18px",
+                borderRadius: 100,
+                background: "var(--accent-subtle)",
+                border: "1px solid rgba(37,99,235,0.18)",
+                color: "var(--accent-hover)",
+                fontSize: 12,
+                fontWeight: 600,
+                letterSpacing: "0.06em",
+                textTransform: "uppercase",
+                marginBottom: 22,
+              }}
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M22 21v-2a4 4 0 00-3-3.87" />
+                <path d="M16 3.13a4 4 0 010 7.75" />
+              </svg>
+              Industries We Serve
+            </div>
+
+            <h2
+              style={{
+                fontFamily: "var(--font-heading)",
+                fontSize: "clamp(28px,4vw,42px)",
+                fontWeight: 800,
+                lineHeight: 1.15,
+                letterSpacing: "-0.025em",
+                marginBottom: 14,
+                color: "var(--text-1)",
+              }}
+            >
+              Built for every fast-moving industry
+            </h2>
+            <p
+              style={{
+                fontSize: "clamp(14px,1.4vw,17px)",
+                color: "var(--text-2)",
+                lineHeight: 1.65,
+                maxWidth: 480,
+                margin: "0 auto",
+              }}
+            >
+              Intelligent solutions where automation creates competitive advantage.
+            </p>
+          </div>
+        </ScrollReveal>
+
+        {/* Bento Grid */}
+        <div
+          className="ind-grid"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1.35fr 1fr",
+            gap: 14,
+            position: "relative",
+            zIndex: 1,
+          }}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          <FeaturedCard
+            industry={INDUSTRIES[activeIdx]}
+            duration={AUTO_ROTATE_SPEED}
+            isPaused={isPaused}
+            cycleKey={cycleKey}
+          />
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {INDUSTRIES.map((ind, i) => (
+              <SmallCard
+                key={ind.id}
+                industry={ind}
+                isActive={i === activeIdx}
+                onClick={() => pick(i)}
+                index={i}
+              />
+            ))}
+          </div>
+        </div>
+
+        <style>{`
+          @keyframes ind-progress-fill { from { width: 0%; } to { width: 100%; } }
+          @keyframes ind-enter-up {
+            from { opacity: 0; transform: translateY(14px); }
+            to   { opacity: 1; transform: translateY(0); }
           }
-        }
-        @media (max-width: 480px) {
-          .ind-grid > div:last-child { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
+          @keyframes ind-float1 {
+            0%,100% { transform: translate(0,0) scale(1); }
+            33%  { transform: translate(-30px,25px) scale(1.08); }
+            66%  { transform: translate(20px,-15px) scale(0.92); }
+          }
+          @keyframes ind-float2 {
+            0%,100% { transform: translate(0,0) scale(1); }
+            33%  { transform: translate(20px,-20px) scale(0.9); }
+            66%  { transform: translate(-18px,18px) scale(1.1); }
+          }
+          @media (max-width: 860px) {
+            .ind-grid { grid-template-columns: 1fr !important; }
+            .ind-grid > div:last-child {
+              display: grid !important;
+              grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+            }
+          }
+          @media (max-width: 480px) {
+            .ind-grid > div:last-child { grid-template-columns: 1fr !important; }
+          }
+        `}</style>
+      </div>
     </section>
   );
 }
