@@ -70,8 +70,8 @@ function AnimatedChart() {
     if (pathRef.current) setPathLen(pathRef.current.getTotalLength());
   }, [drawn]);
 
-  const points = [18, 25, 22, 30, 28, 35, 33, 42, 40, 50, 55, 65];
-  const xLabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const points = [18, 25, 28, 38, 52, 65];
+  const xLabels = ["Jan", "Mar", "May", "Jul", "Oct", "Dec"];
   const yUnit = "%";
 
   const W = 520, H = 240;
