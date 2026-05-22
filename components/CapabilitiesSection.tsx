@@ -1,23 +1,12 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import {
-  Users,
-  Rocket, ShoppingCart, Activity, Cloud, BarChart2, Building2,
   Bot, MessageSquare, Cpu, Network,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { CpuArchitecture } from "@/components/ui/cpu-architecture";
 import { ScrollReveal } from "./ui/ScrollReveal";
 import { SectionHeader } from "./ui/SectionHeader";
-
-const industries = [
-  { label: "Startups",    icon: Rocket,       benefit: "Fast automation from day one" },
-  { label: "E-commerce",  icon: ShoppingCart, benefit: "AI-driven conversion ops" },
-  { label: "Healthcare",  icon: Activity,     benefit: "Patient workflow automation" },
-  { label: "SaaS",        icon: Cloud,        benefit: "AI-native product development" },
-  { label: "FinTech",     icon: BarChart2,    benefit: "Smart compliance & analytics" },
-  { label: "Real Estate", icon: Building2,    benefit: "Automated lead & listing ops" },
-];
 
 const PIPELINE = [
   { label: "AI Employees & Agents",          icon: Bot,           desc: "Autonomous agents that recruit, train, and operate independently — handling complex tasks without human oversight." },
@@ -536,98 +525,6 @@ function AutomationSection() {
   );
 }
 
-/* ── Industries We Serve: infinite marquee ── */
-const MARQUEE_ITEMS = [...industries, ...industries];
-
-function IndustriesSection() {
-  return (
-    <div style={{ marginTop: "20px" }}>
-      <ScrollReveal>
-        <div style={{ textAlign: "center", marginBottom: "44px" }}>
-          <div style={{
-            display: "inline-flex", alignItems: "center", gap: 8,
-            padding: "6px 14px", borderRadius: 999, marginBottom: 16,
-            background: "var(--accent-subtle)", border: "1px solid rgba(37,99,235,0.2)",
-          }}>
-            <Users style={{ width: 13, height: 13, color: "var(--accent)" }} strokeWidth={2} />
-            <span style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--accent)" }}>
-              Industries We Serve
-            </span>
-          </div>
-          <h2 style={{
-            fontFamily: "var(--font-heading)",
-            fontSize: "clamp(22px, 2.5vw, 34px)", fontWeight: 700,
-            color: "var(--text-1)", marginBottom: 12, lineHeight: 1.25,
-          }}>
-            Built for every fast-moving industry
-          </h2>
-          <p style={{ color: "var(--text-2)", fontSize: 15, lineHeight: 1.75, maxWidth: 460, margin: "0 auto" }}>
-            Intelligent solutions where automation creates competitive advantage.
-          </p>
-        </div>
-      </ScrollReveal>
-
-      {/* Marquee */}
-      <div style={{ overflow: "hidden", position: "relative" }}>
-        <div style={{
-          position: "absolute", left: 0, top: 0, bottom: 0, width: 120, zIndex: 2, pointerEvents: "none",
-          background: "linear-gradient(to right, var(--bg), transparent)",
-        }} />
-        <div style={{
-          position: "absolute", right: 0, top: 0, bottom: 0, width: 120, zIndex: 2, pointerEvents: "none",
-          background: "linear-gradient(to left, var(--bg), transparent)",
-        }} />
-
-        <div
-          className="cap-marquee"
-          style={{ display: "flex", gap: 14, animation: "cap-scroll 34s linear infinite", width: "max-content" }}
-        >
-          {MARQUEE_ITEMS.map(({ label, icon: Icon, benefit }, i) => (
-            <div
-              key={i}
-              style={{
-                flexShrink: 0, width: 210, padding: "22px 20px", borderRadius: 16,
-                background: "var(--bg-2)", border: "1px solid var(--border)",
-                display: "flex", flexDirection: "column", gap: 14,
-                transition: "border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease",
-                cursor: "default",
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLDivElement;
-                el.style.borderColor = "rgba(37,99,235,0.35)";
-                el.style.transform = "translateY(-4px)";
-                el.style.boxShadow = "0 10px 28px rgba(37,99,235,0.1)";
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLDivElement;
-                el.style.borderColor = "var(--border)";
-                el.style.transform = "translateY(0)";
-                el.style.boxShadow = "none";
-              }}
-            >
-              <div style={{
-                width: 42, height: 42, borderRadius: 11, flexShrink: 0,
-                background: "var(--accent-subtle)", border: "1px solid rgba(37,99,235,0.15)",
-                display: "flex", alignItems: "center", justifyContent: "center",
-              }}>
-                <Icon style={{ width: 19, height: 19, color: "var(--accent)" }} strokeWidth={1.5} />
-              </div>
-              <div>
-                <div style={{ fontSize: 14, fontWeight: 600, color: "var(--text-1)", marginBottom: 5 }}>{label}</div>
-                <div style={{ fontSize: 12, color: "var(--text-2)", lineHeight: 1.55 }}>{benefit}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <style>{`
-        @keyframes cap-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-        .cap-marquee:hover { animation-play-state: paused; }
-      `}</style>
-    </div>
-  );
-}
 
 export function CapabilitiesSection() {
   return (
@@ -767,7 +664,6 @@ export function CapabilitiesSection() {
         </div>
 
         <AutomationSection />
-        <IndustriesSection />
 
       </div>
     </section>

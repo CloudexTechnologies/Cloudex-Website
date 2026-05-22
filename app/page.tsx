@@ -12,6 +12,7 @@ import { WhyChooseSection } from "@/components/WhyChooseSection";
 import { LogoCloudSection } from "@/components/LogoCloudSection";
 import { CaseStudiesSection } from "@/components/CaseStudiesSection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
+import { IndustriesSection } from "@/components/IndustriesSection";
 import { CTASection } from "@/components/CTASection";
 import { Footer } from "@/components/Footer";
 import {
@@ -50,6 +51,7 @@ function AppContent() {
         <WhyChooseSection />
         {/* <TechMarquee /> */}
         <LogoCloudSection />
+        <IndustriesSection />
         <CaseStudiesSection />
         <TestimonialsSection />
         <CTASection />
