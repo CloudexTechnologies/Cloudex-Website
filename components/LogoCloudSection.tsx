@@ -42,6 +42,7 @@ const logos = [
     alt: 'TensorFlow',
     width: 200,
     height: 36,
+    scale: 1.5,
   },
 ];
 

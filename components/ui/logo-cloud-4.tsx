@@ -8,6 +8,7 @@ export type Logo = {
   alt: string;
   width?: number;
   height?: number;
+  scale?: number;
 };
 
 type LogoCloudProps = React.ComponentProps<'div'> & {
@@ -33,7 +34,7 @@ export function LogoCloud({ logos, className, ...props }: LogoCloudProps) {
             <img
               alt={logo.alt}
               className="pointer-events-none select-none dark:brightness-0 dark:invert"
-              style={{ height: '100%', width: 'auto', maxWidth: '100%' }}
+              style={{ height: '100%', width: 'auto', maxWidth: '100%', transform: `scale(${logo.scale ?? 1})` }}
               loading="lazy"
               src={logo.src}
             />
