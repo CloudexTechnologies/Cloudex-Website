@@ -28,7 +28,7 @@ export function LogoCloud({ logos, className, ...props }: LogoCloudProps) {
           <div
             key={`logo-${logo.alt}`}
             className="flex items-center justify-center"
-            style={{ width: 140, height: 36 }}
+            style={{ width: logo.width ?? 140, height: logo.height ?? 36 }}
           >
             <img
               alt={logo.alt}
