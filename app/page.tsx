@@ -8,7 +8,8 @@ import { Hero } from "@/components/Hero";
 import { CapabilitiesSection } from "@/components/CapabilitiesSection";
 import { StatsSection } from "@/components/StatsSection";
 import { WhyChooseSection } from "@/components/WhyChooseSection";
-import { TechMarquee } from "@/components/TechMarquee";
+// import { TechMarquee } from "@/components/TechMarquee"; // kept for fallback
+import { LogoCloudSection } from "@/components/LogoCloudSection";
 import { CaseStudiesSection } from "@/components/CaseStudiesSection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { CTASection } from "@/components/CTASection";
@@ -47,7 +48,8 @@ function AppContent() {
         <CapabilitiesSection />
         <StatsSection />
         <WhyChooseSection />
-        <TechMarquee />
+        {/* <TechMarquee /> */}
+        <LogoCloudSection />
         <CaseStudiesSection />
         <TestimonialsSection />
         <CTASection />
