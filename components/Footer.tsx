@@ -69,7 +69,7 @@ export function Footer() {
           {/* Brand column */}
           <div>
             <Image
-              src="/uploads/Cloudex-Logo-Transparent-1.png"
+              src="/cloudex-logo.png"
               alt="Cloudex"
               width={120}
               height={24}

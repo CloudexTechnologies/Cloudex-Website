@@ -211,7 +211,7 @@ export function Navbar() {
           style={{ display: "flex", alignItems: "center", gap: 10, zIndex: 10 }}
         >
           <Image
-            src="/uploads/Cloudex-Logo-Transparent-1.png"
+            src="/cloudex-logo.png"
             alt="Cloudex"
             width={160}
             height={40}
