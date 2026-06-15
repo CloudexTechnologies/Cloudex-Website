@@ -7,17 +7,17 @@ interface ThemeContextType {
 }
 
 export const ThemeContext = createContext<ThemeContextType>({
-  theme: "dark",
+  theme: "light",
   toggleTheme: () => {},
 });
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<string>(() => {
-    if (typeof window === "undefined") return "dark";
+    if (typeof window === "undefined") return "light";
     try {
-      return localStorage.getItem("cloudex-theme") || "dark";
+      return localStorage.getItem("cloudex-theme") || "light";
     } catch {
-      return "dark";
+      return "light";
     }
   });
 
@@ -28,7 +28,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     } catch {}
   }, [theme]);
 
-  const toggleTheme = () => setTheme((t) => (t === "dark" ? "light" : "dark"));
+  const toggleTheme = () => setTheme((t) => (t === "light" ? "light" : "light"));
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>

@@ -6,6 +6,7 @@ import { InnerPageLayout } from "@/components/InnerPageLayout";
 import { BlurText } from "@/components/ui/BlurText";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { EditorialStack } from "@/components/ui/EditorialStack";
+import { PageHeroBackground } from "@/components/ui/PageHeroBackground";
 
 
 const buildStages = [
@@ -126,27 +127,7 @@ export default function AIEmployeesPage() {
           paddingTop: 76,
         }}
       >
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            background:
-              "radial-gradient(ellipse 80% 60% at 50% -5%, rgba(37,99,235,0.18), transparent 70%)",
-            pointerEvents: "none",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            top: "20%",
-            right: "8%",
-            width: 400,
-            height: 400,
-            borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(96,165,250,0.08), transparent 70%)",
-            pointerEvents: "none",
-          }}
-        />
+        <PageHeroBackground />
 
         <div className="container" style={{ position: "relative", zIndex: 1, paddingTop: 80, paddingBottom: 80 }}>
           <div style={{ maxWidth: 840, margin: "0 auto", textAlign: "center" }}>

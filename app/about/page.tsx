@@ -5,13 +5,14 @@ import { Target, Eye, TrendingUp, Users, Heart, Handshake } from "lucide-react";
 import { InnerPageLayout } from "@/components/InnerPageLayout";
 import { BlurText } from "@/components/ui/BlurText";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { PageHeroBackground } from "@/components/ui/PageHeroBackground";
 
 const values = [
   {
     title: "Honesty over sales",
     desc: "We will tell you when something is not the right fit even if that means turning down work.",
     icon: Heart,
-    color: "#e35d6a",
+    color: "var(--accent)",
   },
   {
     title: "Depth over breadth",
@@ -23,13 +24,13 @@ const values = [
     title: "Partnership over transaction",
     desc: "The businesses we serve grow over time. Our relationships grow with them.",
     icon: Handshake,
-    color: "#22c55e",
+    color: "var(--accent)",
   },
   {
     title: "Results over activity",
     desc: "We measure success by what changes in your business, not by how much we delivered.",
     icon: TrendingUp,
-    color: "#f59e0b",
+    color: "var(--accent)",
   },
 ];
 
@@ -53,6 +54,7 @@ function ValueCard({
         transform: hovered ? "translateY(-5px)" : "none",
         boxShadow: hovered ? "var(--card-shadow)" : "none",
         cursor: "default",
+        width: "100%",
       }}
     >
       <div
@@ -104,15 +106,7 @@ export default function AboutPage() {
           paddingTop: 76,
         }}
       >
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            background:
-              "radial-gradient(ellipse 70% 50% at 50% -5%, rgba(37,99,235,0.15), transparent 70%)",
-            pointerEvents: "none",
-          }}
-        />
+        <PageHeroBackground />
         <div
           className="container"
           style={{
@@ -411,10 +405,11 @@ export default function AboutPage() {
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
               gap: 20,
+              alignItems: "stretch",
             }}
           >
             {values.map((v, i) => (
-              <ScrollReveal key={i} delay={i * 0.1}>
+              <ScrollReveal key={i} delay={i * 0.1} style={{ display: "flex" }}>
                 <ValueCard {...v} />
               </ScrollReveal>
             ))}

@@ -2,18 +2,22 @@
 import { useState } from "react";
 import Image from "next/image";
 
+const FG   = "#e2e8f0";
+const MUTED = "rgba(148,163,184,0.75)";
+const BORDER = "rgba(255,255,255,0.08)";
+
 const footerLinks: Record<string, { label: string; href: string }[]> = {
   "Capabilities": [
-    { label: "AI Solutions", href: "/capabilities/ai-solutions" },
-    { label: "AI Employees", href: "/capabilities/ai-employees" },
-    { label: "Digital Growth", href: "/capabilities/digital-growth" },
-    { label: "Custom Software", href: "/capabilities/custom-software" },
+    { label: "AI Solutions",     href: "/capabilities/ai-solutions" },
+    { label: "AI Employees",     href: "/capabilities/ai-employees" },
+    { label: "Digital Growth",   href: "/capabilities/digital-growth" },
+    { label: "Custom Software",  href: "/capabilities/custom-software" },
   ],
   "Company": [
-    { label: "About", href: "/about" },
+    { label: "About",       href: "/about" },
     { label: "Case Studies", href: "/work" },
-    { label: "Insights", href: "/insights" },
-    { label: "Contact", href: "/contact" },
+    { label: "Insights",    href: "/insights" },
+    { label: "Contact",     href: "/contact" },
   ],
 };
 
@@ -26,8 +30,9 @@ function FooterLink({ label, href }: { label: string; href: string }) {
       onMouseLeave={() => setHovered(false)}
       style={{
         fontSize: 14,
-        color: hovered ? "var(--accent)" : "var(--text-3)",
-        transition: "color 0.25s",
+        color: hovered ? "#60a5fa" : MUTED,
+        transition: "color 0.22s",
+        textDecoration: "none",
       }}
     >
       {label}
@@ -44,8 +49,9 @@ function SocialLink({ label }: { label: string }) {
       onMouseLeave={() => setHovered(false)}
       style={{
         fontSize: 13,
-        color: hovered ? "var(--accent)" : "var(--text-3)",
-        transition: "color 0.25s",
+        color: hovered ? "#60a5fa" : MUTED,
+        transition: "color 0.22s",
+        textDecoration: "none",
       }}
     >
       {label}
@@ -57,8 +63,8 @@ export function Footer() {
   return (
     <footer
       style={{
-        background: "var(--bg-2)",
-        borderTop: "1px solid var(--border)",
+        background: "#080d1a",
+        borderTop: `1px solid ${BORDER}`,
         padding: "64px 0 32px",
       }}
     >
@@ -82,14 +88,13 @@ export function Footer() {
                 height: 24,
                 width: "auto",
                 marginBottom: 16,
-                filter: "var(--logo-filter)",
-                transition: "filter var(--transition)",
+                filter: "brightness(0) invert(1)",
               }}
             />
             <p
               style={{
                 fontSize: 14,
-                color: "var(--text-3)",
+                color: MUTED,
                 lineHeight: 1.65,
                 maxWidth: 260,
                 marginBottom: 20,
@@ -98,21 +103,20 @@ export function Footer() {
               Building AI Employees, high-performance digital presences, and
               custom software that move businesses forward.
             </p>
-            {/* Contact info */}
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               <a
                 href="tel:+447840983410"
-                style={{ fontSize: 13, color: "var(--text-3)", textDecoration: "none" }}
+                style={{ fontSize: 13, color: MUTED, textDecoration: "none" }}
               >
                 +44 7840 983410
               </a>
               <a
                 href="mailto:info@cloudextechnologies.io"
-                style={{ fontSize: 13, color: "var(--text-3)", textDecoration: "none" }}
+                style={{ fontSize: 13, color: MUTED, textDecoration: "none" }}
               >
                 info@cloudextechnologies.io
               </a>
-              <span style={{ fontSize: 13, color: "var(--text-3)" }}>
+              <span style={{ fontSize: 13, color: MUTED }}>
                 852, 85 Dunstall Hill, Wolverhampton WV6 0SR, UK
               </span>
             </div>
@@ -123,20 +127,18 @@ export function Footer() {
             <div key={title}>
               <h5
                 style={{
-                  fontSize: 13,
+                  fontSize: 11,
                   fontWeight: 700,
                   marginBottom: 16,
-                  color: "var(--text-1)",
+                  color: FG,
                   fontFamily: "var(--font-heading)",
-                  letterSpacing: "0.04em",
+                  letterSpacing: "0.1em",
                   textTransform: "uppercase",
                 }}
               >
                 {title}
               </h5>
-              <div
-                style={{ display: "flex", flexDirection: "column", gap: 10 }}
-              >
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {links.map((link, i) => (
                   <FooterLink key={i} label={link.label} href={link.href} />
                 ))}
@@ -148,7 +150,7 @@ export function Footer() {
         {/* Bottom bar */}
         <div
           style={{
-            borderTop: "1px solid var(--border)",
+            borderTop: `1px solid ${BORDER}`,
             paddingTop: 24,
             display: "flex",
             justifyContent: "space-between",
@@ -157,7 +159,7 @@ export function Footer() {
             gap: 12,
           }}
         >
-          <span style={{ fontSize: 13, color: "var(--text-3)" }}>
+          <span style={{ fontSize: 13, color: MUTED }}>
             © 2025 Cloudex Technologies. All rights reserved.
           </span>
           <div style={{ display: "flex", gap: 20 }}>

@@ -4,6 +4,7 @@ import { Bot, Globe, Code2, Lightbulb, ArrowRight, Clock } from "lucide-react";
 import { InnerPageLayout } from "@/components/InnerPageLayout";
 import { BlurText } from "@/components/ui/BlurText";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { PageHeroBackground } from "@/components/ui/PageHeroBackground";
 
 const pillars = [
   {
@@ -71,15 +72,7 @@ export default function InsightsPage() {
           paddingTop: 76,
         }}
       >
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            background:
-              "radial-gradient(ellipse 65% 45% at 50% -5%, rgba(37,99,235,0.15), transparent 65%)",
-            pointerEvents: "none",
-          }}
-        />
+        <PageHeroBackground />
         <div
           className="container"
           style={{ position: "relative", zIndex: 1, paddingTop: 80, paddingBottom: 80 }}

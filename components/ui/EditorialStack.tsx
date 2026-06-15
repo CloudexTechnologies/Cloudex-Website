@@ -298,7 +298,7 @@ function Row({ emp, open, onToggle }: { emp: typeof EMPLOYEES[0]; open: boolean;
   const Icon = ICONS[emp.id] || ICONS.sales
   const Viz = VIZMAP[emp.viz]
   return (
-    <div className={`es-row${open ? ' is-open' : ''}`}>
+    <div id={`es-row-${emp.id}`} className={`es-row${open ? ' is-open' : ''}`}>
       <button className="es-hd" onClick={onToggle}>
         <span className="es-num">{emp.num}</span>
         <span className="es-ic" style={{ color: open ? 'var(--accent)' : undefined }}>{Icon()}</span>
@@ -343,7 +343,18 @@ function Row({ emp, open, onToggle }: { emp: typeof EMPLOYEES[0]; open: boolean;
 
 /* ── Main Component ── */
 export function EditorialStack() {
-  const [open, setOpen] = useState<string | null>('marketing')
+  const [open, setOpen] = useState<string | null>('sales')
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const role = params.get('role')
+    if (role) {
+      setOpen(role)
+      setTimeout(() => {
+        document.getElementById(`es-row-${role}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }, 300)
+    }
+  }, [])
 
   return (
     <div className="es-wrap">

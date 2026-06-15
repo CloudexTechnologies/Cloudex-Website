@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import {
   Bot, MessageSquare, Cpu, Network, Settings, Users,
 } from "lucide-react";
@@ -12,6 +13,7 @@ import { SectionHeader } from "./ui/SectionHeader";
 
 const ROSTER = [
   {
+    id: "sales",
     role: "Sales AI Employee",
     nickname: "The Prospector",
     icon: Bot,
@@ -21,6 +23,7 @@ const ROSTER = [
     teamGetsBack: "Your closers stop chasing cold leads and start showing up to warm conversations.",
   },
   {
+    id: "marketing",
     role: "Marketing AI Employee",
     nickname: "The Campaign Engine",
     icon: MessageSquare,
@@ -30,6 +33,7 @@ const ROSTER = [
     teamGetsBack: "Your senior marketers spend their time on strategy, not execution.",
   },
   {
+    id: "support",
     role: "Customer Support AI Employee",
     nickname: "The First Responder",
     icon: Cpu,
@@ -39,6 +43,7 @@ const ROSTER = [
     teamGetsBack: "Faster response times, happier customers, and a support team focused on cases that need human judgement.",
   },
   {
+    id: "finance",
     role: "Finance AI Employee",
     nickname: "The Numbers Operator",
     icon: Network,
@@ -48,6 +53,7 @@ const ROSTER = [
     teamGetsBack: "Real-time financial visibility without manual spreadsheet work.",
   },
   {
+    id: "operations",
     role: "Operations AI Employee",
     nickname: "The Process Keeper",
     icon: Settings,
@@ -57,6 +63,7 @@ const ROSTER = [
     teamGetsBack: "An operations layer that runs quietly in the background, keeping everything moving.",
   },
   {
+    id: "hr",
     role: "HR and Talent AI Employee",
     nickname: "The People Coordinator",
     icon: Users,
@@ -69,7 +76,7 @@ const ROSTER = [
 
 const STATS = [
   { value: "24/7", label: "Always on", pulse: true },
-  { value: "4 wks", label: "To deploy", pulse: false },
+  { value: "1 Day", label: "To deploy", pulse: false },
   { value: "0", label: "Sick days", pulse: false },
   { value: "£28K+", label: "Saved vs a hire", pulse: false },
 ];
@@ -414,6 +421,7 @@ function RoleCard({ item, index }: { item: RosterItem; index: number }) {
   };
 
   return (
+    <Link href={`/capabilities/ai-employees?role=${item.id}`} style={{ textDecoration: "none", display: "block" }}>
     <motion.div
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -561,6 +569,7 @@ function RoleCard({ item, index }: { item: RosterItem; index: number }) {
         </div>
       </div>
     </motion.div>
+    </Link>
   );
 }
 

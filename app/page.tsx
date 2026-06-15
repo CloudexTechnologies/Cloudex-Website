@@ -10,7 +10,7 @@ import { StatsSection } from "@/components/StatsSection";
 import { WhyChooseSection } from "@/components/WhyChooseSection";
 // import { TechMarquee } from "@/components/TechMarquee"; // kept for fallback
 import { LogoCloudSection } from "@/components/LogoCloudSection";
-import { CaseStudiesSection } from "@/components/CaseStudiesSection";
+// import { CaseStudiesSection } from "@/components/CaseStudiesSection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { IndustriesSection } from "@/components/IndustriesSection";
 import { CTASection } from "@/components/CTASection";
@@ -52,7 +52,7 @@ function AppContent() {
         {/* <TechMarquee /> */}
         <LogoCloudSection />
         <IndustriesSection />
-        <CaseStudiesSection />
+        {/* <CaseStudiesSection /> */}
         <TestimonialsSection />
         <CTASection />
       </main>

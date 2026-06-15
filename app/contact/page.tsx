@@ -5,6 +5,7 @@ import { Phone, Mail, MapPin, ArrowRight, CheckCircle } from "lucide-react";
 import { InnerPageLayout } from "@/components/InnerPageLayout";
 import { BlurText } from "@/components/ui/BlurText";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { PageHeroBackground } from "@/components/ui/PageHeroBackground";
 
 const whatHappensNext = [
   {
@@ -89,15 +90,7 @@ export default function ContactPage() {
           paddingTop: 76,
         }}
       >
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            background:
-              "radial-gradient(ellipse 60% 40% at 50% -5%, rgba(37,99,235,0.14), transparent 70%)",
-            pointerEvents: "none",
-          }}
-        />
+        <PageHeroBackground />
         <div className="container" style={{ position: "relative", zIndex: 1, paddingTop: 60, paddingBottom: 60 }}>
           <div style={{ maxWidth: 720, margin: "0 auto", textAlign: "center" }}>
             <ScrollReveal>

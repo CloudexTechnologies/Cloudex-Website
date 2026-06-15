@@ -30,6 +30,7 @@ export function RobotMonitor() {
     // ── Eye tracking ──
     const MAX = 5
     function onMove(e: MouseEvent) {
+      if (!container) return
       const r = container.getBoundingClientRect()
       const dx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2)
       const dy = (e.clientY - (r.top + r.height * 0.45)) / (r.height / 2)
@@ -41,6 +42,7 @@ export function RobotMonitor() {
     function loop() {
       cxRef.current += (txRef.current - cxRef.current) * 0.12
       cyRef.current += (tyRef.current - cyRef.current) * 0.12
+      if (!container) return
       container.querySelectorAll<SVGElement>('.rm-pupil-wrap').forEach(p => {
         p.style.transform = `translate(${cxRef.current}px,${cyRef.current}px)`
       })
@@ -121,41 +123,41 @@ export function RobotMonitor() {
       <style>{`
         .rm-wrap {
           position: relative; width: 100%; height: 100%; overflow: hidden;
-          --rm-accent:       #6172f3;
-          --rm-accent-deep:  #3f4fe0;
-          --rm-accent-soft:  #e7ebfe;
-          --rm-accent-softer:#f0f3ff;
-          --rm-outline:      #cdd6f7;
-          --rm-eye:          #4456ef;
+          --rm-accent:       #3b82f6;
+          --rm-accent-deep:  #2563eb;
+          --rm-accent-soft:  #dbeafe;
+          --rm-accent-softer:#eff6ff;
+          --rm-outline:      #bfdbfe;
+          --rm-eye:          #2563eb;
           --rm-robot-fill:   #fbfcff;
           --rm-eye-bg:       #ffffff;
           --rm-shine:        #ffffff;
           --rm-stat-top:     #fdfdff;
-          --rm-dots:         rgba(126,140,210,0.20);
-          --rm-orbit:        rgba(150,164,225,0.62);
-          --rm-orbit-soft:   rgba(150,164,225,0.34);
-          --rm-glow:         rgba(108,124,245,0.18);
-          --rm-label:        #9aa3c8;
-          --rm-value:        #4a5cf0;
-          --rm-rshadow:      rgba(90,106,200,0.22);
+          --rm-dots:         rgba(59,130,246,0.18);
+          --rm-orbit:        rgba(59,130,246,0.55);
+          --rm-orbit-soft:   rgba(59,130,246,0.28);
+          --rm-glow:         rgba(37,99,235,0.16);
+          --rm-label:        #93b4d4;
+          --rm-value:        #2563eb;
+          --rm-rshadow:      rgba(37,99,235,0.20);
         }
         [data-theme="dark"] .rm-wrap {
-          --rm-accent:       #7c8bff;
-          --rm-accent-deep:  #5d6df5;
-          --rm-accent-soft:  #262b46;
-          --rm-accent-softer:#191c2d;
-          --rm-outline:      #2f3560;
-          --rm-eye:          #5566f0;
-          --rm-robot-fill:   #20243a;
-          --rm-eye-bg:       #eef1ff;
+          --rm-accent:       #60a5fa;
+          --rm-accent-deep:  #3b82f6;
+          --rm-accent-soft:  #1e3a5f;
+          --rm-accent-softer:#172554;
+          --rm-outline:      #1e40af;
+          --rm-eye:          #60a5fa;
+          --rm-robot-fill:   #0f2044;
+          --rm-eye-bg:       #dbeafe;
           --rm-shine:        #ffffff;
-          --rm-stat-top:     #1f2336;
-          --rm-dots:         rgba(140,154,230,0.20);
-          --rm-orbit:        rgba(150,164,240,0.5);
-          --rm-orbit-soft:   rgba(150,164,240,0.26);
-          --rm-glow:         rgba(120,136,255,0.24);
-          --rm-label:        #727da8;
-          --rm-value:        #93a0ff;
+          --rm-stat-top:     #0f1e3a;
+          --rm-dots:         rgba(96,165,250,0.18);
+          --rm-orbit:        rgba(59,130,246,0.48);
+          --rm-orbit-soft:   rgba(59,130,246,0.24);
+          --rm-glow:         rgba(37,99,235,0.28);
+          --rm-label:        #5b8ab5;
+          --rm-value:        #60a5fa;
           --rm-rshadow:      rgba(0,0,0,0.55);
         }
 
@@ -267,12 +269,12 @@ export function RobotMonitor() {
           background: linear-gradient(180deg, var(--rm-stat-top) 0%, var(--rm-accent-softer) 100%);
           border: 1px solid var(--rm-outline);
           border-radius: 14px; padding: 10px 13px; min-width: 80px;
-          box-shadow: 0 10px 22px -14px rgba(74,92,200,0.45);
+          box-shadow: 0 10px 22px -14px rgba(37,99,235,0.40);
           animation: rm-float-card 7s ease-in-out infinite;
           transition: transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s;
           cursor: default;
         }
-        .rm-stat:hover { transform: translateY(-4px) scale(1.04) !important; box-shadow: 0 18px 34px -16px rgba(74,92,200,0.6); }
+        .rm-stat:hover { transform: translateY(-4px) scale(1.04) !important; box-shadow: 0 18px 34px -16px rgba(37,99,235,0.55); }
         .rm-stat .k {
           font-size: 9px; font-weight: 600; letter-spacing: 0.22em;
           color: var(--rm-label); display: block; margin-bottom: 3px;
@@ -286,7 +288,7 @@ export function RobotMonitor() {
         .rm-stat .spark { display: flex; align-items: flex-end; gap: 2px; height: 12px; margin-top: 6px; }
         .rm-stat .spark i {
           width: 3px; border-radius: 2px;
-          background: linear-gradient(var(--rm-accent), #9aa6f8);
+          background: linear-gradient(var(--rm-accent), #93c5fd);
           opacity: .85; transition: height .5s cubic-bezier(.16,1,.3,1);
         }
         @keyframes rm-float-card {
