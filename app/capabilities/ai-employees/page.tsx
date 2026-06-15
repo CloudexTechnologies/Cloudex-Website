@@ -1,88 +1,12 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import {
-  Users,
-  Megaphone,
-  HeadphonesIcon,
-  DollarSign,
-  Settings,
-  UserCheck,
-  ChevronDown,
-  ArrowRight,
-  CheckCircle,
-} from "lucide-react";
+import { ArrowRight, CheckCircle } from "lucide-react";
 import { InnerPageLayout } from "@/components/InnerPageLayout";
 import { BlurText } from "@/components/ui/BlurText";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { EditorialStack } from "@/components/ui/EditorialStack";
 
-/* ── Data ── */
-const roles = [
-  {
-    id: "sales",
-    title: "Sales AI Employee",
-    subtitle: "The Prospector",
-    icon: Users,
-    color: "#2563EB",
-    does: "Identifies and researches ideal prospects, crafts personalised outreach sequences, manages follow-up cadences, qualifies inbound leads and books meetings directly into your calendar.",
-    replaces: "SDRs, BDRs, lead generation teams, appointment setters.",
-    gains:
-      "Your closers stop chasing cold leads and start showing up to warm conversations.",
-  },
-  {
-    id: "marketing",
-    title: "Marketing AI Employee",
-    subtitle: "The Campaign Engine",
-    icon: Megaphone,
-    color: "#2563EB",
-    does: "Plans and schedules content across your channels, manages campaign execution, monitors performance and produces regular reports with clear insights. Also handles email marketing, social scheduling and ad performance tracking.",
-    replaces: "Marketing coordinators, content schedulers, campaign managers.",
-    gains: "Your senior marketers spend their time on strategy, not execution.",
-  },
-  {
-    id: "support",
-    title: "Customer Support AI Employee",
-    subtitle: "The First Responder",
-    icon: HeadphonesIcon,
-    color: "#2563EB",
-    does: "Handles inbound customer queries across email, chat and messaging channels. Resolves common issues, escalates complex ones with full context, and ensures no query goes unanswered.",
-    replaces: "First-line support agents, helpdesk coordinators.",
-    gains:
-      "Faster response times, happier customers, and a support team focused on the cases that actually need human judgement.",
-  },
-  {
-    id: "finance",
-    title: "Finance AI Employee",
-    subtitle: "The Numbers Operator",
-    icon: DollarSign,
-    color: "#2563EB",
-    does: "Monitors cashflow, generates financial summaries and reports, tracks invoices and payment status, flags anomalies and assists with budget tracking.",
-    replaces: "Finance administrators, bookkeeping support, reporting analysts.",
-    gains: "Real-time financial visibility without manual spreadsheet work.",
-  },
-  {
-    id: "operations",
-    title: "Operations AI Employee",
-    subtitle: "The Process Keeper",
-    icon: Settings,
-    color: "#2563EB",
-    does: "Monitors operational workflows, tracks KPIs across departments, manages task routing, ensures deadlines are tracked and escalates blockers before they become problems.",
-    replaces: "Operations coordinators, project administrators.",
-    gains:
-      "An operations layer that runs quietly in the background, keeping everything moving.",
-  },
-  {
-    id: "hr",
-    title: "HR and Talent AI Employee",
-    subtitle: "The People Coordinator",
-    icon: UserCheck,
-    color: "#2563EB",
-    does: "Manages recruitment pipeline admin, candidate communication, interview scheduling, onboarding task management and internal HR documentation.",
-    replaces: "HR coordinators, recruitment administrators.",
-    gains:
-      "A hiring process that is faster, more consistent and less admin-heavy.",
-  },
-];
 
 const buildStages = [
   {
@@ -111,121 +35,6 @@ const buildStages = [
     desc: "We deploy to your live environment and give your team a full handover how to monitor, how to update instructions, and how to expand its scope over time.",
   },
 ];
-
-/* ── Role Card (accordion) ── */
-function RoleCard({ role }: { role: (typeof roles)[0] }) {
-  const [open, setOpen] = useState(false);
-  const Icon = role.icon;
-  return (
-    <div
-      style={{
-        borderRadius: 18,
-        border: `1px solid ${open ? `${role.color}40` : "var(--border)"}`,
-        background: open ? `${role.color}08` : "var(--surface)",
-        transition: "all 0.35s ease",
-        overflow: "hidden",
-      }}
-    >
-      <button
-        onClick={() => setOpen(!open)}
-        style={{
-          width: "100%",
-          padding: "22px 24px",
-          display: "flex",
-          alignItems: "center",
-          gap: 16,
-          background: "transparent",
-          border: "none",
-          cursor: "pointer",
-          textAlign: "left",
-        }}
-      >
-        <div
-          style={{
-            width: 46,
-            height: 46,
-            borderRadius: 12,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexShrink: 0,
-            background: `${role.color}18`,
-            color: role.color,
-            border: `1px solid ${role.color}30`,
-          }}
-        >
-          <Icon size={22} strokeWidth={1.5} />
-        </div>
-        <div style={{ flex: 1 }}>
-          <div
-            style={{
-              fontSize: 16,
-              fontWeight: 700,
-              color: "var(--text-1)",
-              fontFamily: "var(--font-heading)",
-              marginBottom: 2,
-            }}
-          >
-            {role.title}
-          </div>
-          <div style={{ fontSize: 13, color: role.color, fontWeight: 500 }}>
-            {role.subtitle}
-          </div>
-        </div>
-        <ChevronDown
-          size={18}
-          style={{
-            color: "var(--text-3)",
-            transition: "transform 0.3s",
-            transform: open ? "rotate(180deg)" : "rotate(0)",
-            flexShrink: 0,
-          }}
-        />
-      </button>
-
-      <div
-        style={{
-          maxHeight: open ? 600 : 0,
-          overflow: "hidden",
-          transition: "max-height 0.4s cubic-bezier(0.16,1,0.3,1)",
-        }}
-      >
-        <div
-          style={{
-            padding: "0 24px 24px",
-            display: "flex",
-            flexDirection: "column",
-            gap: 16,
-          }}
-        >
-          {[
-            { label: "What it does", text: role.does },
-            { label: "Who it replaces or supports", text: role.replaces },
-            { label: "What your team gets back", text: role.gains },
-          ].map((item, i) => (
-            <div key={i}>
-              <div
-                style={{
-                  fontSize: 11,
-                  fontWeight: 700,
-                  color: role.color,
-                  textTransform: "uppercase",
-                  letterSpacing: "0.08em",
-                  marginBottom: 6,
-                }}
-              >
-                {item.label}
-              </div>
-              <p style={{ fontSize: 14, color: "var(--text-2)", lineHeight: 1.75 }}>
-                {item.text}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 /* ── Build Stage ── */
 function BuildStage({ stage, index }: { stage: (typeof buildStages)[0]; index: number }) {
@@ -483,11 +292,11 @@ export default function AIEmployeesPage() {
         </div>
       </section>
 
-      {/* ── Digital FTE Roster ── */}
+      {/* ── Digital FTE Roster — Editorial Stack ── */}
       <section className="section" style={{ background: "var(--bg)" }}>
         <div className="container">
           <ScrollReveal>
-            <div style={{ textAlign: "center", maxWidth: 620, margin: "0 auto 64px" }}>
+            <div style={{ maxWidth: 940, margin: "0 auto 40px" }}>
               <span
                 style={{
                   display: "inline-block",
@@ -496,7 +305,7 @@ export default function AIEmployeesPage() {
                   color: "var(--accent)",
                   textTransform: "uppercase",
                   letterSpacing: "0.1em",
-                  marginBottom: 20,
+                  marginBottom: 16,
                 }}
               >
                 The Digital FTE Roster
@@ -506,31 +315,17 @@ export default function AIEmployeesPage() {
                   fontSize: "clamp(24px, 3.2vw, 44px)",
                   fontWeight: 700,
                   letterSpacing: "-0.02em",
-                  marginBottom: 16,
+                  marginBottom: 10,
                 }}
               >
                 Meet the Roles We Deploy
               </h2>
-              <p style={{ fontSize: 16, color: "var(--text-2)", lineHeight: 1.7 }}>
-                Click any role to see exactly what it does, who it supports, and
-                what your team gets back.
+              <p style={{ fontSize: 15, color: "var(--text-2)", lineHeight: 1.6 }}>
+                Six AI employees, each accountable for a function. Open a role to read the brief.
               </p>
             </div>
           </ScrollReveal>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(420px, 1fr))",
-              gap: 16,
-            }}
-          >
-            {roles.map((role, i) => (
-              <ScrollReveal key={role.id} delay={i * 0.07}>
-                <RoleCard role={role} />
-              </ScrollReveal>
-            ))}
-          </div>
+          <EditorialStack />
         </div>
       </section>
 
