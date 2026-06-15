@@ -1,0 +1,57 @@
+# Cloudex Technologies
+
+> Cloudex Technologies builds intelligent systems — AI employees, custom software, and digital growth solutions — that help businesses operate smarter and scale with confidence.
+
+## What We Do
+
+Cloudex Technologies is an AI and technology company specialising in:
+
+- **AI Employees**: Autonomous digital workers that handle customer support, lead qualification, scheduling, and operational tasks around the clock — without needing to be managed.
+- **AI Solutions**: Custom artificial intelligence integrations including LLM pipelines, automation workflows, data intelligence tools, and process automation built to fit existing business operations.
+- **Custom Software**: Bespoke web applications, internal tools, dashboards, and platforms designed and engineered for specific business requirements.
+- **Digital Growth**: High-performance websites, conversion optimisation, and digital marketing systems built for measurable growth outcomes.
+
+## Who We Serve
+
+We work with businesses across:
+
+- Healthcare — reducing admin burden, automating patient communication, and streamlining clinical operations
+- Financial Services — compliance automation, client onboarding, and data intelligence
+- E-commerce — AI-powered customer support, personalisation, and operational automation
+- Real Estate — lead nurturing, property enquiry handling, and appointment booking automation
+- SaaS & Technology — product integrations, AI feature development, and scaling infrastructure
+- Legal — document automation, client communication, and case management tools
+- Education — student engagement systems, onboarding automation, and communication tools
+- Hospitality — guest experience automation, booking management, and service workflows
+
+## Core Belief
+
+We believe businesses should not be limited by their headcount. AI and technology should remove the ceiling on what a team can accomplish — handling the repetitive, the time-consuming, and the scalable so people can focus on the work that actually requires them.
+
+## Pages
+
+- Homepage: https://cloudextechnologies.io/
+- About: https://cloudextechnologies.io/about
+- Our Work: https://cloudextechnologies.io/work
+- Insights: https://cloudextechnologies.io/insights
+- Contact: https://cloudextechnologies.io/contact
+
+### Capabilities
+- AI Employees: https://cloudextechnologies.io/capabilities/ai-employees
+- AI Solutions: https://cloudextechnologies.io/capabilities/ai-solutions
+- Custom Software: https://cloudextechnologies.io/capabilities/custom-software
+- Digital Growth: https://cloudextechnologies.io/capabilities/digital-growth
+
+### Industries
+- Healthcare: https://cloudextechnologies.io/industries/healthcare
+- Financial Services: https://cloudextechnologies.io/industries/finance
+- E-commerce: https://cloudextechnologies.io/industries/ecommerce
+- Real Estate: https://cloudextechnologies.io/industries/real-estate
+- SaaS & Technology: https://cloudextechnologies.io/industries/saas-tech
+- Legal: https://cloudextechnologies.io/industries/legal
+- Education: https://cloudextechnologies.io/industries/education
+- Hospitality: https://cloudextechnologies.io/industries/hospitality
+
+## Contact
+
+To enquire about working with Cloudex Technologies, visit: https://cloudextechnologies.io/contact

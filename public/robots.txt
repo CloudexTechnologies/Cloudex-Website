@@ -1,0 +1,24 @@
+User-agent: *
+Allow: /
+
+# Disallow dev/internal routes
+Disallow: /api/
+Disallow: /_next/
+Disallow: /404
+Disallow: /500
+
+# AI crawlers — allow indexing for discovery
+User-agent: GPTBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Googlebot-Extended
+Allow: /
+
+# Sitemap
+Sitemap: https://cloudextechnologies.io/sitemap.xml

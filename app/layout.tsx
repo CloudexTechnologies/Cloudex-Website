@@ -21,9 +21,39 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Cloudex Technologies Build Intelligent Systems",
+  title: "Cloudex Technologies | Build Intelligent Systems",
   description:
-    "From AI employees that work autonomously to high-performing websites and custom software Cloudex builds technology that helps businesses operate smarter and scale with confidence.",
+    "From AI employees that work autonomously to high-performing websites and custom software, Cloudex Technologies builds intelligent systems that help businesses operate smarter and scale with confidence.",
+  metadataBase: new URL("https://cloudextechnologies.io"),
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Cloudex Technologies | Build Intelligent Systems",
+    description:
+      "From AI employees that work autonomously to high-performing websites and custom software, Cloudex Technologies builds intelligent systems that help businesses operate smarter and scale with confidence.",
+    url: "https://cloudextechnologies.io",
+    siteName: "Cloudex Technologies",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Cloudex Technologies | Build Intelligent Systems",
+    description:
+      "From AI employees that work autonomously to high-performing websites and custom software, Cloudex Technologies builds intelligent systems that help businesses operate smarter and scale with confidence.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+      "max-image-preview": "large",
+      "max-video-preview": -1,
+    },
+  },
 };
 
 export default function RootLayout({
