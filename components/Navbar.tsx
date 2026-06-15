@@ -165,7 +165,6 @@ const links: Array<{ label: string; href: string; hasDropdown?: boolean; flagshi
   { label: "About", href: "/about" },
   { label: "Work", href: "/work" },
   { label: "Insights", href: "/insights" },
-  { label: "Contact", href: "/contact" },
 ];
 
 export function Navbar() {
