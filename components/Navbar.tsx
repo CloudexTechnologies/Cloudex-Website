@@ -248,13 +248,13 @@ export function Navbar() {
     <nav style={wrapperStyle}>
       <div style={innerStyle}>
         {/* Logo */}
-        <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, zIndex: 10 }}>
+        <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, zIndex: 10, flexShrink: 0, minWidth: 160 }}>
           <Image
             src="/cloudex-logo.png"
             alt="Cloudex"
             width={160}
             height={40}
-            style={{ height: 40, width: "auto", filter: "var(--logo-filter)", transition: "filter var(--transition)" }}
+            style={{ height: 40, width: 160, objectFit: "contain", filter: "var(--logo-filter)", transition: "filter var(--transition)" }}
           />
         </Link>
 
