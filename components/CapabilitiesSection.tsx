@@ -421,7 +421,7 @@ function RoleCard({ item, index }: { item: RosterItem; index: number }) {
   };
 
   return (
-    <Link href={`/capabilities/ai-employees?role=${item.id}`} style={{ textDecoration: "none", display: "block" }}>
+    <Link href={`/capabilities/ai-employees?role=${item.id}`} style={{ textDecoration: "none", display: "block", height: "100%" }}>
     <motion.div
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -439,6 +439,10 @@ function RoleCard({ item, index }: { item: RosterItem; index: number }) {
         overflow: "hidden",
         cursor: "pointer",
         padding: "26px 24px 22px",
+        height: "100%",
+        boxSizing: "border-box",
+        display: "flex",
+        flexDirection: "column",
         boxShadow: hovered
           ? "0 24px 64px rgba(37,99,235,0.1), 0 4px 16px rgba(0,0,0,0.06)"
           : "0 1px 3px rgba(0,0,0,0.04)",
@@ -461,7 +465,7 @@ function RoleCard({ item, index }: { item: RosterItem; index: number }) {
         transition: "opacity 0.35s ease",
       }} />
 
-      <div style={{ position: "relative", zIndex: 1 }}>
+      <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", flex: 1 }}>
         {/* Top row: large number + icon */}
         <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 18 }}>
           {/* Ghost index number */}
@@ -524,7 +528,7 @@ function RoleCard({ item, index }: { item: RosterItem; index: number }) {
         {/* Description */}
         <p style={{
           fontSize: 13, lineHeight: 1.8, color: "var(--text-2)",
-          margin: 0, marginBottom: 18,
+          margin: 0, marginBottom: 18, flex: 1,
         }}>
           {item.does}
         </p>
@@ -537,35 +541,17 @@ function RoleCard({ item, index }: { item: RosterItem; index: number }) {
           transition: "opacity 0.3s ease",
         }} />
 
-        {/* Footer: active status + replace chips */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6, flexWrap: "wrap" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-            <span style={{
-              width: 6, height: 6, borderRadius: "50%", flexShrink: 0,
-              display: "inline-block",
-              background: "#22c55e",
-              boxShadow: hovered ? "0 0 10px #22c55e90" : "none",
-              animation: "cx-pulse-dot 2s ease infinite",
-              transition: "box-shadow 0.3s ease",
-            }} />
-            <span style={{
-              fontSize: 10, fontWeight: 700, letterSpacing: "0.08em",
-              textTransform: "uppercase", color: "#22c55e",
+        {/* Footer: role chips */}
+        <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+          {item.replaces.split(", ").slice(0, 2).map((r, i) => (
+            <span key={i} style={{
+              fontSize: 10, padding: "2px 7px", borderRadius: 4,
+              background: "var(--bg)", border: "1px solid var(--border)",
+              color: "var(--text-2)", whiteSpace: "nowrap",
             }}>
-              Active
+              {r}
             </span>
-          </div>
-          <div style={{ display: "flex", gap: 4, flexWrap: "wrap", justifyContent: "flex-end" }}>
-            {item.replaces.split(", ").slice(0, 2).map((r, i) => (
-              <span key={i} style={{
-                fontSize: 10, padding: "2px 7px", borderRadius: 4,
-                background: "var(--bg)", border: "1px solid var(--border)",
-                color: "var(--text-2)", whiteSpace: "nowrap",
-              }}>
-                {r}
-              </span>
-            ))}
-          </div>
+          ))}
         </div>
       </div>
     </motion.div>
