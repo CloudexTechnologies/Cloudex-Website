@@ -12,7 +12,6 @@ const NAV_MENU = [
     title: "Capabilities",
     items: [
       { label: "AI Solutions", href: "/capabilities/ai-solutions", desc: "AI-native systems & automation" },
-      { label: "AI Employees", href: "/capabilities/ai-employees", desc: "Digital FTEs ready to deploy", flagship: true },
       { label: "Digital Growth", href: "/capabilities/digital-growth", desc: "Websites that bring business" },
       { label: "Custom Software", href: "/capabilities/custom-software", desc: "Built for your processes" },
     ],
@@ -158,9 +157,11 @@ function DropdownItem({
 }
 
 /* ===== MAIN NAV LINKS ===== */
-const links = [
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const links: Array<{ label: string; href: string; hasDropdown?: boolean; flagship?: boolean }> = [
   { label: "Home", href: "/" },
   { label: "Capabilities", href: "#", hasDropdown: true },
+  { label: "AI Employees", href: "/capabilities/ai-employees", flagship: true },
   { label: "About", href: "/about" },
   { label: "Work", href: "/work" },
   { label: "Insights", href: "/insights" },
@@ -319,7 +320,9 @@ export function Navbar() {
                 <Link
                   href={link.href}
                   style={{
-                    display: "block",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 5,
                     padding: "7px 14px",
                     borderRadius: "var(--radius-pill)",
                     color: isActive(link.href) || hoveredLink === i ? "var(--text-1)" : "var(--text-2)",
@@ -333,6 +336,15 @@ export function Navbar() {
                   }}
                 >
                   {link.label}
+                  {link.flagship && (
+                    <span style={{
+                      fontSize: 9, background: "var(--accent)", color: "#fff",
+                      padding: "2px 5px", borderRadius: 4, fontWeight: 700,
+                      letterSpacing: "0.05em", fontFamily: "var(--font-heading)",
+                    }}>
+                      FLAGSHIP
+                    </span>
+                  )}
                 </Link>
               )}
               {link.hasDropdown && (
@@ -411,17 +423,19 @@ export function Navbar() {
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
                 style={{
-                  display: "block",
-                  padding: "12px 16px",
-                  fontSize: 15,
-                  fontWeight: 500,
-                  color: "var(--text-1)",
-                  fontFamily: "var(--font-heading)",
-                  borderRadius: "var(--radius-sm)",
-                  textDecoration: "none",
+                  display: "flex", alignItems: "center", gap: 6,
+                  padding: "12px 16px", fontSize: 15, fontWeight: 500,
+                  color: "var(--text-1)", fontFamily: "var(--font-heading)",
+                  borderRadius: "var(--radius-sm)", textDecoration: "none",
                 }}
               >
                 {link.label}
+                {link.flagship && (
+                  <span style={{
+                    fontSize: 9, background: "var(--accent)", color: "#fff",
+                    padding: "2px 5px", borderRadius: 4, fontWeight: 700, letterSpacing: "0.05em",
+                  }}>FLAGSHIP</span>
+                )}
               </Link>
             ))}
           <div style={{ marginTop: 8, paddingTop: 8, borderTop: "1px solid var(--border)" }}>

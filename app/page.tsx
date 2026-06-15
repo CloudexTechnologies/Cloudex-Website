@@ -15,7 +15,6 @@ import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { IndustriesSection } from "@/components/IndustriesSection";
 import { CTASection } from "@/components/CTASection";
 import { Footer } from "@/components/Footer";
-import { PainPointSection } from "@/components/PainPointSection";
 import {
   TweaksPanel,
   TweakSection,
@@ -47,7 +46,6 @@ function AppContent() {
       <Navbar />
       <main>
         <Hero heroStyle={tweaks.heroStyle} />
-        <PainPointSection />
         <CapabilitiesSection />
         <StatsSection />
         <WhyChooseSection />
