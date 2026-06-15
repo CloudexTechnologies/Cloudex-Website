@@ -1,40 +1,34 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { MagneticButton } from "./ui/MagneticButton";
 import { AnimatedThemeToggler } from "./ui/AnimatedThemeToggler";
 
-
 /* ===== DROPDOWN DATA ===== */
-const capabilitiesMenu = [
+const NAV_MENU = [
   {
-    title: "AI Solutions",
-    desc: "Autonomous AI systems for your business",
+    title: "Capabilities",
     items: [
-      "AI Employees for Startups",
-      "AI Employees for E-commerce",
-      "AI Employees for Healthcare",
-      "AI Employees for Real Estate",
-      "AI-Native Products for SaaS",
-      "AI-Native Products for FinTech",
-      "AI-Native Products for EdTech",
-      "AI-Native Products for Marketplaces",
+      { label: "AI Solutions", href: "/capabilities/ai-solutions", desc: "AI-native systems & automation" },
+      { label: "AI Employees", href: "/capabilities/ai-employees", desc: "Digital FTEs ready to deploy", flagship: true },
+      { label: "Digital Growth", href: "/capabilities/digital-growth", desc: "Websites that bring business" },
+      { label: "Custom Software", href: "/capabilities/custom-software", desc: "Built for your processes" },
     ],
   },
   {
-    title: "Digital Growth",
-    desc: "Strengthen your online presence",
+    title: "Industries",
     items: [
-      "High-Converting Business Website System",
-      "Search Visibility System",
-      "Lead Capture & Conversion System",
-      "Marketing Automation System",
+      { label: "Healthcare", href: "/industries/healthcare", desc: "AI & Tech for healthcare" },
+      { label: "Financial Services", href: "/industries/finance", desc: "Move faster without more risk" },
+      { label: "E-Commerce", href: "/industries/ecommerce", desc: "More customers, fewer dropped balls" },
+      { label: "Real Estate", href: "/industries/real-estate", desc: "Keep deals moving" },
+      { label: "Legal & Professional", href: "/industries/legal", desc: "Deliver more, stretch less" },
+      { label: "SaaS & Technology", href: "/industries/saas-tech", desc: "We speak your language" },
+      { label: "Education", href: "/industries/education", desc: "Better outcomes, less admin" },
+      { label: "Hospitality & Travel", href: "/industries/hospitality", desc: "Excellent operations" },
     ],
-  },
-  {
-    title: "Custom Software Development",
-    desc: "Built around your processes",
-    items: ["Custom Management Systems"],
   },
 ];
 
@@ -58,11 +52,11 @@ function NavDropdown({
         transform: "translateX(-50%)",
         paddingTop: 10,
         zIndex: 100,
-        width: 720,
+        width: 680,
         maxWidth: "calc(100vw - 40px)",
         opacity: open ? 1 : 0,
         pointerEvents: open ? "auto" : "none",
-        transition: "opacity 0.25s ease, transform 0.25s ease",
+        transition: "opacity 0.22s ease",
       }}
     >
       <div
@@ -70,39 +64,31 @@ function NavDropdown({
           background: "var(--surface-solid)",
           border: "1px solid var(--border)",
           borderRadius: "var(--radius)",
-          padding: 28,
-          boxShadow: "0 24px 80px rgba(0,0,0,0.25)",
+          padding: "24px 28px",
+          boxShadow: "0 24px 80px rgba(0,0,0,0.28)",
           display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gap: 24,
+          gridTemplateColumns: "1fr 1fr",
+          gap: 32,
         }}
       >
-        {capabilitiesMenu.map((col, ci) => (
+        {NAV_MENU.map((col, ci) => (
           <div key={ci}>
             <div
               style={{
-                fontFamily: "var(--font-heading)",
+                fontSize: 10,
                 fontWeight: 700,
-                fontSize: 15,
-                marginBottom: 4,
-                color: "var(--accent)",
+                color: "var(--text-3)",
+                textTransform: "uppercase",
+                letterSpacing: "0.08em",
+                marginBottom: 10,
+                fontFamily: "var(--font-heading)",
               }}
             >
               {col.title}
             </div>
-            <div
-              style={{
-                fontSize: 12,
-                color: "var(--text-3)",
-                marginBottom: 14,
-                lineHeight: 1.5,
-              }}
-            >
-              {col.desc}
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
               {col.items.map((item, ii) => (
-                <DropdownItem key={ii} label={item} />
+                <DropdownItem key={ii} {...item} />
               ))}
             </div>
           </div>
@@ -112,35 +98,73 @@ function NavDropdown({
   );
 }
 
-function DropdownItem({ label }: { label: string }) {
+function DropdownItem({
+  label,
+  href,
+  desc,
+  flagship,
+}: {
+  label: string;
+  href: string;
+  desc: string;
+  flagship?: boolean;
+}) {
   const [hovered, setHovered] = useState(false);
   return (
-    <a
-      href="#"
+    <Link
+      href={href}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        padding: "6px 10px",
+        padding: "8px 10px",
         borderRadius: "var(--radius-sm)",
-        fontSize: 13,
-        color: hovered ? "var(--text-1)" : "var(--text-2)",
         background: hovered ? "var(--surface-hover)" : "transparent",
-        transition: "all 0.2s",
+        transition: "background 0.18s",
         display: "block",
+        textDecoration: "none",
       }}
     >
-      {label}
-    </a>
+      <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 2 }}>
+        <span
+          style={{
+            fontSize: 13,
+            fontWeight: flagship ? 600 : 400,
+            color: hovered ? "var(--text-1)" : "var(--text-2)",
+            transition: "color 0.18s",
+          }}
+        >
+          {label}
+        </span>
+        {flagship && (
+          <span
+            style={{
+              fontSize: 9,
+              background: "var(--accent)",
+              color: "#fff",
+              padding: "2px 6px",
+              borderRadius: 4,
+              fontWeight: 700,
+              letterSpacing: "0.05em",
+              fontFamily: "var(--font-heading)",
+            }}
+          >
+            FLAGSHIP
+          </span>
+        )}
+      </div>
+      <div style={{ fontSize: 11, color: "var(--text-3)", lineHeight: 1.4 }}>{desc}</div>
+    </Link>
   );
 }
 
-/* ===== NAVBAR ===== */
+/* ===== MAIN NAV LINKS ===== */
 const links = [
-  { label: "Home", href: "#hero" },
-  { label: "Our Capabilities", href: "#capabilities", hasDropdown: true },
-  { label: "About", href: "#why-choose" },
-  { label: "Case Studies", href: "#case-studies" },
-  { label: "Contact", href: "#cta" },
+  { label: "Home", href: "/" },
+  { label: "Capabilities", href: "#", hasDropdown: true },
+  { label: "About", href: "/about" },
+  { label: "Work", href: "/work" },
+  { label: "Insights", href: "/insights" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export function Navbar() {
@@ -149,6 +173,7 @@ export function Navbar() {
   const [hoveredLink, setHoveredLink] = useState<number | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60);
@@ -156,6 +181,11 @@ export function Navbar() {
     h();
     return () => window.removeEventListener("scroll", h);
   }, []);
+
+  useEffect(() => {
+    setMobileOpen(false);
+    setDropdownOpen(false);
+  }, [pathname]);
 
   const openDropdown = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
@@ -166,10 +196,10 @@ export function Navbar() {
     closeTimer.current = setTimeout(() => setDropdownOpen(false), 250);
   };
 
-  const scrollTo = (href: string) => {
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-    setMobileOpen(false);
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    if (href === "#") return pathname.startsWith("/capabilities") || pathname.startsWith("/industries");
+    return pathname.startsWith(href);
   };
 
   const wrapperStyle: React.CSSProperties = {
@@ -202,27 +232,31 @@ export function Navbar() {
   };
 
   return (
+    <>
+      {/* Theme toggler fixed top-right, independent of navbar */}
+      <div
+        style={{
+          position: "fixed",
+          top: 14,
+          right: 20,
+          zIndex: 1100,
+        }}
+      >
+        <AnimatedThemeToggler />
+      </div>
+
     <nav style={wrapperStyle}>
       <div style={innerStyle}>
         {/* Logo */}
-        <a
-          href="#hero"
-          onClick={(e) => { e.preventDefault(); scrollTo("#hero"); }}
-          style={{ display: "flex", alignItems: "center", gap: 10, zIndex: 10 }}
-        >
+        <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, zIndex: 10 }}>
           <Image
             src="/cloudex-logo.png"
             alt="Cloudex"
             width={160}
             height={40}
-            style={{
-              height: 40,
-              width: "auto",
-              filter: "var(--logo-filter)",
-              transition: "filter var(--transition)",
-            }}
+            style={{ height: 40, width: "auto", filter: "var(--logo-filter)", transition: "filter var(--transition)" }}
           />
-        </a>
+        </Link>
 
         {/* Desktop Links */}
         <ul
@@ -250,65 +284,59 @@ export function Navbar() {
                 if (link.hasDropdown) scheduleClose();
               }}
             >
-              <button
-                onClick={() => {
-                  if (!link.hasDropdown) scrollTo(link.href);
-                  else setDropdownOpen(!dropdownOpen);
-                }}
-                style={{
-                  padding: "7px 14px",
-                  borderRadius: "var(--radius-pill)",
-                  color:
-                    hoveredLink === i || (link.hasDropdown && dropdownOpen)
-                      ? "var(--text-1)"
-                      : "var(--text-2)",
-                  background:
-                    hoveredLink === i || (link.hasDropdown && dropdownOpen)
-                      ? "var(--surface)"
-                      : "transparent",
-                  transition: "all 0.25s",
-                  cursor: "pointer",
-                  whiteSpace: "nowrap" as const,
-                  position: "relative" as const,
-                  border: "none",
-                  fontFamily: "var(--font-heading)",
-                  fontSize: 14,
-                  fontWeight: 500,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 4,
-                }}
-              >
-                {link.label}
-                {link.hasDropdown && (
+              {link.hasDropdown ? (
+                <button
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  style={{
+                    padding: "7px 14px",
+                    borderRadius: "var(--radius-pill)",
+                    color: isActive(link.href) || hoveredLink === i || dropdownOpen ? "var(--text-1)" : "var(--text-2)",
+                    background: isActive(link.href) || hoveredLink === i || dropdownOpen ? "var(--surface)" : "transparent",
+                    transition: "all 0.25s",
+                    cursor: "pointer",
+                    whiteSpace: "nowrap" as const,
+                    border: "none",
+                    fontFamily: "var(--font-heading)",
+                    fontSize: 14,
+                    fontWeight: isActive(link.href) ? 600 : 500,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 4,
+                  }}
+                >
+                  {link.label}
                   <svg
                     width="10"
                     height="10"
                     viewBox="0 0 10 10"
                     fill="none"
-                    style={{
-                      transition: "transform 0.25s",
-                      transform: dropdownOpen
-                        ? "rotate(180deg)"
-                        : "rotate(0)",
-                    }}
+                    style={{ transition: "transform 0.25s", transform: dropdownOpen ? "rotate(180deg)" : "rotate(0)" }}
                   >
-                    <path
-                      d="M2 4L5 7L8 4"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
+                    <path d="M2 4L5 7L8 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
-                )}
-              </button>
+                </button>
+              ) : (
+                <Link
+                  href={link.href}
+                  style={{
+                    display: "block",
+                    padding: "7px 14px",
+                    borderRadius: "var(--radius-pill)",
+                    color: isActive(link.href) || hoveredLink === i ? "var(--text-1)" : "var(--text-2)",
+                    background: isActive(link.href) || hoveredLink === i ? "var(--surface)" : "transparent",
+                    transition: "all 0.25s",
+                    whiteSpace: "nowrap" as const,
+                    fontFamily: "var(--font-heading)",
+                    fontSize: 14,
+                    fontWeight: isActive(link.href) ? 600 : 500,
+                    textDecoration: "none",
+                  }}
+                >
+                  {link.label}
+                </Link>
+              )}
               {link.hasDropdown && (
-                <NavDropdown
-                  open={dropdownOpen}
-                  onEnter={openDropdown}
-                  onLeave={scheduleClose}
-                />
+                <NavDropdown open={dropdownOpen} onEnter={openDropdown} onLeave={scheduleClose} />
               )}
             </li>
           ))}
@@ -316,86 +344,44 @@ export function Navbar() {
 
         {/* Right group */}
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <AnimatedThemeToggler />
-          <MagneticButton
-            style={{
-              padding: "8px 20px",
-              borderRadius: "var(--radius-pill)",
-              background: "var(--accent)",
-              color: "#fff",
-              fontSize: 13,
-              fontWeight: 600,
-              fontFamily: "var(--font-heading)",
-              transition: "all 0.25s",
-              cursor: "pointer",
-              border: "none",
-              whiteSpace: "nowrap",
-              letterSpacing: "0.01em",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = "var(--accent-hover)";
-              e.currentTarget.style.boxShadow =
-                "0 4px 24px var(--accent-glow)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = "var(--accent)";
-              e.currentTarget.style.boxShadow = "none";
-            }}
-          >
-            Let&apos;s Build Together
-          </MagneticButton>
+          <Link href="/contact" style={{ textDecoration: "none" }}>
+            <MagneticButton
+              style={{
+                padding: "8px 20px",
+                borderRadius: "var(--radius-pill)",
+                background: "var(--accent)",
+                color: "#fff",
+                fontSize: 13,
+                fontWeight: 600,
+                fontFamily: "var(--font-heading)",
+                transition: "all 0.25s",
+                cursor: "pointer",
+                border: "none",
+                whiteSpace: "nowrap" as const,
+                letterSpacing: "0.01em",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "var(--accent-hover)";
+                e.currentTarget.style.boxShadow = "0 4px 24px var(--accent-glow)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "var(--accent)";
+                e.currentTarget.style.boxShadow = "none";
+              }}
+            >
+              Schedule a Consultation
+            </MagneticButton>
+          </Link>
 
           {/* Mobile hamburger */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className="mobile-hamburger"
-            style={{
-              display: "none",
-              flexDirection: "column",
-              gap: 5,
-              padding: 8,
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-            }}
+            style={{ display: "none", flexDirection: "column", gap: 5, padding: 8, background: "none", border: "none", cursor: "pointer" }}
           >
-            <span
-              style={{
-                width: 20,
-                height: 2,
-                background: "var(--text-1)",
-                borderRadius: 2,
-                transition: "all 0.3s",
-                transform: mobileOpen
-                  ? "rotate(45deg) translate(5px,5px)"
-                  : "none",
-                display: "block",
-              }}
-            />
-            <span
-              style={{
-                width: 20,
-                height: 2,
-                background: "var(--text-1)",
-                borderRadius: 2,
-                transition: "all 0.3s",
-                opacity: mobileOpen ? 0 : 1,
-                display: "block",
-              }}
-            />
-            <span
-              style={{
-                width: 20,
-                height: 2,
-                background: "var(--text-1)",
-                borderRadius: 2,
-                transition: "all 0.3s",
-                transform: mobileOpen
-                  ? "rotate(-45deg) translate(5px,-5px)"
-                  : "none",
-                display: "block",
-              }}
-            />
+            <span style={{ width: 20, height: 2, background: "var(--text-1)", borderRadius: 2, transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(5px,5px)" : "none", display: "block" }} />
+            <span style={{ width: 20, height: 2, background: "var(--text-1)", borderRadius: 2, transition: "all 0.3s", opacity: mobileOpen ? 0 : 1, display: "block" }} />
+            <span style={{ width: 20, height: 2, background: "var(--text-1)", borderRadius: 2, transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(5px,-5px)" : "none", display: "block" }} />
           </button>
         </div>
       </div>
@@ -417,49 +403,45 @@ export function Navbar() {
             animation: "fadeInUp 0.3s ease",
           }}
         >
-          {links.map((link, i) => (
-            <MobileNavItem
-              key={i}
-              label={link.label}
-              onClick={() => scrollTo(link.href)}
-            />
-          ))}
+          {links
+            .filter((l) => !l.hasDropdown)
+            .map((link, i) => (
+              <Link
+                key={i}
+                href={link.href}
+                onClick={() => setMobileOpen(false)}
+                style={{
+                  display: "block",
+                  padding: "12px 16px",
+                  fontSize: 15,
+                  fontWeight: 500,
+                  color: "var(--text-1)",
+                  fontFamily: "var(--font-heading)",
+                  borderRadius: "var(--radius-sm)",
+                  textDecoration: "none",
+                }}
+              >
+                {link.label}
+              </Link>
+            ))}
+          <div style={{ marginTop: 8, paddingTop: 8, borderTop: "1px solid var(--border)" }}>
+            <div style={{ fontSize: 10, fontWeight: 700, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8, padding: "4px 16px" }}>
+              Capabilities
+            </div>
+            {NAV_MENU[0].items.map((item, i) => (
+              <Link
+                key={i}
+                href={item.href}
+                onClick={() => setMobileOpen(false)}
+                style={{ display: "block", padding: "8px 16px", fontSize: 13, color: "var(--text-2)", textDecoration: "none" }}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
         </div>
       )}
     </nav>
-  );
-}
-
-function MobileNavItem({
-  label,
-  onClick,
-}: {
-  label: string;
-  onClick: () => void;
-}) {
-  const [hovered, setHovered] = useState(false);
-  return (
-    <button
-      onClick={onClick}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        display: "block",
-        width: "100%",
-        padding: "12px 16px",
-        textAlign: "left",
-        fontSize: 15,
-        fontWeight: 500,
-        color: "var(--text-1)",
-        fontFamily: "var(--font-heading)",
-        borderRadius: "var(--radius-sm)",
-        background: hovered ? "var(--surface)" : "none",
-        border: "none",
-        cursor: "pointer",
-        transition: "background 0.2s",
-      }}
-    >
-      {label}
-    </button>
+    </>
   );
 }

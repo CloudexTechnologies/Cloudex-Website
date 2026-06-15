@@ -21,9 +21,9 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Cloudex Technologies — Build Intelligent Systems",
+  title: "Cloudex Technologies Build Intelligent Systems",
   description:
-    "From AI employees that work autonomously to high-performing websites and custom software — Cloudex builds technology that helps businesses operate smarter and scale with confidence.",
+    "From AI employees that work autonomously to high-performing websites and custom software Cloudex builds technology that helps businesses operate smarter and scale with confidence.",
 };
 
 export default function RootLayout({

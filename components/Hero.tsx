@@ -218,7 +218,7 @@ export function Hero({ heroStyle = "centered" }: HeroProps) {
                   animation: "pulse 2s infinite",
                 }}
               />
-              AI-Powered Solutions for Modern Business
+              UK-Based AI &amp; Technology Partner
             </span>
           </div>
 
@@ -232,17 +232,15 @@ export function Hero({ heroStyle = "centered" }: HeroProps) {
               marginBottom: 24,
             }}
           >
-            {["Build", "Intelligent", "Systems."].map((w, i) => (
-              <AnimatedWord
-                key={i}
-                word={w}
-                index={i}
-                isGradient={w === "Intelligent"}
-              />
+            {["Your", "Business", "Deserves"].map((w, i) => (
+              <AnimatedWord key={i} word={w} index={i} isGradient={false} />
             ))}
             <br />
-            {["Run", "a", "Better", "Business."].map((w, i) => (
-              <AnimatedWord key={i} word={w} index={i + 3} isGradient={w === "Better"} />
+            {["a", "Team", "That"].map((w, i) => (
+              <AnimatedWord key={i} word={w} index={i + 3} isGradient={false} />
+            ))}
+            {["Never", "Sleeps"].map((w, i) => (
+              <AnimatedWord key={i} word={w} index={i + 6} isGradient={true} />
             ))}
           </h1>
 
@@ -258,9 +256,9 @@ export function Hero({ heroStyle = "centered" }: HeroProps) {
               animation: "fadeInUp 0.8s ease 1s forwards",
             }}
           >
-            From AI employees that work autonomously to high-performing websites
-            and custom software — Cloudex builds technology that helps businesses
-            operate smarter and scale with confidence.
+            We build AI Employees, high-performance digital presences, and custom
+            software that move your business forward without the overhead that
+            slows it down.
           </p>
 
           {/* CTAs */}
@@ -307,7 +305,7 @@ export function Hero({ heroStyle = "centered" }: HeroProps) {
               }}
             >
               <span style={{ position: "relative", zIndex: 1 }}>
-                Let&apos;s Build Together
+                Schedule a Consultation
               </span>
               <div
                 ref={ctaIcon}
@@ -356,7 +354,7 @@ export function Hero({ heroStyle = "centered" }: HeroProps) {
                 e.currentTarget.style.borderColor = "var(--border)";
               }}
             >
-              Explore Solutions
+              See How It Works
             </MagneticButton>
           </div>
         </div>

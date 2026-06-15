@@ -2,7 +2,7 @@
 import { LogoCloud } from '@/components/ui/logo-cloud-4';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 
-// All wordmark SVGs — logo + text baked into the SVG from svgl.app
+// All wordmark SVGs logo + text baked into the SVG from svgl.app
 // _light variants = dark text on transparent (correct for light bg; dark: inverts to white)
 const logos = [
   {

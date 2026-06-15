@@ -42,8 +42,8 @@ export function CTASection() {
               lineHeight: 1.15,
             }}
           >
-            Ready to Build With{" "}
-            <span className="gradient-text">Intelligence</span>?
+            Ready to see what Cloudex can do{" "}
+            <span className="gradient-text">for your business?</span>
           </h2>
         </ScrollReveal>
         <ScrollReveal delay={0.1}>
@@ -51,14 +51,13 @@ export function CTASection() {
             style={{
               fontSize: "clamp(15px, 1.6vw, 18px)",
               color: "var(--text-2)",
-              maxWidth: 600,
+              maxWidth: 560,
               margin: "0 auto 40px",
               lineHeight: 1.7,
             }}
           >
-            Growth becomes predictable when systems are intentional — and
-            intelligent. If your business is expanding but your operations feel
-            manual and fragmented, it may be time to rethink your infrastructure.
+            Book a free consultation and we will map out exactly where AI,
+            digital, and software can make the biggest difference for you.
           </p>
         </ScrollReveal>
         <ScrollReveal delay={0.2}>
@@ -92,7 +91,7 @@ export function CTASection() {
                 e.currentTarget.style.background = "var(--accent)";
               }}
             >
-              Schedule a Consultation
+              Schedule Your Free Consultation
             </MagneticButton>
           </div>
         </ScrollReveal>

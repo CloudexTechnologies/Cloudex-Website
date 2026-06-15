@@ -11,10 +11,22 @@ import { ScrollReveal } from "./ui/ScrollReveal";
 /* ── Data ── */
 const INDUSTRIES = [
   {
-    id: "fintech",
-    title: "FinTech",
-    tagline: "Smart compliance & analytics",
-    desc: "Streamline regulatory compliance, automate financial reporting, and unlock real-time analytics across your entire operation.",
+    id: "healthcare",
+    title: "Healthcare & MedTech",
+    tagline: "AI and technology built for healthcare",
+    desc: "Automate patient intake, scheduling, and follow-ups while maintaining full compliance. Reduce admin overhead so your clinical team can focus on patient outcomes.",
+    stats: [
+      { v: "40%", l: "Admin Reduced" },
+      { v: "99%", l: "Uptime SLA" },
+      { v: "24/7", l: "AI Coverage" },
+    ],
+    hue: 175,
+  },
+  {
+    id: "finance",
+    title: "Financial Services",
+    tagline: "Move faster without taking on more risk",
+    desc: "Streamline regulatory compliance, automate financial reporting, and unlock real-time analytics. AI Employees that monitor cashflow, flag anomalies and generate reports around the clock.",
     stats: [
       { v: "10x", l: "Faster Processing" },
       { v: "47%", l: "Cost Reduction" },
@@ -23,34 +35,10 @@ const INDUSTRIES = [
     hue: 220,
   },
   {
-    id: "realestate",
-    title: "Real Estate",
-    tagline: "Automated lead & listing ops",
-    desc: "Capture, qualify, and nurture leads automatically while keeping your listings synced across every major platform.",
-    stats: [
-      { v: "3x", l: "Lead Volume" },
-      { v: "60%", l: "Time Saved" },
-      { v: "24/7", l: "Response Time" },
-    ],
-    hue: 150,
-  },
-  {
-    id: "startups",
-    title: "Startups",
-    tagline: "Fast automation from day one",
-    desc: "Launch faster with pre-built workflows designed to scale seamlessly from early-stage MVP to enterprise grade.",
-    stats: [
-      { v: "5x", l: "Ship Velocity" },
-      { v: "70%", l: "Ops Automated" },
-      { v: "<1hr", l: "Setup Time" },
-    ],
-    hue: 270,
-  },
-  {
     id: "ecommerce",
-    title: "E-commerce",
-    tagline: "AI-driven conversion ops",
-    desc: "Maximize every touchpoint with intelligent cart recovery, dynamic pricing, and predictive inventory management.",
+    title: "E-Commerce & Retail",
+    tagline: "More customers. Fewer dropped balls.",
+    desc: "Maximise every touchpoint with intelligent AI Employees handling customer support, cart recovery, and campaign execution. Your operations run 24/7 without adding headcount.",
     stats: [
       { v: "34%", l: "Revenue Lift" },
       { v: "2.5x", l: "Conv. Rate" },
@@ -59,26 +47,46 @@ const INDUSTRIES = [
     hue: 30,
   },
   {
-    id: "healthcare",
-    title: "Healthcare",
-    tagline: "Patient workflow automation",
-    desc: "Automate patient intake, scheduling, and follow-ups while maintaining full HIPAA-compliant data handling.",
+    id: "realestate",
+    title: "Real Estate",
+    tagline: "Technology that keeps deals moving",
+    desc: "Capture, qualify, and nurture leads automatically. AI Employees handle prospecting, outreach sequences, and appointment booking so your agents focus on closing.",
     stats: [
-      { v: "40%", l: "Admin Reduced" },
-      { v: "99%", l: "Uptime SLA" },
-      { v: "4.8★", l: "Satisfaction" },
+      { v: "3x", l: "Lead Volume" },
+      { v: "60%", l: "Time Saved" },
+      { v: "24/7", l: "Response Time" },
     ],
-    hue: 175,
+    hue: 150,
+  },
+  {
+    id: "saastech",
+    title: "SaaS & Technology",
+    tagline: "We speak your language",
+    desc: "From AI-native product development to custom integrations and data pipelines we build with the same stack you use and understand the operational realities of scaling a tech business.",
+    stats: [
+      { v: "5x", l: "Ship Velocity" },
+      { v: "70%", l: "Ops Automated" },
+      { v: "<1hr", l: "Setup Time" },
+    ],
+    hue: 270,
   },
 ];
 
 /* ── SVG Icons ── */
 function IndustryIcon({ id, size = 24 }: { id: string; size?: number }) {
   const paths: Record<string, React.ReactNode> = {
-    fintech: (
+    healthcare: <path d="M22 12h-4l-3 9L9 3l-3 9H2" />,
+    finance: (
       <>
         <path d="M3 3v18h18" />
         <path d="M7 16l4-6 4 4 5-8" />
+      </>
+    ),
+    ecommerce: (
+      <>
+        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+        <path d="M3 6h18" />
+        <path d="M16 10a4 4 0 01-8 0" />
       </>
     ),
     realestate: (
@@ -88,15 +96,7 @@ function IndustryIcon({ id, size = 24 }: { id: string; size?: number }) {
         <path d="M9 21v-6h6v6" />
       </>
     ),
-    startups: <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />,
-    ecommerce: (
-      <>
-        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
-        <path d="M3 6h18" />
-        <path d="M16 10a4 4 0 01-8 0" />
-      </>
-    ),
-    healthcare: <path d="M22 12h-4l-3 9L9 3l-3 9H2" />,
+    saastech: <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />,
   };
   return (
     <svg
@@ -139,10 +139,9 @@ const FeaturedCard = memo(function FeaturedCard({
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
   const [hov, setHov] = useState(false);
 
-  const { hue } = industry;
-  const accent = `oklch(0.65 0.18 ${hue})`;
-  const glow = `oklch(0.65 0.18 ${hue} / 0.15)`;
-  const iconBg = `oklch(0.65 0.18 ${hue} / 0.1)`;
+  const accent = "var(--accent)";
+  const glow = "rgba(37,99,235,0.12)";
+  const iconBg = "rgba(37,99,235,0.08)";
 
   return (
     <div
@@ -375,12 +374,8 @@ const SmallCard = memo(function SmallCard({
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
   const [hov, setHov] = useState(false);
 
-  const { hue } = industry;
-  const accent = `oklch(0.65 0.18 ${hue})`;
-  const iconBg =
-    isActive || hov
-      ? `oklch(0.65 0.18 ${hue} / 0.12)`
-      : `oklch(0.65 0.18 ${hue} / 0.05)`;
+  const accent = "var(--accent)";
+  const iconBg = isActive || hov ? "rgba(37,99,235,0.1)" : "rgba(37,99,235,0.05)";
 
   return (
     <button
@@ -441,7 +436,7 @@ const SmallCard = memo(function SmallCard({
           transition: "opacity 0.35s",
           zIndex: 1,
           opacity: hov ? 1 : 0,
-          background: `radial-gradient(180px circle at ${mouse.x}px ${mouse.y}px, oklch(0.65 0.18 ${hue} / 0.06), transparent 70%)`,
+          background: `radial-gradient(180px circle at ${mouse.x}px ${mouse.y}px, rgba(37,99,235,0.06), transparent 70%)`,
         }}
       />
 
@@ -528,7 +523,7 @@ const SmallCard = memo(function SmallCard({
 });
 
 /* ── Main Section ── */
-const AUTO_ROTATE_SPEED = 5; // seconds
+const AUTO_ROTATE_SPEED = 5;
 
 export function IndustriesSection() {
   const [activeIdx, setActiveIdx] = useState(0);
@@ -538,7 +533,6 @@ export function IndustriesSection() {
   const elapsedRef = useRef(0);
   const lastStartRef = useRef(performance.now());
 
-  /* Auto-rotate with elapsed-time tracking so pause/resume stays in sync */
   useEffect(() => {
     if (isPaused) {
       elapsedRef.current += performance.now() - lastStartRef.current;
@@ -633,18 +627,18 @@ export function IndustriesSection() {
                 color: "var(--text-1)",
               }}
             >
-              Built for every fast-moving industry
+              We work across the industries that move the economy.
             </h2>
             <p
               style={{
                 fontSize: "clamp(14px,1.4vw,17px)",
                 color: "var(--text-2)",
                 lineHeight: 1.65,
-                maxWidth: 480,
+                maxWidth: 520,
                 margin: "0 auto",
               }}
             >
-              Intelligent solutions where automation creates competitive advantage.
+              Generic solutions produce generic results. We bring specific knowledge of the challenges, regulations, and operational realities of each industry we serve.
             </p>
           </div>
         </ScrollReveal>

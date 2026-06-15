@@ -82,10 +82,10 @@
 :root {
   --font-heading: "Space Grotesk", system-ui, sans-serif;
   --font-body: "DM Sans", system-ui, sans-serif;
-  --accent: oklch(0.97 0 0);
+  --accent: #2563EB;
   --accent-hover: #3b82f6;
   --accent-dark: #1d4ed8;
-  --accent-glow: rgba(37, 99, 235, 0.15);
+  --accent-glow: rgba(37, 99, 235, 0.35);
   --accent-subtle: rgba(37, 99, 235, 0.06);
   --radius: 0.625rem;
   --radius-sm: 10px;
@@ -103,7 +103,7 @@
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --accent-foreground: #ffffff;
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
@@ -124,6 +124,10 @@
 }
 
 [data-theme="dark"] {
+  --accent: #2563EB;
+  --accent-hover: #3b82f6;
+  --accent-dark: #1d4ed8;
+  --accent-glow: rgba(37, 99, 235, 0.35);
   --bg: #050509;
   --bg-2: #0a0a12;
   --bg-3: #0e0e18;
@@ -149,6 +153,10 @@
 }
 
 [data-theme="light"] {
+  --accent: #2563EB;
+  --accent-hover: #3b82f6;
+  --accent-dark: #1d4ed8;
+  --accent-glow: rgba(37, 99, 235, 0.25);
   --bg: #ffffff;
   --bg-2: #f6f7fb;
   --bg-3: #eef0f6;
@@ -922,7 +930,7 @@ select.twk-field {
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
   --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
+  --accent: #2563EB;
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);

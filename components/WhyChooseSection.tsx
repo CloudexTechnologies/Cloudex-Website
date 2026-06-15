@@ -1,30 +1,30 @@
 "use client";
 import { useState } from "react";
-import { Brain, ServerCog, SlidersHorizontal, HeartHandshake } from "lucide-react";
+import { Target, Eye, TrendingUp, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { ScrollReveal } from "./ui/ScrollReveal";
 import { SectionHeader } from "./ui/SectionHeader";
 
 const whyTiles: { title: string; desc: string; icon: LucideIcon }[] = [
   {
-    title: "AI-First Thinking",
-    desc: "Every solution is built with intelligence at its core, ensuring your business operates smarter, not just faster.",
-    icon: Brain,
+    title: "Outcomes First",
+    desc: "We do not charge for effort. Every solution we build is tied to a real business outcome more leads, more efficiency, lower cost, or faster delivery.",
+    icon: Target,
   },
   {
-    title: "Reliable & Scalable Systems",
-    desc: "Infrastructure engineered for growth — systems that perform consistently and scale alongside your business demands.",
-    icon: ServerCog,
+    title: "No Black Boxes",
+    desc: "You will always know what we are building, why, and how it works. Transparency is not optional here.",
+    icon: Eye,
   },
   {
-    title: "Solutions Built Around You",
-    desc: "No off-the-shelf compromises. Every product is architected around your specific workflows and operational needs.",
-    icon: SlidersHorizontal,
+    title: "Built to Scale",
+    desc: "Whether you are a growing business or an established enterprise, everything we deliver is designed to scale with you.",
+    icon: TrendingUp,
   },
   {
-    title: "Long-Term Support",
-    desc: "We don't disappear after launch. Continuous optimization, monitoring, and strategic guidance for lasting impact.",
-    icon: HeartHandshake,
+    title: "One Team, Full Capability",
+    desc: "AI, development, and digital growth under one roof means no handoffs to agencies who do not understand your tech stack, and no developers who do not understand your business.",
+    icon: Users,
   },
 ];
 
@@ -82,8 +82,8 @@ export function WhyChooseSection() {
       <div className="container">
         <SectionHeader
           label="Why Cloudex"
-          title="Why Businesses Choose Cloudex"
-          subtitle="We combine AI-first architecture with deep operational understanding to build systems that truly work."
+          title="What Makes Working With Us Different"
+          subtitle="We combine AI-first architecture with deep operational understanding to build systems that produce real, measurable results."
         />
         <div
           style={{

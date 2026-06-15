@@ -1,18 +1,77 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import {
-  Bot, MessageSquare, Cpu, Network,
+  Bot, MessageSquare, Cpu, Network, Settings, Users,
 } from "lucide-react";
+import { motion, useInView } from "motion/react";
+import { RobotMonitor } from "@/components/ui/RobotMonitor";
 import { Card, CardContent } from "@/components/ui/card";
 import { CpuArchitecture } from "@/components/ui/cpu-architecture";
 import { ScrollReveal } from "./ui/ScrollReveal";
 import { SectionHeader } from "./ui/SectionHeader";
 
-const PIPELINE = [
-  { label: "AI Employees & Agents",          icon: Bot,           desc: "Autonomous agents that recruit, train, and operate independently — handling complex tasks without human oversight." },
-  { label: "Customer Interaction Automation", icon: MessageSquare, desc: "AI-powered responses across every channel, 24/7 — personalized at scale, indistinguishable from your best reps." },
-  { label: "AI-Native Product Development",  icon: Cpu,           desc: "Software built with intelligence at its core — not bolted-on features, but AI as fundamental architecture." },
-  { label: "Intelligent Workflow Systems",    icon: Network,       desc: "End-to-end process automation that learns from every execution and improves without manual reconfiguration." },
+const ROSTER = [
+  {
+    role: "Sales AI Employee",
+    nickname: "The Prospector",
+    icon: Bot,
+    color: "#2563eb",
+    does: "Identifies and researches ideal prospects, crafts personalised outreach sequences, manages follow-up cadences, qualifies inbound leads and books meetings directly into your calendar.",
+    replaces: "SDRs, BDRs, lead generation teams, appointment setters",
+    teamGetsBack: "Your closers stop chasing cold leads and start showing up to warm conversations.",
+  },
+  {
+    role: "Marketing AI Employee",
+    nickname: "The Campaign Engine",
+    icon: MessageSquare,
+    color: "#2563eb",
+    does: "Plans and schedules content across your channels, manages campaign execution, monitors performance and produces regular reports with clear insights.",
+    replaces: "Marketing coordinators, content schedulers, campaign managers",
+    teamGetsBack: "Your senior marketers spend their time on strategy, not execution.",
+  },
+  {
+    role: "Customer Support AI Employee",
+    nickname: "The First Responder",
+    icon: Cpu,
+    color: "#2563eb",
+    does: "Handles inbound customer queries across email, chat and messaging channels. Resolves common issues, escalates complex ones with full context, and ensures no query goes unanswered.",
+    replaces: "First-line support agents, helpdesk coordinators",
+    teamGetsBack: "Faster response times, happier customers, and a support team focused on cases that need human judgement.",
+  },
+  {
+    role: "Finance AI Employee",
+    nickname: "The Numbers Operator",
+    icon: Network,
+    color: "#2563eb",
+    does: "Monitors cashflow, generates financial summaries and reports, tracks invoices and payment status, flags anomalies and assists with budget tracking.",
+    replaces: "Finance administrators, bookkeeping support, reporting analysts",
+    teamGetsBack: "Real-time financial visibility without manual spreadsheet work.",
+  },
+  {
+    role: "Operations AI Employee",
+    nickname: "The Process Keeper",
+    icon: Settings,
+    color: "#2563eb",
+    does: "Monitors operational workflows, tracks KPIs across departments, manages task routing, ensures deadlines are tracked and escalates blockers before they become problems.",
+    replaces: "Operations coordinators, project administrators",
+    teamGetsBack: "An operations layer that runs quietly in the background, keeping everything moving.",
+  },
+  {
+    role: "HR and Talent AI Employee",
+    nickname: "The People Coordinator",
+    icon: Users,
+    color: "#2563eb",
+    does: "Manages recruitment pipeline admin, candidate communication, interview scheduling, onboarding task management and internal HR documentation.",
+    replaces: "HR coordinators, recruitment administrators",
+    teamGetsBack: "A hiring process that is faster, more consistent and less admin-heavy.",
+  },
+];
+
+const STATS = [
+  { value: "24/7", label: "Always on", pulse: true },
+  { value: "4 wks", label: "To deploy", pulse: false },
+  { value: "0", label: "Sick days", pulse: false },
+  { value: "£28K+", label: "Saved vs a hire", pulse: false },
 ];
 
 
@@ -340,187 +399,389 @@ function CodeTypewriter() {
   );
 }
 
-/* ── AI-Powered Automation: animated pipeline ── */
+/* ── Role card ── */
+type RosterItem = typeof ROSTER[0];
+
+function RoleCard({ item, index }: { item: RosterItem; index: number }) {
+  const [hovered, setHovered] = useState(false);
+  const [spot, setSpot] = useState({ x: 50, y: 50 });
+  const Icon = item.icon;
+  const num = String(index + 1).padStart(2, "0");
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+    setSpot({ x: ((e.clientX - left) / width) * 100, y: ((e.clientY - top) / height) * 100 });
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 28 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.55, delay: index * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
+      whileHover={{ y: -7 }}
+      onHoverStart={() => setHovered(true)}
+      onHoverEnd={() => setHovered(false)}
+      onMouseMove={handleMouseMove}
+      style={{
+        position: "relative",
+        borderRadius: 18,
+        background: "var(--bg-2)",
+        border: `1px solid ${hovered ? "rgba(37,99,235,0.38)" : "rgba(37,99,235,0.1)"}`,
+        overflow: "hidden",
+        cursor: "pointer",
+        padding: "26px 24px 22px",
+        boxShadow: hovered
+          ? "0 24px 64px rgba(37,99,235,0.1), 0 4px 16px rgba(0,0,0,0.06)"
+          : "0 1px 3px rgba(0,0,0,0.04)",
+        transition: "border-color 0.3s ease, box-shadow 0.35s ease",
+      }}
+    >
+      {/* Mouse-tracked radial spotlight */}
+      <div style={{
+        position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0,
+        background: `radial-gradient(380px circle at ${spot.x}% ${spot.y}%, rgba(37,99,235,0.07), transparent 55%)`,
+        opacity: hovered ? 1 : 0,
+        transition: "opacity 0.4s ease",
+      }} />
+
+      {/* Top shimmer line on hover */}
+      <div style={{
+        position: "absolute", top: 0, left: "10%", right: "10%", height: 1,
+        background: "linear-gradient(90deg, transparent, rgba(37,99,235,0.6), transparent)",
+        opacity: hovered ? 1 : 0,
+        transition: "opacity 0.35s ease",
+      }} />
+
+      <div style={{ position: "relative", zIndex: 1 }}>
+        {/* Top row: large number + icon */}
+        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 18 }}>
+          {/* Ghost index number */}
+          <span style={{
+            fontSize: "clamp(38px, 3.8vw, 54px)", fontWeight: 900,
+            fontFamily: "var(--font-heading)",
+            letterSpacing: "-0.05em", lineHeight: 1,
+            color: hovered ? "rgba(37,99,235,0.42)" : "rgba(37,99,235,0.1)",
+            transition: "color 0.35s ease",
+            userSelect: "none",
+          }}>
+            {num}
+          </span>
+
+          {/* Icon with dashed orbital ring */}
+          <div style={{ position: "relative", width: 46, height: 46, flexShrink: 0 }}>
+            <div style={{
+              position: "absolute", inset: -6, borderRadius: "50%",
+              border: `1px dashed rgba(37,99,235,${hovered ? "0.5" : "0.18"})`,
+              transition: "border-color 0.35s ease",
+              animationName: hovered ? "cx-ring-spin" : "none",
+              animationDuration: "4s",
+              animationTimingFunction: "linear",
+              animationIterationCount: "infinite",
+            }} />
+            <div style={{
+              width: 46, height: 46, borderRadius: 13,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              background: hovered ? "rgba(37,99,235,0.1)" : "rgba(37,99,235,0.05)",
+              boxShadow: hovered ? "0 0 22px rgba(37,99,235,0.22)" : "none",
+              transition: "background 0.3s ease, box-shadow 0.3s ease",
+            }}>
+              <Icon style={{ width: 20, height: 20, color: "var(--accent)" }} strokeWidth={1.5} />
+            </div>
+          </div>
+        </div>
+
+        {/* Role name */}
+        <div style={{
+          fontSize: 15, fontWeight: 700, fontFamily: "var(--font-heading)",
+          color: "var(--text-1)", lineHeight: 1.3, marginBottom: 8,
+          transition: "color 0.2s ease",
+        }}>
+          {item.role}
+        </div>
+
+        {/* Nickname — monospace chip */}
+        <span style={{
+          display: "inline-block", marginBottom: 16,
+          fontSize: 9, fontWeight: 700, letterSpacing: "0.14em",
+          textTransform: "uppercase", color: "var(--accent)",
+          fontFamily: "'JetBrains Mono','Fira Code',monospace",
+          padding: "3px 9px", borderRadius: 5,
+          background: "rgba(37,99,235,0.07)",
+          border: "1px solid rgba(37,99,235,0.18)",
+        }}>
+          {item.nickname}
+        </span>
+
+        {/* Description */}
+        <p style={{
+          fontSize: 13, lineHeight: 1.8, color: "var(--text-2)",
+          margin: 0, marginBottom: 18,
+        }}>
+          {item.does}
+        </p>
+
+        {/* Divider */}
+        <div style={{
+          height: 1, marginBottom: 14,
+          background: "linear-gradient(90deg, rgba(37,99,235,0.3) 0%, transparent 70%)",
+          opacity: hovered ? 1 : 0.35,
+          transition: "opacity 0.3s ease",
+        }} />
+
+        {/* Footer: active status + replace chips */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6, flexWrap: "wrap" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+            <span style={{
+              width: 6, height: 6, borderRadius: "50%", flexShrink: 0,
+              display: "inline-block",
+              background: "#22c55e",
+              boxShadow: hovered ? "0 0 10px #22c55e90" : "none",
+              animation: "cx-pulse-dot 2s ease infinite",
+              transition: "box-shadow 0.3s ease",
+            }} />
+            <span style={{
+              fontSize: 10, fontWeight: 700, letterSpacing: "0.08em",
+              textTransform: "uppercase", color: "#22c55e",
+            }}>
+              Active
+            </span>
+          </div>
+          <div style={{ display: "flex", gap: 4, flexWrap: "wrap", justifyContent: "flex-end" }}>
+            {item.replaces.split(", ").slice(0, 2).map((r, i) => (
+              <span key={i} style={{
+                fontSize: 10, padding: "2px 7px", borderRadius: 4,
+                background: "var(--bg)", border: "1px solid var(--border)",
+                color: "var(--text-2)", whiteSpace: "nowrap",
+              }}>
+                {r}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+/* ── Stat chip ── */
+function StatChip({ stat, index }: { stat: typeof STATS[0]; index: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.92 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4, delay: 0.2 + index * 0.07, ease: "easeOut" }}
+      style={{
+        padding: "18px 16px",
+        borderRadius: 14,
+        background: "rgba(37,99,235,0.06)",
+        border: "1px solid rgba(37,99,235,0.16)",
+        textAlign: "center",
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, marginBottom: 4 }}>
+        {stat.pulse && (
+          <span style={{
+            width: 7, height: 7, borderRadius: "50%",
+            background: "#22c55e",
+            boxShadow: "0 0 8px #22c55e80",
+            flexShrink: 0,
+            animation: "cx-pulse-dot 2s ease infinite",
+          }} />
+        )}
+        <span style={{
+          fontSize: "clamp(20px, 2vw, 26px)", fontWeight: 800,
+          fontFamily: "var(--font-heading)",
+          color: "var(--text-1)", letterSpacing: "-0.02em",
+        }}>
+          {stat.value}
+        </span>
+      </div>
+      <div style={{ fontSize: 11, color: "var(--text-2)", fontWeight: 500, letterSpacing: "0.04em" }}>
+        {stat.label}
+      </div>
+    </motion.div>
+  );
+}
+
+/* ── AI Employee showcase ── */
 function AutomationSection() {
-  const [active, setActive] = useState(0);
-  const [revealed, setRevealed] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { setRevealed(true); obs.disconnect(); } },
-      { threshold: 0.12 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const id = setInterval(() => setActive(p => (p + 1) % PIPELINE.length), 2800);
-    return () => clearInterval(id);
-  }, []);
-
-  const ActiveIcon = PIPELINE[active].icon;
+  const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
 
   return (
     <div ref={sectionRef} style={{
-      marginTop: "20px", borderRadius: "20px",
-      background: "var(--bg-2)", border: "1px solid var(--border)",
-      overflow: "hidden", position: "relative",
+      marginTop: 64, position: "relative",
     }}>
-      {/* Dot-grid bg */}
+      {/* Dot-grid texture */}
       <div style={{
         position: "absolute", inset: 0, pointerEvents: "none",
-        backgroundImage: "radial-gradient(rgba(37,99,235,0.15) 1px, transparent 1px)",
-        backgroundSize: "28px 28px",
-        opacity: 0.6,
+        backgroundImage: "radial-gradient(rgba(37,99,235,0.12) 1px, transparent 1px)",
+        backgroundSize: "30px 30px", opacity: 0.55,
       }} />
-      {/* Corner glow */}
+      {/* Top-right glow */}
       <div style={{
-        position: "absolute", top: -100, right: -100,
-        width: "420px", height: "420px", pointerEvents: "none",
-        background: "radial-gradient(circle, rgba(37,99,235,0.12) 0%, transparent 65%)",
+        position: "absolute", top: -100, right: -80,
+        width: 480, height: 480, pointerEvents: "none",
+        background: "radial-gradient(circle, rgba(37,99,235,0.1) 0%, transparent 60%)",
+      }} />
+      {/* Bottom-left glow */}
+      <div style={{
+        position: "absolute", bottom: -80, left: -60,
+        width: 360, height: 360, pointerEvents: "none",
+        background: "radial-gradient(circle, rgba(124,58,237,0.07) 0%, transparent 60%)",
       }} />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2"
-        style={{ position: "relative", zIndex: 1, padding: "52px 56px", gap: "56px", alignItems: "center" }}>
+      <div style={{ position: "relative", zIndex: 1 }}>
 
-        {/* ── Left: heading + live description ── */}
-        <div>
-          <div style={{
-            display: "inline-flex", alignItems: "center", gap: "8px", marginBottom: "20px",
-            opacity: revealed ? 1 : 0, transform: revealed ? "none" : "translateY(10px)",
-            transition: "opacity 0.55s ease, transform 0.55s ease",
-          }}>
-            <span style={{
-              display: "inline-block", width: 8, height: 8, borderRadius: "50%",
-              background: "rgba(37,99,235,1)", boxShadow: "0 0 10px rgba(37,99,235,0.9)",
-              animation: "cap-blink 2s ease-in-out infinite",
-            }} />
-            <span style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--accent)" }}>
-              AI-Powered Automation
-            </span>
+        {/* ── Top: copy + stats ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-5" style={{ gap: "clamp(32px,4vw,52px)", alignItems: "stretch", marginBottom: "clamp(36px,5vw,52px)" }}>
+
+          {/* Left: heading + body + CTA */}
+          <div className="lg:col-span-3" style={{ display: "flex", flexDirection: "column" }}>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5 }}
+              style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 18 }}
+            >
+              <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--accent)" }}>
+                AI Employees
+              </span>
+            </motion.div>
+
+            <motion.h2
+              initial={{ opacity: 0, y: 16 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.55, delay: 0.08 }}
+              style={{
+                fontFamily: "var(--font-heading)",
+                fontSize: "clamp(30px,3.5vw,48px)", fontWeight: 800,
+                lineHeight: 1.1, color: "var(--text-1)",
+                marginBottom: 18, letterSpacing: "-0.03em",
+              }}
+            >
+              Meet Your New<br />AI Employee
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0, y: 14 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.55, delay: 0.15 }}
+              style={{ fontSize: 15, lineHeight: 1.85, color: "var(--text-2)", maxWidth: 500, marginBottom: 10 }}
+            >
+              Think about what your best team member does on their best day. Now imagine that happening consistently, across every department, 24 hours a day.
+            </motion.p>
+
+            <motion.p
+              initial={{ opacity: 0, y: 14 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.55, delay: 0.2 }}
+              style={{ fontSize: 15, lineHeight: 1.85, color: "var(--text-2)", maxWidth: 500, marginBottom: 32 }}
+            >
+              Not a chatbot. Not a simple automation. A fully operational Digital FTE that slots into your team and gets to work without adding to your payroll pressure.
+            </motion.p>
+
+            <motion.p
+              initial={{ opacity: 0, y: 14 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.55, delay: 0.25 }}
+              style={{ fontSize: 15, lineHeight: 1.85, color: "var(--text-2)", maxWidth: 500, marginBottom: 10 }}
+            >
+              Each AI Employee is built around a specific role inside your business. It knows the tools your team uses, the language your brand speaks, and the processes that keep your operations running. The result is an agent that behaves like a trained member of your team — not a generic assistant learning on the job.
+            </motion.p>
+
+            <motion.p
+              initial={{ opacity: 0, y: 14 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.55, delay: 0.32 }}
+              style={{ fontSize: 15, lineHeight: 1.85, color: "var(--text-2)", maxWidth: 500, marginBottom: 32 }}
+            >
+              Unlike hiring, there is no probation period, no performance plateau, and no quiet quitting. Your AI Employee runs every task to the same standard, every time — while your human team focuses on the decisions that actually need a person.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.38 }}
+              whileHover={{ y: -2 }}
+              style={{ display: "inline-block" }}
+            >
+              <a
+                href="/capabilities/ai-employees"
+                style={{
+                  display: "inline-flex", alignItems: "center", gap: 8,
+                  padding: "13px 26px", borderRadius: 10,
+                  background: "var(--accent)", color: "#fff",
+                  fontSize: 14, fontWeight: 600, textDecoration: "none",
+                  boxShadow: "0 0 24px rgba(37,99,235,0.35)",
+                  transition: "background 0.2s ease, box-shadow 0.2s ease",
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.background = "#1d4ed8";
+                  e.currentTarget.style.boxShadow = "0 0 32px rgba(37,99,235,0.55)";
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.background = "var(--accent)";
+                  e.currentTarget.style.boxShadow = "0 0 24px rgba(37,99,235,0.35)";
+                }}
+              >
+                See What an AI Employee Can Do
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </a>
+            </motion.div>
           </div>
 
-          <h2 style={{
-            fontFamily: "var(--font-heading)",
-            fontSize: "clamp(26px, 2.8vw, 38px)", fontWeight: 700,
-            lineHeight: 1.2, color: "var(--text-1)", marginBottom: "16px",
-            opacity: revealed ? 1 : 0, transform: revealed ? "none" : "translateY(14px)",
-            transition: "opacity 0.55s ease 0.08s, transform 0.55s ease 0.08s",
-          }}>
-            Intelligence wired into<br />every operation
-          </h2>
-
-          <p style={{
-            fontSize: "15px", lineHeight: 1.8, color: "var(--text-2)",
-            maxWidth: "400px", marginBottom: "28px",
-            opacity: revealed ? 1 : 0, transform: revealed ? "none" : "translateY(14px)",
-            transition: "opacity 0.55s ease 0.16s, transform 0.55s ease 0.16s",
-          }}>
-            From AI agents that handle customer interactions to end-to-end workflow intelligence — measurable automation at your core.
-          </p>
-
-          {/* Active step live preview */}
-          <div style={{
-            padding: "18px 20px", borderRadius: "14px",
-            background: "var(--accent-subtle)", border: "1px solid rgba(37,99,235,0.18)",
-            opacity: revealed ? 1 : 0,
-            transition: "opacity 0.55s ease 0.24s",
-          }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
-              <ActiveIcon style={{ width: 14, height: 14, color: "var(--accent)", flexShrink: 0 }} strokeWidth={1.5} />
-              <span style={{ fontSize: "11px", fontWeight: 700, color: "var(--accent)", textTransform: "uppercase", letterSpacing: "0.08em" }}>
-                {PIPELINE[active].label}
-              </span>
+          {/* Right: cursor robot + stats below */}
+          <div className="lg:col-span-2" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            {/* Spline interactive robot */}
+            <div style={{
+              width: "100%", height: 380,
+              borderRadius: 16, overflow: "hidden",
+              background: "var(--bg-2)",
+              borderBottom: "1px solid var(--border)",
+            }}>
+              <RobotMonitor />
             </div>
-            <p style={{ fontSize: "13px", color: "var(--text-2)", lineHeight: 1.7, margin: 0 }}>
-              {PIPELINE[active].desc}
-            </p>
+            {/* Stats 2×2 */}
+            <div className="grid grid-cols-2" style={{ gap: 12 }}>
+              {STATS.map((stat, i) => <StatChip key={i} stat={stat} index={i} />)}
+            </div>
           </div>
         </div>
 
-        {/* ── Right: vertical pipeline ── */}
-        <div>
-          {PIPELINE.map(({ label, icon: Icon }, i) => {
-            const isActive = i === active;
-            const isPast = i < active;
-            return (
-              <div key={i} style={{ display: "flex" }}>
-                {/* Dot + vertical connector */}
-                <div style={{
-                  display: "flex", flexDirection: "column", alignItems: "center",
-                  width: 20, flexShrink: 0, marginRight: 16, paddingTop: 16,
-                }}>
-                  <div style={{
-                    width: 10, height: 10, borderRadius: "50%", flexShrink: 0,
-                    background: isActive ? "rgba(37,99,235,1)" : isPast ? "rgba(37,99,235,0.4)" : "rgba(255,255,255,0.1)",
-                    boxShadow: isActive ? "0 0 0 3px rgba(37,99,235,0.2), 0 0 14px rgba(37,99,235,0.8)" : "none",
-                    transition: "all 0.4s ease",
-                  }} />
-                  {i < PIPELINE.length - 1 && (
-                    <div style={{
-                      flex: 1, width: 1, minHeight: 20, marginTop: 4,
-                      background: isPast
-                        ? "linear-gradient(180deg, rgba(37,99,235,0.5) 0%, rgba(37,99,235,0.15) 100%)"
-                        : "rgba(255,255,255,0.06)",
-                      transition: "background 0.4s ease",
-                    }} />
-                  )}
-                </div>
+        {/* Divider */}
+        <div style={{
+          height: 1, marginBottom: "clamp(28px,4vw,44px)",
+          background: "linear-gradient(90deg, transparent, var(--border), transparent)",
+        }} />
 
-                {/* Step card */}
-                <ScrollReveal delay={0.1 + i * 0.08} direction="right" style={{ flex: 1, marginBottom: i < PIPELINE.length - 1 ? 6 : 0 }}>
-                  <div
-                    onClick={() => setActive(i)}
-                    style={{
-                      display: "flex", alignItems: "center", gap: 14,
-                      padding: "13px 16px", borderRadius: 12, cursor: "pointer",
-                      background: isActive ? "rgba(37,99,235,0.07)" : "transparent",
-                      border: `1px solid ${isActive ? "rgba(37,99,235,0.22)" : "transparent"}`,
-                      transition: "background 0.3s ease, border-color 0.3s ease",
-                    }}
-                    onMouseEnter={(e) => {
-                      if (!isActive) (e.currentTarget as HTMLDivElement).style.background = "rgba(255,255,255,0.03)";
-                    }}
-                    onMouseLeave={(e) => {
-                      if (!isActive) (e.currentTarget as HTMLDivElement).style.background = "transparent";
-                    }}
-                  >
-                    <div style={{
-                      width: 38, height: 38, borderRadius: 10, flexShrink: 0,
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      background: isActive ? "rgba(37,99,235,0.13)" : "rgba(255,255,255,0.04)",
-                      border: `1px solid ${isActive ? "rgba(37,99,235,0.25)" : "rgba(255,255,255,0.07)"}`,
-                      transition: "all 0.3s ease",
-                    }}>
-                      <Icon style={{ width: 17, height: 17, color: isActive ? "var(--accent)" : "rgba(255,255,255,0.3)" }} strokeWidth={1.5} />
-                    </div>
-                    <span style={{
-                      fontSize: 14, lineHeight: 1.35, flex: 1,
-                      fontWeight: isActive ? 600 : 400,
-                      color: isActive ? "var(--text-1)" : "var(--text-2)",
-                      transition: "all 0.3s ease",
-                    }}>
-                      {label}
-                    </span>
-                    <div style={{
-                      width: 6, height: 6, borderRadius: "50%", flexShrink: 0,
-                      background: isActive ? "rgba(37,99,235,1)" : "transparent",
-                      boxShadow: isActive ? "0 0 8px rgba(37,99,235,0.7)" : "none",
-                      transition: "all 0.3s ease",
-                    }} />
-                  </div>
-                </ScrollReveal>
-              </div>
-            );
-          })}
+        {/* ── Role cards grid ── */}
+        <div>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--text-2)", marginBottom: 18 }}
+          >
+            The Digital FTE Roster
+          </motion.p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" style={{ gap: 14 }}>
+            {ROSTER.map((item, i) => <RoleCard key={i} item={item} index={i} />)}
+          </div>
         </div>
       </div>
 
-      <style>{`@keyframes cap-blink { 0%,100%{opacity:1;} 50%{opacity:0.45;} }`}</style>
+      <style>{`
+        @keyframes cap-blink { 0%,100%{opacity:1;} 50%{opacity:0.45;} }
+        @keyframes cx-pulse-dot { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.55;transform:scale(0.88);} }
+        @keyframes cx-ring-spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+      `}</style>
     </div>
   );
 }
@@ -532,8 +793,8 @@ export function CapabilitiesSection() {
       <div className="container">
         <SectionHeader
           label="Our Capabilities"
-          title="Solutions That Drive Real Results"
-          subtitle="We build intelligent systems across three core pillars — each designed to help your business operate smarter, grow faster, and scale with confidence."
+          title="Three Capabilities. One Partner."
+          subtitle="We combine AI-powered workforce solutions, digital growth expertise, and purpose-built software so you can stop patching problems and start scaling properly."
         />
 
         <div className="relative z-10 grid grid-cols-6 gap-5 mt-20">
@@ -587,7 +848,7 @@ export function CapabilitiesSection() {
                       className="text-sm max-w-52 text-center"
                       style={{ color: "var(--text-2)", lineHeight: 1.75 }}
                     >
-                      Autonomous systems that replace repetitive roles and accelerate every part of your operations.
+                      Deploy intelligent AI Employees that handle your sales outreach, customer queries, financial reporting, marketing execution and more around the clock, without error.
                     </p>
                   </div>
                 </CardContent>
@@ -620,7 +881,7 @@ export function CapabilitiesSection() {
                       Digital Growth
                     </h2>
                     <p className="text-sm max-w-52 text-center" style={{ color: "var(--text-2)", lineHeight: 1.75 }}>
-                      Platforms that strengthen your online presence and convert engagement into real business results.
+                      We build high-converting business websites and drive search visibility so your ideal clients find you before they find anyone else.
                     </p>
                   </div>
                 </CardContent>
@@ -653,7 +914,7 @@ export function CapabilitiesSection() {
                       Custom Software
                     </h2>
                     <p className="text-sm max-w-52 text-center" style={{ color: "var(--text-2)", lineHeight: 1.75 }}>
-                      Tailored systems built around your specific processes — automating workflows and enabling scalable growth.
+                      No off-the-shelf compromise. We design and build software tailored to how your business actually works.
                     </p>
                   </div>
                 </CardContent>

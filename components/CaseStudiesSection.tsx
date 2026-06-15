@@ -6,22 +6,22 @@ import { useSpotlight } from "@/hooks/useSpotlight";
 
 const caseStudies = [
   {
-    tag: "AI Employees",
-    title: "Autonomous Lead Qualification for Real Estate",
-    desc: "Deployed AI agents that qualify and route leads 24/7, reducing response time by 90%.",
-    metric: "90% faster",
-  },
-  {
-    tag: "AI-Native Product",
-    title: "LLM-Powered Analytics Platform for FinTech",
-    desc: "Built an intelligent analytics engine that processes financial data and generates actionable insights.",
-    metric: "3x throughput",
-  },
-  {
     tag: "Digital Growth",
-    title: "High-Converting Website System for SaaS Startup",
-    desc: "Designed and built a conversion-optimized web presence that tripled inbound leads in 60 days.",
-    metric: "300% more leads",
+    title: "Inbound Leads Doubled in 90 Days",
+    desc: "A UK-based financial advisory firm engaged us for a new website and search visibility work. Within 90 days, inbound leads doubled.",
+    metric: "2x leads",
+  },
+  {
+    tag: "AI Employees",
+    title: "AI Sales Employee Replacing an Entire SDR Team",
+    desc: "A SaaS company deployed our AI Prospector. It now handles everything their SDR team used to do prospecting, outreach, and qualifying at a fraction of the cost.",
+    metric: "Full SDR coverage",
+  },
+  {
+    tag: "Custom Software",
+    title: "One Platform Replacing Three Subscriptions",
+    desc: "An e-commerce brand needed custom operations software. We built a single platform that replaced three tools they were paying subscriptions for it pays for itself every month.",
+    metric: "3 tools replaced",
   },
 ];
 
@@ -192,8 +192,8 @@ export function CaseStudiesSection() {
       <div className="container">
         <SectionHeader
           label="Case Studies"
-          title="Real Results, Real Impact"
-          subtitle="See how we've helped businesses deploy AI, accelerate growth, and build systems that scale."
+          title="Results We Are Proud Of"
+          subtitle="If you would like to hear directly about work we have done in your sector, we are happy to walk you through it on a call."
         />
         <div
           style={{

@@ -2,21 +2,26 @@
 import { useState } from "react";
 import Image from "next/image";
 
-const footerLinks: Record<string, string[]> = {
-  "Our Capabilities": [
-    "AI Solutions",
-    "Digital Growth",
-    "Custom Software Development",
+const footerLinks: Record<string, { label: string; href: string }[]> = {
+  "Capabilities": [
+    { label: "AI Solutions", href: "/capabilities/ai-solutions" },
+    { label: "AI Employees", href: "/capabilities/ai-employees" },
+    { label: "Digital Growth", href: "/capabilities/digital-growth" },
+    { label: "Custom Software", href: "/capabilities/custom-software" },
   ],
-  Company: ["About", "Case Studies", "Careers", "Contact"],
-  Resources: ["Blog", "Documentation", "Privacy Policy", "Terms of Service"],
+  "Company": [
+    { label: "About", href: "/about" },
+    { label: "Case Studies", href: "/work" },
+    { label: "Insights", href: "/insights" },
+    { label: "Contact", href: "/contact" },
+  ],
 };
 
-function FooterLink({ label }: { label: string }) {
+function FooterLink({ label, href }: { label: string; href: string }) {
   const [hovered, setHovered] = useState(false);
   return (
     <a
-      href="#"
+      href={href}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
@@ -87,11 +92,30 @@ export function Footer() {
                 color: "var(--text-3)",
                 lineHeight: 1.65,
                 maxWidth: 260,
+                marginBottom: 20,
               }}
             >
-              Building intelligent systems that help businesses operate smarter
-              and scale with confidence.
+              Building AI Employees, high-performance digital presences, and
+              custom software that move businesses forward.
             </p>
+            {/* Contact info */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              <a
+                href="tel:+447840983410"
+                style={{ fontSize: 13, color: "var(--text-3)", textDecoration: "none" }}
+              >
+                +44 7840 983410
+              </a>
+              <a
+                href="mailto:info@cloudextechnologies.io"
+                style={{ fontSize: 13, color: "var(--text-3)", textDecoration: "none" }}
+              >
+                info@cloudextechnologies.io
+              </a>
+              <span style={{ fontSize: 13, color: "var(--text-3)" }}>
+                852, 85 Dunstall Hill, Wolverhampton WV6 0SR, UK
+              </span>
+            </div>
           </div>
 
           {/* Link columns */}
@@ -114,7 +138,7 @@ export function Footer() {
                 style={{ display: "flex", flexDirection: "column", gap: 10 }}
               >
                 {links.map((link, i) => (
-                  <FooterLink key={i} label={link} />
+                  <FooterLink key={i} label={link.label} href={link.href} />
                 ))}
               </div>
             </div>
@@ -134,10 +158,10 @@ export function Footer() {
           }}
         >
           <span style={{ fontSize: 13, color: "var(--text-3)" }}>
-            © 2026 Cloudex Technologies. All rights reserved.
+            © 2025 Cloudex Technologies. All rights reserved.
           </span>
           <div style={{ display: "flex", gap: 20 }}>
-            {["Twitter", "LinkedIn", "GitHub"].map((s, i) => (
+            {["LinkedIn", "Twitter", "GitHub"].map((s, i) => (
               <SocialLink key={i} label={s} />
             ))}
           </div>
