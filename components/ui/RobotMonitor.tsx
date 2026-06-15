@@ -10,9 +10,9 @@ export function RobotMonitor() {
   const tyRef = useRef(0)
   const cxRef = useRef(0)
   const cyRef = useRef(0)
-  const blinkTimerRef = useRef<ReturnType<typeof setTimeout>>()
-  const statsTimerRef = useRef<ReturnType<typeof setInterval>>()
-  const dblBlinkRef = useRef<ReturnType<typeof setInterval>>()
+  const blinkTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
+  const statsTimerRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined)
+  const dblBlinkRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined)
 
   const schedBlink = useCallback(() => {
     const robot = robotRef.current
