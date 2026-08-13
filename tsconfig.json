@@ -30,5 +30,6 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules"]
+  "//": "studio/ is a separate app with its own tsconfig and its own dependencies. It must stay out of the Next build: its node_modules is gitignored, so typechecking it here fails on the deploy host even though it passes locally.",
+  "exclude": ["node_modules", "studio"]
 }

@@ -1,0 +1,5 @@
+# The Studio and the content pipeline are deployed separately — the Studio to
+# sanity.studio via `npx sanity deploy`, the pipeline to the VPS via
+# pipeline/deploy.sh. Neither belongs in the Next.js build context.
+studio
+pipeline
