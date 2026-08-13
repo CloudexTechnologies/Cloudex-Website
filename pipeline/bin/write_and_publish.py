@@ -22,7 +22,7 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from lib import checks, common, hermes, markdown_pt, sanity, settings  # noqa: E402
+from lib import checks, common, hermes, imagery, markdown_pt, sanity, settings  # noqa: E402
 
 INTERNAL_LINK_MENU = """- /capabilities/ai-employees — AI employees: autonomous digital workers
 - /capabilities/ai-solutions — custom LLM pipelines, automation, data intelligence
@@ -502,27 +502,13 @@ def main() -> int:
     # ── Hero image ────────────────────────────────────────────────────────────
     hero = None
     if allowed and not args.skip_image and not args.dry_run:
-        image_prompt = (
-            draft.get("imagePrompt")
-            or f"Abstract editorial illustration representing {draft['primaryKeyword']}."
-        )
-        image_prompt = (
-            f"{image_prompt} Editorial tech-magazine illustration, abstract and geometric, "
-            f"dark navy background #050509, deep blue accent #2563EB, thin luminous lines, "
-            f"generous negative space, no text, no logos, no human faces, 16:9 landscape."
-        )
         try:
-            common.log("generating hero image with Codex…")
-            image_path = hermes.generate_image(
-                image_prompt, settings.WORK_DIR / run_id / "hero.png"
-            )
-            asset = sanity.upload_image(image_path, filename=f"{draft['slug']}.png")
-            hero = sanity.image_field(
-                asset["_id"],
-                draft.get("imageAlt") or draft["title"],
-                generation_prompt=image_prompt,
-            )
-            common.log(f"hero image uploaded: {asset['_id']}")
+            result = imagery.create_hero(draft, blocks, run_id)
+            if result:
+                image_path, image_prompt, image_alt = result
+                asset = sanity.upload_image(image_path, filename=f"{draft['slug']}.png")
+                hero = sanity.image_field(asset["_id"], image_alt, generation_prompt=image_prompt)
+                common.log(f"hero image uploaded: {asset['_id']}")
         except Exception as error:  # noqa: BLE001 - an article without art still publishes
             common.log(f"warn: hero image failed, publishing without one: {error}")
 

@@ -118,7 +118,8 @@ Reply with one JSON object only. No prose, no code fence.
       "sourceType": "paper | docs | announcement | benchmark | report | news",
       "publishedDate": "2026-07-14"
     }
-  ],
-  "imagePrompt": "A brief for the hero image: abstract, editorial, technical. Describe composition and subject. Dark navy background (#050509), deep blue accent (#2563EB), no text, no logos, no human faces, 16:9.",
-  "imageAlt": "Plain-language description of what the image shows, for screen readers."
+  ]
 }
+
+The hero image is art-directed separately once this article passes review, so do
+not supply an image brief here.
