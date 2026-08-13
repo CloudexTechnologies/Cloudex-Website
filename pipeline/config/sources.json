@@ -1,0 +1,37 @@
+{
+  "arxiv": {
+    "categories": ["cs.AI", "cs.CL", "cs.LG", "cs.MA", "cs.SE"],
+    "days": 4,
+    "limit": 30
+  },
+  "_feeds_note": "Anthropic publishes no RSS feed as of 2026-08; its releases surface via Hacker News and Simon Willison instead. Verify a feed returns 200 before adding it — failures are logged and skipped, so a dead feed degrades the scan silently.",
+  "feeds": [
+    { "origin": "openai", "url": "https://openai.com/news/rss.xml" },
+    { "origin": "google-ai", "url": "https://blog.google/technology/ai/rss/" },
+    { "origin": "google-research", "url": "https://research.google/blog/rss/" },
+    { "origin": "deepmind", "url": "https://deepmind.google/blog/rss.xml" },
+    { "origin": "huggingface", "url": "https://huggingface.co/blog/feed.xml" },
+    { "origin": "bair", "url": "https://bair.berkeley.edu/blog/feed.xml" },
+    { "origin": "aws-ml", "url": "https://aws.amazon.com/blogs/machine-learning/feed/" },
+    { "origin": "microsoft-research", "url": "https://www.microsoft.com/en-us/research/feed/" },
+    { "origin": "simonwillison", "url": "https://simonwillison.net/atom/everything/" },
+    { "origin": "latent-space", "url": "https://www.latent.space/feed" },
+    { "origin": "cloudflare-ai", "url": "https://blog.cloudflare.com/tag/ai/rss/" },
+    { "origin": "sequoia", "url": "https://www.sequoiacap.com/feed/" }
+  ],
+  "hackernews": [
+    { "query": "AI agents", "min_points": 80 },
+    { "query": "LLM production", "min_points": 60 },
+    { "query": "RAG evaluation", "min_points": 40 }
+  ],
+  "commercial_watch": [
+    "AI employee",
+    "AI customer support automation",
+    "AI workflow automation for business",
+    "custom AI integration",
+    "AI receptionist",
+    "AI lead qualification",
+    "generative engine optimisation",
+    "AI answer engine visibility"
+  ]
+}

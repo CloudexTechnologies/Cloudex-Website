@@ -28,3 +28,18 @@ tsconfig.tsbuildinfo
 # uploads / screenshots (local only)
 uploads/
 screenshots/
+
+# python
+__pycache__/
+*.pyc
+
+# pipeline runtime state (VPS only)
+pipeline/.env
+pipeline/logs/
+pipeline/work/
+pipeline/state/
+
+# sanity studio build artifacts
+studio/node_modules/
+studio/dist/
+studio/.sanity/

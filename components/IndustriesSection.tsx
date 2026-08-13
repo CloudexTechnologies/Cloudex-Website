@@ -241,7 +241,7 @@ function AccordionRow({ industry, index, open, onToggle }: {
           transition: "opacity .45s ease",
           transitionDelay: open ? ".08s" : "0s",
         }}>
-          <div style={{
+          <div className="industries-panel-content" style={{
             display: "grid",
             gridTemplateColumns: "1.15fr 1fr",
             gap: 36,
@@ -349,7 +349,7 @@ export function IndustriesSection() {
 
       <div className="container" style={{ position: "relative" }}>
         {/* Header */}
-        <div style={{ textAlign: "center", maxWidth: 760, margin: "0 auto 56px" }}>
+        <div style={{ textAlign: "center", maxWidth: 760, margin: "0 auto clamp(32px, 5vw, 56px)" }}>
           <div style={{
             display: "inline-flex", alignItems: "center", gap: 8,
             padding: "8px 16px", borderRadius: 999,

@@ -129,7 +129,7 @@ export default function AIEmployeesPage() {
       >
         <PageHeroBackground />
 
-        <div className="container" style={{ position: "relative", zIndex: 1, paddingTop: 80, paddingBottom: 80 }}>
+        <div className="container page-hero-inner" style={{ position: "relative", zIndex: 1, paddingTop: 80, paddingBottom: 80 }}>
           <div style={{ maxWidth: 840, margin: "0 auto", textAlign: "center" }}>
             <ScrollReveal>
               <div

@@ -108,7 +108,7 @@ export default function AboutPage() {
       >
         <PageHeroBackground />
         <div
-          className="container"
+          className="container page-hero-inner"
           style={{
             position: "relative",
             zIndex: 1,
@@ -195,8 +195,8 @@ export default function AboutPage() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-              gap: 72,
+              gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))",
+              gap: "clamp(32px, 5vw, 72px)",
               alignItems: "center",
             }}
           >
@@ -421,6 +421,7 @@ export default function AboutPage() {
       <section className="section" style={{ background: "var(--bg)" }}>
         <div className="container">
           <div
+            className="cta-box"
             style={{
               textAlign: "center",
               maxWidth: 600,

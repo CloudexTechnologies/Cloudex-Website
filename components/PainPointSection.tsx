@@ -57,7 +57,7 @@ export function PainPointSection() {
       }}
     >
       {/* ── Headline ── */}
-      <div style={{ padding: "120px 0 80px", borderBottom: "1px solid var(--border)" }}>
+      <div style={{ padding: "clamp(60px, 10vw, 120px) 0 clamp(40px, 7vw, 80px)", borderBottom: "1px solid var(--border)" }}>
         <div className="container">
           {["Most businesses are leaving", "money on the table "].map((line, i) => (
             <ScrollFloat
@@ -95,7 +95,7 @@ export function PainPointSection() {
       </div>
 
       {/* ── Phrase Stack ── */}
-      <div style={{ padding: "80px 0" }}>
+      <div style={{ padding: "clamp(40px, 7vw, 80px) 0" }}>
         <div className="container">
           <div style={{ display: "flex", flexDirection: "column" }}>
             {phrases.map((phrase, i) => (
@@ -134,13 +134,13 @@ export function PainPointSection() {
         style={{
           background: "var(--bg-2)",
           borderTop: "1px solid var(--border)",
-          padding: "120px 0",
+          padding: "clamp(60px, 10vw, 120px) 0",
         }}
       >
         <div className="container">
 
           {/* Eyebrow + statement */}
-          <div style={{ maxWidth: 760, marginBottom: 80 }}>
+          <div style={{ maxWidth: 760, marginBottom: "clamp(40px, 6vw, 80px)" }}>
             <div
               style={{
                 opacity: visible ? 1 : 0,
@@ -268,6 +268,7 @@ function CapRow({
 
   return (
     <div
+      className="cap-row"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{

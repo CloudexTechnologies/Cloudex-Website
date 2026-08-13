@@ -19,7 +19,7 @@ export function SectionHeader({
       style={{
         textAlign: align,
         maxWidth: 720,
-        margin: align === "center" ? "0 auto 64px" : "0 0 64px",
+        margin: align === "center" ? "0 auto clamp(40px, 5vw, 64px)" : "0 0 clamp(40px, 5vw, 64px)",
       }}
     >
       {label && (

@@ -35,7 +35,7 @@ function WhyTile({ tile }: { tile: (typeof whyTiles)[0] }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        padding: 32,
+        padding: "clamp(20px, 3vw, 32px)",
         borderRadius: 18,
         height: "100%",
         background: hovered ? "var(--surface-hover)" : "var(--surface)",

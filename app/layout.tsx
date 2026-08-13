@@ -27,6 +27,9 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://cloudextechnologies.io"),
   alternates: {
     canonical: "/",
+    types: {
+      "application/rss+xml": "/insights/feed.xml",
+    },
   },
   openGraph: {
     title: "Cloudex Technologies | Build Intelligent Systems",

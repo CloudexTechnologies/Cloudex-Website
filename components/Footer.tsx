@@ -73,7 +73,7 @@ export function Footer() {
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-            gap: 48,
+            gap: "clamp(24px, 4vw, 48px)",
             marginBottom: 48,
           }}
         >

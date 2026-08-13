@@ -91,7 +91,7 @@ export default function ContactPage() {
         }}
       >
         <PageHeroBackground />
-        <div className="container" style={{ position: "relative", zIndex: 1, paddingTop: 60, paddingBottom: 60 }}>
+        <div className="container page-hero-inner" style={{ position: "relative", zIndex: 1, paddingTop: 60, paddingBottom: 60 }}>
           <div style={{ maxWidth: 720, margin: "0 auto", textAlign: "center" }}>
             <ScrollReveal>
               <span
@@ -151,8 +151,8 @@ export default function ContactPage() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
-              gap: 60,
+              gridTemplateColumns: "repeat(auto-fit, minmax(min(340px, 100%), 1fr))",
+              gap: "clamp(32px, 5vw, 60px)",
               alignItems: "start",
             }}
           >
@@ -163,7 +163,7 @@ export default function ContactPage() {
                   background: "var(--bg)",
                   border: "1px solid var(--border)",
                   borderRadius: 24,
-                  padding: "40px 36px",
+                  padding: "clamp(24px, 4vw, 40px) clamp(20px, 3vw, 36px)",
                   boxShadow: "var(--card-shadow)",
                 }}
               >
@@ -214,6 +214,7 @@ export default function ContactPage() {
                     </h2>
 
                     <div
+                      className="form-two-col"
                       style={{
                         display: "grid",
                         gridTemplateColumns: "1fr 1fr",

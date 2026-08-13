@@ -516,7 +516,7 @@ export default async function IndustryPage({
           }}
         />
         <div
-          className="container"
+          className="container page-hero-inner"
           style={{ position: "relative", zIndex: 1, paddingTop: 80, paddingBottom: 80 }}
         >
           <div style={{ maxWidth: 820, margin: "0 auto", textAlign: "center" }}>
@@ -892,6 +892,7 @@ export default async function IndustryPage({
       <section className="section" style={{ background: "var(--bg-2)" }}>
         <div className="container">
           <div
+            className="cta-box"
             style={{
               textAlign: "center",
               maxWidth: 600,

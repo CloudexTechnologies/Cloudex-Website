@@ -147,7 +147,7 @@ export default function CustomSoftwarePage() {
       >
         <PageHeroBackground />
         <div
-          className="container"
+          className="container page-hero-inner"
           style={{ position: "relative", zIndex: 1, paddingTop: 80, paddingBottom: 80 }}
         >
           <div style={{ maxWidth: 820, margin: "0 auto", textAlign: "center" }}>
@@ -382,6 +382,7 @@ export default function CustomSoftwarePage() {
                 "radial-gradient(ellipse 80% 60% at 50% 100%, rgba(37,99,235,0.08), transparent 70%), var(--surface)",
               border: "1px solid var(--border)",
             }}
+            className="cta-box"
           >
             <ScrollReveal>
               <h2

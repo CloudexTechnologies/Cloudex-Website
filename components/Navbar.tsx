@@ -130,11 +130,6 @@ export function Navbar() {
 
   return (
     <>
-      {/* Theme toggler — always top-right, independent */}
-      <div style={{ position: "fixed", top: 14, right: 20, zIndex: 1100 }}>
-        <AnimatedThemeToggler />
-      </div>
-
       {/* Nav wrapper — full width, pointer-events none so transparent areas are click-through */}
       <nav
         style={{
@@ -167,6 +162,7 @@ export function Navbar() {
               width={160}
               height={40}
               priority
+              className="nav-logo-img"
               style={{ height: 40, width: 160, objectFit: "contain", filter: "var(--logo-filter)", transition: "filter var(--transition)" }}
             />
           </Link>
@@ -201,6 +197,7 @@ export function Navbar() {
                   {link.hasDropdown ? (
                     <button
                       onClick={() => setDropdownOpen(!dropdownOpen)}
+                      className="nav-link"
                       style={{
                         padding: "7px 13px", borderRadius: "var(--radius-pill)",
                         color: isActive(link.href) || hoveredLink === i || dropdownOpen ? "var(--text-1)" : "var(--text-2)",
@@ -219,6 +216,7 @@ export function Navbar() {
                   ) : (
                     <Link
                       href={link.href}
+                      className="nav-link"
                       style={{
                         display: "flex", alignItems: "center", gap: 5,
                         padding: "7px 13px", borderRadius: "var(--radius-pill)",
@@ -231,7 +229,7 @@ export function Navbar() {
                     >
                       {link.label}
                       {link.flagship && (
-                        <span style={{ fontSize: 9, background: "var(--accent)", color: "#fff", padding: "2px 5px", borderRadius: 4, fontWeight: 700, letterSpacing: "0.05em" }}>
+                        <span className="nav-flagship" style={{ fontSize: 9, background: "var(--accent)", color: "#fff", padding: "2px 5px", borderRadius: 4, fontWeight: 700, letterSpacing: "0.05em" }}>
                           FLAGSHIP
                         </span>
                       )}
@@ -256,10 +254,14 @@ export function Navbar() {
             </button>
           </div>
 
-          {/* ── CTA Button — standalone right ── */}
-          <div style={{ pointerEvents: "auto", flexShrink: 0 }}>
-            <Link href="/contact" style={{ textDecoration: "none" }}>
+          {/* ── Right cluster — CTA + theme toggler ── */}
+          <div
+            className="nav-right"
+            style={{ pointerEvents: "auto", flexShrink: 0, display: "flex", alignItems: "center", gap: 10 }}
+          >
+            <Link href="/contact" className="nav-cta-btn" style={{ textDecoration: "none" }}>
               <MagneticButton
+                className="nav-cta-inner"
                 style={{
                   padding: "9px 22px", borderRadius: "var(--radius-pill)",
                   background: "var(--accent)", color: "#fff",
@@ -280,6 +282,7 @@ export function Navbar() {
                 Schedule a Consultation
               </MagneticButton>
             </Link>
+            <AnimatedThemeToggler />
           </div>
         </div>
 

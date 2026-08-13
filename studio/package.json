@@ -1,0 +1,25 @@
+{
+  "name": "cloudex-studio",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "sanity dev",
+    "start": "sanity start",
+    "build": "sanity build",
+    "deploy": "sanity deploy",
+    "deploy-schema": "sanity schema deploy"
+  },
+  "dependencies": {
+    "@sanity/icons": "^3.7.0",
+    "@sanity/vision": "^4.10.1",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "sanity": "^4.10.1",
+    "styled-components": "^6.1.19"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "typescript": "^5"
+  }
+}
