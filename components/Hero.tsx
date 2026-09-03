@@ -218,7 +218,7 @@ export function Hero({ heroStyle = "centered" }: HeroProps) {
                   animation: "pulse 2s infinite",
                 }}
               />
-              UK-Based AI &amp; Technology Partner
+              AI &amp; Technology Partner
             </span>
           </div>
 

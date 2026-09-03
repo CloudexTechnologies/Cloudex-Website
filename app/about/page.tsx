@@ -236,7 +236,7 @@ export default function AboutPage() {
                   marginBottom: 20,
                 }}
               >
-                Cloudex Technologies is a UK-based technology company specialising
+                Cloudex Technologies is a technology company specialising
                 in AI workforce solutions, digital growth, and custom software
                 development.
               </p>
@@ -262,7 +262,7 @@ export default function AboutPage() {
                 }}
               >
                 {[
-                  { label: "UK-Based", value: "100%" },
+                  { label: "Client-Focused", value: "100%" },
                   { label: "Core Capabilities", value: "3" },
                   { label: "Industries Served", value: "10+" },
                   { label: "Outcome-Driven", value: "Always" },

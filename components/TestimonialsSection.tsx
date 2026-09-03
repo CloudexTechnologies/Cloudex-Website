@@ -7,7 +7,7 @@ const testimonials = [
   {
     quote: "Within 90 days of working with Cloudex, our inbound leads doubled. The combination of a new website and their search visibility work changed the business.",
     role: "Director",
-    company: "UK-based Financial Advisory Firm",
+    company: "Financial Advisory Firm",
   },
   {
     quote: "We were sceptical about AI Employees at first. Now we could not imagine running our sales process without one. It handles everything our SDR team used to do and it does it better.",

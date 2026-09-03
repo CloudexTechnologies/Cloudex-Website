@@ -8,7 +8,7 @@ const caseStudies = [
   {
     tag: "Digital Growth",
     title: "Inbound Leads Doubled in 90 Days",
-    desc: "A UK-based financial advisory firm engaged us for a new website and search visibility work. Within 90 days, inbound leads doubled.",
+    desc: "A financial advisory firm engaged us for a new website and search visibility work. Within 90 days, inbound leads doubled.",
     metric: "2x leads",
   },
   {
