@@ -20,6 +20,11 @@ import {
 } from "@/components/enterprise";
 import { CtaBand } from "@/components/shared/CtaBand";
 import { FaqSection } from "@/components/shared/FaqSection";
+import { ServiceDetails } from "@/components/enterprise/ServiceDetails";
+import {
+  AI_WORKFORCE_FDE_DETAILS,
+  AI_WORKFORCE_MODEL_DETAILS,
+} from "@/components/enterprise/service-details-content";
 
 /**
  * `/ai-workforce` — Digital FTEs, the 10-80-10 rule, KSoR / DSoR and the Forward Deployed
@@ -44,9 +49,13 @@ export default function AiWorkforcePage() {
         style={{ minHeight: "100vh", width: "auto", display: "contents" }}
       >
         <EnterpriseHero {...AI_WORKFORCE_HERO} />
-        <EnterpriseGridSection name="The model" {...AI_WORKFORCE_MODEL_SECTION} cards={AI_WORKFORCE_MODEL_CARDS} />
+        <EnterpriseGridSection name="The model" {...AI_WORKFORCE_MODEL_SECTION} cards={AI_WORKFORCE_MODEL_CARDS}>
+          <ServiceDetails cards={AI_WORKFORCE_MODEL_CARDS} details={AI_WORKFORCE_MODEL_DETAILS} />
+        </EnterpriseGridSection>
         <EnterpriseCalloutSection name="The 10-80-10 Rule" {...AI_WORKFORCE_RULE_SECTION} />
-        <EnterpriseGridSection name="How we deliver" {...AI_WORKFORCE_FDE_SECTION} cards={AI_WORKFORCE_FDE_CARDS} />
+        <EnterpriseGridSection name="How we deliver" {...AI_WORKFORCE_FDE_SECTION} cards={AI_WORKFORCE_FDE_CARDS}>
+          <ServiceDetails cards={AI_WORKFORCE_FDE_CARDS} details={AI_WORKFORCE_FDE_DETAILS} />
+        </EnterpriseGridSection>
         <FaqSection scope="about" items={AI_WORKFORCE_FAQ} />
         <CtaBand scope="about" />
       </div>

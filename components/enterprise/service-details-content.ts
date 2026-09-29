@@ -329,3 +329,109 @@ export const SERVICE_DETAILS: Readonly<Record<string, readonly ServiceDetail[]>>
     },
   ],
 };
+
+/**
+ * The two card sections on `/ai-workforce`, in the same order as
+ * `AI_WORKFORCE_MODEL_CARDS` and `AI_WORKFORCE_FDE_CARDS` (`ai-workforce-content.ts`).
+ */
+export const AI_WORKFORCE_MODEL_DETAILS: readonly ServiceDetail[] = [
+  {
+    lead: "A Digital FTE is an AI employee with one clear job, like answering support questions or following up on leads. It works inside the tools your team already uses, so nobody has to learn a new system to work with it.",
+    points: [
+      "One Digital FTE for each role you need",
+      "Works in your existing apps and inboxes",
+      "Available around the clock, without breaks",
+    ],
+  },
+  {
+    lead: "Your people and your Digital FTEs work as one team. People do what people are best at, like judgement, relationships and ideas, while Digital FTEs handle the volume and repetition.",
+    points: [
+      "People keep the decisions that need judgement",
+      "Digital FTEs take the repetitive volume",
+      "One team, with a clear split of who does what",
+    ],
+  },
+  {
+    lead: "Every piece of work follows a simple pattern. Your team sets the goal at the start, the Digital FTE does most of the work in the middle, and your team checks and approves the result at the end.",
+    points: [
+      "First 10%: your team decides what good looks like",
+      "Middle 80%: the Digital FTE does the heavy lifting",
+      "Final 10%: your team reviews and signs off",
+    ],
+  },
+  {
+    lead: "This is the rulebook your Digital FTEs follow: your policies, procedures and ways of working, kept in one place. Every document has an owner and a version, so you can always see where an answer came from.",
+    points: [
+      "All your approved rules and methods in one home",
+      "Each document owned, versioned and reviewed",
+      "Every answer traceable to its source",
+    ],
+  },
+  {
+    lead: "These are the systems that hold your live numbers, like your CRM, ERP or accounts. The rulebook says how things should be done; these systems say what is true right now.",
+    points: [
+      "Connected to the systems you already run on",
+      "Always working from the latest figures",
+      "No copies of your data drifting out of date",
+    ],
+  },
+  {
+    lead: "For each task, this layer gathers exactly what the Digital FTE needs from your rulebook and your live data, and nothing more. It only reaches what your team has given it permission to see.",
+    points: [
+      "Pulls the right rules and data for each task",
+      "Leaves out what is not relevant",
+      "Respects the permissions your team sets",
+    ],
+  },
+];
+
+export const AI_WORKFORCE_FDE_DETAILS: readonly ServiceDetail[] = [
+  {
+    lead: "Our engineers do not work from a distance. They join your team, learn your systems and rules, and then build, launch and run your Digital FTEs alongside your people.",
+    points: [
+      "Engineers embedded in your business",
+      "They learn your systems before they build",
+      "They stay on to run it with your team",
+    ],
+  },
+  {
+    lead: "One person owns the business result, not just the technology. They agree the problem to solve, redesign how work flows between your people and Digital FTEs, and make sure your team actually uses it.",
+    points: [
+      "A single owner for the business outcome",
+      "Workflows redesigned around people and AI",
+      "Adoption tracked, not assumed",
+    ],
+  },
+  {
+    lead: "Before we build anything, we write down three things together: where you are today, where you want to get to, and exactly what counts as done. Everyone knows the finish line from the start.",
+    points: [
+      "Today's baseline, measured and agreed",
+      "A clear target to reach",
+      "Acceptance criteria that define done",
+    ],
+  },
+  {
+    lead: "We prove the value in your real, day-to-day work, not in a demo. You see your business numbers move against the baseline, how much your team uses it, and how well it keeps performing.",
+    points: [
+      "Business KPIs compared with the baseline",
+      "Real usage by your team",
+      "Ongoing checks on quality",
+    ],
+  },
+  {
+    lead: "Safety is built into the system from day one. Digital FTEs can only do what they are allowed to do, and anything sensitive waits for a person to approve it.",
+    points: [
+      "Permissions that limit what each Digital FTE can do",
+      "Approval gates for sensitive actions",
+      "Policy checks on every step",
+    ],
+  },
+  {
+    lead: "Launch is the start, not the end. We keep watching how each Digital FTE performs, fix what drifts and update its knowledge whenever your policies or systems change.",
+    points: [
+      "Performance monitored after launch",
+      "Regular evaluations and fixes",
+      "Knowledge kept current as things change",
+    ],
+  },
+];
