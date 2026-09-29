@@ -406,20 +406,17 @@ export interface NavItemProps {
    * navigating: adds `aria-expanded` and a "+"/"−" marker after the label.
    */
   expanded?: boolean;
-  /** Tag for the link (`NavLink.badge`). */
+  /** Tag for the link (`NavLink.badge`), set inline after the label. */
   badge?: string;
-  /** Desktop floats the tag above the label so the bar's widths do not change; the phone
-   *  menu sets it inline after the label. */
-  badgePlacement?: "above" | "inline";
 }
 
 const BADGE_STYLE: React.CSSProperties = {
   display: "inline-block",
-  padding: "2px 7px",
+  padding: "2px 6px",
   borderRadius: 999,
   background: "var(--token-819e50e5-99c5-4547-ba7c-e2d71a9ee22d, rgb(0, 85, 255))",
   color: "#fff",
-  fontSize: 9.5,
+  fontSize: 9,
   fontWeight: 600,
   lineHeight: 1.3,
   letterSpacing: "0.06em",
@@ -447,7 +444,6 @@ export function NavItem({
   animate,
   expanded,
   badge,
-  badgePlacement = "inline",
 }: NavItemProps): React.ReactElement {
   const isOut = variant === "Out";
   const stateKey = isOut ? "out" : variant === "In" ? "in" : "inDelayed";
@@ -487,20 +483,9 @@ export function NavItem({
           className="framer-text framer-styles-preset-141u1yr"
           data-styles-preset="pAzayDUZg"
         >
-          {badge && badgePlacement === "above" ? (
-            <span style={{ position: "relative", display: "inline-block" }}>
-              {label}
-              <span
-                style={{ ...BADGE_STYLE, position: "absolute", left: "50%", bottom: "100%", transform: "translate(-50%, -3px)" }}
-              >
-                {badge}
-              </span>
-            </span>
-          ) : (
-            label
-          )}
-          {badge && badgePlacement === "inline" ? (
-            <span style={{ ...BADGE_STYLE, marginLeft: 8, verticalAlign: "middle", transform: "translateY(-1px)" }}>{badge}</span>
+          {label}
+          {badge ? (
+            <span style={{ ...BADGE_STYLE, marginLeft: 6, verticalAlign: "middle", transform: "translateY(-1px)" }}>{badge}</span>
           ) : null}
           {expanded === undefined ? null : (
             <span aria-hidden="true" style={{ marginLeft: 6, display: "inline-block", width: "0.7em" }}>
@@ -833,7 +818,6 @@ export function SiteNavbar({
           label={link.label}
           href={link.href}
           badge={link.badge}
-          badgePlacement={scope === "desktop" ? "above" : "inline"}
           variant={variant}
           expanded={scope === "phone" && menuKey ? phoneMenu === menuKey : undefined}
           /* Scroll-to-top always; `v8vPIIBUk` (close the menu) only in the phone-open
