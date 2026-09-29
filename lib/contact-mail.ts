@@ -2,11 +2,10 @@
  * Contact-form mail transport and payload validation.
  *
  * Kept out of the route handler so the validation can be unit-tested without a live
- * SMTP server, and so the transport is created once per server process rather than
- * once per request (nodemailer pools connections).
+ * mail service. Delivery goes through the cloudex-mail Worker's HTTP API
+ * (`POST /api/send` on mail.cloudextechnologies.io), not SMTP: the Worker sends with
+ * Cloudflare Email Sending from a mailbox it owns, so SPF/DKIM pass for the domain.
  */
-
-import nodemailer, { type Transporter } from "nodemailer";
 
 import { CONTACT_FORM_FIELDS, CONTACT_HONEYPOT_FIELDS } from
   "@/components/contact/contact-fields";
@@ -68,14 +67,13 @@ export function validate(body: unknown): ValidationResult {
 /* -------------------------------------------------------------------------- */
 
 export interface MailEnv {
-  host: string;
-  port: number;
-  secure: boolean;
-  user: string;
-  pass: string;
+  /** Worker origin, e.g. https://mail.cloudextechnologies.io (no trailing slash). */
+  url: string;
+  /** Bearer key minted in the Worker's `api_keys` table. */
+  apiKey: string;
+  /** Must be an active mailbox in the Worker, or it answers 404. */
   from: string;
   to: string;
-  rejectUnauthorized: boolean;
 }
 
 /** Throws with a precise message naming the variable that is missing. */
@@ -85,38 +83,12 @@ export function readEnv(): MailEnv {
     if (!v) throw new Error(`${k} is not set. See .env.example.`);
     return v;
   };
-  const port = Number(process.env.SMTP_PORT ?? 587);
   return {
-    host: need("SMTP_HOST"),
-    port,
-    // 465 is implicit TLS; 587 and 25 start plaintext and upgrade with STARTTLS.
-    secure: (process.env.SMTP_SECURE ?? String(port === 465)) === "true",
-    user: need("SMTP_USER"),
-    pass: need("SMTP_PASS"),
+    url: need("CLOUDEX_MAIL_URL").replace(/\/+$/, ""),
+    apiKey: need("CLOUDEX_MAIL_API_KEY"),
     from: need("CONTACT_FROM"),
     to: need("CONTACT_TO"),
-    // Self-signed certs are common on a self-hosted mailserver. Opt out explicitly.
-    rejectUnauthorized: process.env.SMTP_TLS_REJECT_UNAUTHORIZED !== "false",
   };
-}
-
-let cached: Transporter | null = null;
-
-export function getTransport(env: MailEnv): Transporter {
-  if (cached) return cached;
-  cached = nodemailer.createTransport({
-    host: env.host,
-    port: env.port,
-    secure: env.secure,
-    auth: { user: env.user, pass: env.pass },
-    tls: { rejectUnauthorized: env.rejectUnauthorized },
-    pool: true,
-    maxConnections: 3,
-    connectionTimeout: 10_000,
-    greetingTimeout: 10_000,
-    socketTimeout: 20_000,
-  });
-  return cached;
 }
 
 const esc = (s: string): string =>
@@ -125,17 +97,20 @@ const esc = (s: string): string =>
 
 export function buildMessage(fields: Record<string, string>, env: MailEnv) {
   const name = [fields["Name"], fields["Last name"]].filter(Boolean).join(" ");
+  const email = fields["Email"] ?? "";
   const rows = CONTACT_FORM_FIELDS.map((f) => [f.label, fields[f.name] ?? ""] as const);
 
+  // The Worker sets its own thread Reply-To on every send, so "Reply" in webmail would
+  // come back to our own mailbox. The visitor's address therefore leads the subject and
+  // body: reply by writing to it directly.
   return {
     from: env.from,
     to: env.to,
-    // The visitor's address must NOT be the From, or SPF/DKIM for the domain fail and
-    // the mail is filed as spam. Reply-To makes "Reply" in the mail client still work.
-    replyTo: `${name} <${fields["Email"]}>`,
-    subject: `New enquiry from ${name}`,
-    text: rows.map(([l, v]) => `${l}:\n${v}`).join("\n\n"),
+    subject: `New enquiry from ${name} <${email}>`,
+    text: `Reply to: ${email}\n\n` + rows.map(([l, v]) => `${l}:\n${v}`).join("\n\n"),
     html:
+      `<p style="font:14px/1.5 system-ui,sans-serif">Reply to: ` +
+      `<a href="mailto:${esc(email)}">${esc(email)}</a></p>` +
       `<table style="font:14px/1.5 system-ui,sans-serif;border-collapse:collapse">` +
       rows
         .map(
@@ -146,4 +121,17 @@ export function buildMessage(fields: Record<string, string>, env: MailEnv) {
         .join("") +
       `</table>`,
   };
+}
+
+/** Delivers through cloudex-mail. Throws with the Worker's error text on any non-2xx. */
+export async function sendMessage(env: MailEnv, message: ReturnType<typeof buildMessage>): Promise<void> {
+  const res = await fetch(`${env.url}/api/send`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${env.apiKey}`, "Content-Type": "application/json" },
+    body: JSON.stringify(message),
+    signal: AbortSignal.timeout(15_000),
+  });
+  if (!res.ok) {
+    throw new Error(`cloudex-mail ${res.status}: ${(await res.text()).slice(0, 300)}`);
+  }
 }

@@ -1,16 +1,16 @@
 /**
  * POST /api/contact — delivers a contact-form submission to the Cloudex Technologies mailbox.
  *
- * `force-dynamic` + `nodejs` runtime: the handler opens an SMTP socket, so it must never
- * be statically evaluated at build time and cannot run on a stripped-down runtime.
+ * `force-dynamic`: the handler sends mail through the cloudex-mail API, so it must never
+ * be statically evaluated at build time.
  */
 
 import { NextResponse } from "next/server";
 
 import {
   buildMessage,
-  getTransport,
   readEnv,
+  sendMessage,
   validate,
 } from "@/lib/contact-mail";
 
@@ -89,7 +89,7 @@ export async function POST(request: Request): Promise<NextResponse> {
 
   try {
     record(ip);
-    await getTransport(env).sendMail(buildMessage(result.fields, env));
+    await sendMessage(env, buildMessage(result.fields, env));
     return NextResponse.json({ ok: true });
   } catch (error) {
     console.error("[contact] send failed:", error);
