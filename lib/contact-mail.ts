@@ -84,8 +84,8 @@ export function readEnv(): MailEnv {
     return v;
   };
   return {
-    url: need("CLOUDEX_MAIL_URL").replace(/\/+$/, ""),
-    apiKey: need("CLOUDEX_MAIL_API_KEY"),
+    url: need("MAIL_API_URL").replace(/\/+$/, ""),
+    apiKey: need("MAIL_API_KEY"),
     from: need("CONTACT_FROM"),
     to: need("CONTACT_TO"),
   };
