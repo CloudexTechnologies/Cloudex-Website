@@ -11,7 +11,7 @@
  *     58px) but inside `.framer-kvjt16-container`, which now owns the hover handlers, so
  *     moving the pointer from the link down into the panel keeps everything open.
  *   • {@link NavSubList} — tablet + phone. Tapping Services or Industries in the open menu
- *     expands its pages underneath instead of navigating; "All services" is the first row.
+ *     expands its pages underneath instead of navigating; "All capabilities" is the first row.
  *
  * Styling is inline and uses the site's own tokens and the nav link's typography
  * (Inter Display 14px/500, white at 80% resting, 100% on hover).
@@ -43,7 +43,7 @@ interface NavMenu {
 }
 
 export const NAV_MENUS: Record<NavMenuKey, NavMenu> = {
-  services: { label: "Services", index: { href: "/services", label: "All services" }, items: SERVICES_MENU, columns: 3, width: 820 },
+  services: { label: "Capabilities", index: { href: "/services", label: "All capabilities" }, items: SERVICES_MENU, columns: 3, width: 820 },
   industries: { label: "Industries", index: { href: "/industries", label: "All industries" }, items: INDUSTRIES_MENU, columns: 3, width: 820 },
 };
 

@@ -281,7 +281,7 @@ export const NAV_LINKS: readonly NavLink[] = [
   },
   {
     webPageId: "services",
-    label: "Services",
+    label: "Capabilities",
     href: "/services",
     containerClassName: "framer-mez1yj-container",
   },
