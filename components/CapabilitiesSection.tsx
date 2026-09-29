@@ -833,12 +833,12 @@ export function CapabilitiesSection() {
                   </div>
                   {/* Bottom: title + description */}
                   <div className="flex flex-col items-center" style={{ paddingTop: "20px", minHeight: "160px" }}>
-                    <h2
+                    <h3
                       className="text-xl font-bold tracking-tight text-center"
                       style={{ color: "var(--text-1)", marginBottom: "12px" }}
                     >
                       AI Solutions
-                    </h2>
+                    </h3>
                     <p
                       className="text-sm max-w-52 text-center"
                       style={{ color: "var(--text-2)", lineHeight: 1.75 }}
@@ -869,12 +869,12 @@ export function CapabilitiesSection() {
                   </div>
                   {/* Bottom: title + description */}
                   <div className="flex flex-col items-center" style={{ paddingTop: "20px", minHeight: "160px" }}>
-                    <h2
+                    <h3
                       className="text-xl font-bold tracking-tight text-center"
                       style={{ color: "var(--text-1)", marginBottom: "12px" }}
                     >
                       Digital Growth
-                    </h2>
+                    </h3>
                     <p className="text-sm max-w-52 text-center" style={{ color: "var(--text-2)", lineHeight: 1.75 }}>
                       We build high-converting business websites and drive search visibility so your ideal clients find you before they find anyone else.
                     </p>
@@ -902,12 +902,12 @@ export function CapabilitiesSection() {
                   </div>
                   {/* Bottom: title + description */}
                   <div className="flex flex-col items-center" style={{ paddingTop: "20px", minHeight: "160px" }}>
-                    <h2
+                    <h3
                       className="text-xl font-bold tracking-tight text-center"
                       style={{ color: "var(--text-1)", marginBottom: "12px" }}
                     >
                       Custom Software
-                    </h2>
+                    </h3>
                     <p className="text-sm max-w-52 text-center" style={{ color: "var(--text-2)", lineHeight: 1.75 }}>
                       No off-the-shelf compromise. We design and build software tailored to how your business actually works.
                     </p>

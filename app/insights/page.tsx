@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   title: "Insights on AI Systems, Automation and Software | Cloudex Technologies",
   description:
     "Technical analysis of AI systems, agent architectures, and applied automation — plus practical guidance on deploying them inside a real business. Written and cited, not generated filler.",
-  alternates: { canonical: "/insights" },
+  alternates: { canonical: "/insights", languages: { en: "/insights", "x-default": "/insights" } },
   openGraph: {
     type: "website",
     title: "Insights on AI Systems, Automation and Software",

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Space_Grotesk, DM_Sans, Geist } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -21,30 +21,24 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Cloudex Technologies | Build Intelligent Systems",
+  // Fallbacks only. Title, description and canonical are set per route: a
+  // canonical here would be inherited by every page that forgot its own.
+  title: "Cloudex Technologies | AI Employees & Custom Software",
   description:
-    "From AI employees that work autonomously to high-performing websites and custom software, Cloudex Technologies builds intelligent systems that help businesses operate smarter and scale with confidence.",
+    "Cloudex Technologies builds AI employees, high-performing websites and custom software that help businesses run smarter and scale.",
   metadataBase: new URL("https://cloudextechnologies.io"),
   alternates: {
-    canonical: "/",
     types: {
       "application/rss+xml": "/insights/feed.xml",
     },
   },
   openGraph: {
-    title: "Cloudex Technologies | Build Intelligent Systems",
-    description:
-      "From AI employees that work autonomously to high-performing websites and custom software, Cloudex Technologies builds intelligent systems that help businesses operate smarter and scale with confidence.",
-    url: "https://cloudextechnologies.io",
     siteName: "Cloudex Technologies",
     type: "website",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Cloudex Technologies | Build Intelligent Systems",
-    description:
-      "From AI employees that work autonomously to high-performing websites and custom software, Cloudex Technologies builds intelligent systems that help businesses operate smarter and scale with confidence.",
   },
   robots: {
     index: true,
@@ -57,6 +51,12 @@ export const metadata: Metadata = {
       "max-video-preview": -1,
     },
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#080d1a",
 };
 
 export default function RootLayout({

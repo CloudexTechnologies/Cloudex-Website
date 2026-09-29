@@ -55,7 +55,7 @@ function WhyTile({ tile }: { tile: (typeof whyTiles)[0] }) {
       >
         <tile.icon size={28} strokeWidth={1.5} />
       </div>
-      <h4
+      <h3
         style={{
           fontSize: 17,
           fontWeight: 700,
@@ -64,7 +64,7 @@ function WhyTile({ tile }: { tile: (typeof whyTiles)[0] }) {
         }}
       >
         {tile.title}
-      </h4>
+      </h3>
       <p style={{ fontSize: 14, color: "var(--text-2)", lineHeight: 1.65 }}>
         {tile.desc}
       </p>

@@ -473,7 +473,10 @@ export async function generateMetadata({
   return {
     title: `${industry.name} AI Solutions | Cloudex Technologies`,
     description: industry.desc,
-    alternates: { canonical: `/industries/${slug}` },
+    alternates: {
+      canonical: `/industries/${slug}`,
+      languages: { en: `/industries/${slug}`, "x-default": `/industries/${slug}` },
+    },
     openGraph: {
       title: `${industry.name} AI Solutions | Cloudex Technologies`,
       description: industry.desc,

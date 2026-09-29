@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
+import { SOCIAL_PROFILES } from "@/lib/seo";
 
 const FG   = "#e2e8f0";
 const MUTED = "rgba(148,163,184,0.75)";
@@ -33,6 +34,8 @@ function FooterLink({ label, href }: { label: string; href: string }) {
         color: hovered ? "#60a5fa" : MUTED,
         transition: "color 0.22s",
         textDecoration: "none",
+        display: "inline-block",
+        padding: "6px 0",
       }}
     >
       {label}
@@ -40,11 +43,13 @@ function FooterLink({ label, href }: { label: string; href: string }) {
   );
 }
 
-function SocialLink({ label }: { label: string }) {
+function SocialLink({ label, href }: { label: string; href: string }) {
   const [hovered, setHovered] = useState(false);
   return (
     <a
-      href="#"
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
@@ -125,20 +130,21 @@ export function Footer() {
           {/* Link columns */}
           {Object.entries(footerLinks).map(([title, links]) => (
             <div key={title}>
-              <h5
+              <p
                 style={{
                   fontSize: 11,
                   fontWeight: 700,
                   marginBottom: 16,
                   color: FG,
                   fontFamily: "var(--font-heading)",
+                  lineHeight: 1.15,
                   letterSpacing: "0.1em",
                   textTransform: "uppercase",
                 }}
               >
                 {title}
-              </h5>
-              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 2 }}>
                 {links.map((link, i) => (
                   <FooterLink key={i} label={link.label} href={link.href} />
                 ))}
@@ -160,11 +166,11 @@ export function Footer() {
           }}
         >
           <span style={{ fontSize: 13, color: MUTED }}>
-            © 2025 Cloudex Technologies. All rights reserved.
+            © {new Date().getFullYear()} Cloudex Technologies. All rights reserved.
           </span>
           <div style={{ display: "flex", gap: 20 }}>
-            {["LinkedIn", "Twitter", "GitHub"].map((s, i) => (
-              <SocialLink key={i} label={s} />
+            {SOCIAL_PROFILES.map((profile) => (
+              <SocialLink key={profile.label} label={profile.label} href={profile.url} />
             ))}
           </div>
         </div>

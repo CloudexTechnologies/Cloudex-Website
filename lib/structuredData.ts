@@ -1,18 +1,84 @@
 import { ogImageUrl } from "@/sanity/image";
 import { siteUrl } from "@/sanity/env";
 import type { Post } from "@/sanity/types";
+import { SITE_NAME, SOCIAL_PROFILES } from "@/lib/seo";
 
 const ORGANIZATION_ID = `${siteUrl}/#organization`;
+const WEBSITE_ID = `${siteUrl}/#website`;
 
 export const organizationSchema = {
   "@type": "Organization",
   "@id": ORGANIZATION_ID,
-  name: "Cloudex Technologies",
+  name: SITE_NAME,
   url: siteUrl,
   logo: `${siteUrl}/cloudex-logo.png`,
   description:
     "Cloudex Technologies builds intelligent systems — AI employees, custom software, and digital growth solutions — that help businesses operate smarter and scale with confidence.",
+  email: "info@cloudextechnologies.io",
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "sales",
+    email: "info@cloudextechnologies.io",
+    url: `${siteUrl}/contact`,
+    availableLanguage: "English",
+  },
+  ...(SOCIAL_PROFILES.length ? { sameAs: SOCIAL_PROFILES.map((profile) => profile.url) } : {}),
 };
+
+/** Organization and WebSite: the entity graph the homepage anchors. */
+export function homeGraph() {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      organizationSchema,
+      {
+        "@type": "WebSite",
+        "@id": WEBSITE_ID,
+        name: SITE_NAME,
+        url: siteUrl,
+        inLanguage: "en",
+        publisher: { "@id": ORGANIZATION_ID },
+      },
+    ],
+  };
+}
+
+/** A capability page: the service Cloudex provides, plus its breadcrumb trail. */
+export function serviceGraph({
+  name,
+  description,
+  path,
+}: {
+  name: string;
+  description: string;
+  path: string;
+}) {
+  const url = `${siteUrl}${path}`;
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      organizationSchema,
+      {
+        "@type": "Service",
+        "@id": `${url}#service`,
+        name,
+        serviceType: name,
+        description,
+        url,
+        provider: { "@id": ORGANIZATION_ID },
+        areaServed: "Worldwide",
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${url}#breadcrumb`,
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+          { "@type": "ListItem", position: 2, name, item: url },
+        ],
+      },
+    ],
+  };
+}
 
 /**
  * One `@graph` per article carrying Article, the author as a Person, the

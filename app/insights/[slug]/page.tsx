@@ -53,7 +53,10 @@ export async function generateMetadata({ params }: RouteProps): Promise<Metadata
       (keyword): keyword is string => Boolean(keyword),
     ),
     authors: post.author ? [{ name: post.author.name }] : undefined,
-    alternates: { canonical: post.seo.canonicalUrl ?? `/insights/${post.slug}` },
+    alternates: {
+      canonical: post.seo.canonicalUrl ?? `/insights/${post.slug}`,
+      languages: { en: `/insights/${post.slug}`, "x-default": `/insights/${post.slug}` },
+    },
     robots: post.seo.noIndex ? { index: false, follow: true } : undefined,
     openGraph: {
       type: "article",

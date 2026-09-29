@@ -246,7 +246,9 @@ export function Navbar() {
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="mobile-hamburger"
-              style={{ display: "none", flexDirection: "column", gap: 5, padding: 8, background: "none", border: "none", cursor: "pointer" }}
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileOpen}
+              style={{ display: "none", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 5, width: 44, height: 44, padding: 0, background: "none", border: "none", cursor: "pointer" }}
             >
               <span style={{ width: 20, height: 2, background: "var(--text-1)", borderRadius: 2, transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(5px,5px)" : "none", display: "block" }} />
               <span style={{ width: 20, height: 2, background: "var(--text-1)", borderRadius: 2, transition: "all 0.3s", opacity: mobileOpen ? 0 : 1, display: "block" }} />
@@ -314,7 +316,7 @@ export function Navbar() {
               </div>
               {NAV_MENU[0].items.map((item, i) => (
                 <Link key={i} href={item.href} onClick={() => setMobileOpen(false)}
-                  style={{ display: "block", padding: "8px 16px", fontSize: 13, color: "var(--text-2)", textDecoration: "none" }}>
+                  style={{ display: "block", padding: "12px 16px", fontSize: 15, color: "var(--text-2)", textDecoration: "none" }}>
                   {item.label}
                 </Link>
               ))}

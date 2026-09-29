@@ -46,7 +46,10 @@ export async function generateMetadata({ params }: RouteProps): Promise<Metadata
   return {
     title: `${pillar.seo.title} | Cloudex Insights`,
     description: pillar.seo.description,
-    alternates: { canonical: `/insights/topic/${pillar.slug}` },
+    alternates: {
+      canonical: `/insights/topic/${pillar.slug}`,
+      languages: { en: `/insights/topic/${pillar.slug}`, "x-default": `/insights/topic/${pillar.slug}` },
+    },
     openGraph: {
       type: "website",
       title: `${pillar.seo.title} | Cloudex Insights`,
