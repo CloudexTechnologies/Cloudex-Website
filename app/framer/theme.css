@@ -1,0 +1,242 @@
+/* Cloudex Technologies — "Clear Blue" light theme.
+ *
+ * ── How this works ───────────────────────────────────────────────────────────
+ * Framer's entire palette is 22 custom properties defined once on `body` in base.css
+ * (`--token-<uuid>`). Every colour in layout.css, components.css and the TSX inline
+ * styles reads them through `var(--token-…, <fallback>)`, so redefining them here is the
+ * ONE place the site's colour scheme lives: navbar, footer and every route re-theme
+ * together and cannot drift apart. Imported LAST from index.css, so it has the same
+ * `body` specificity as base.css but wins on document order, with no `!important`.
+ *
+ * ── Dark → light is an inversion, not a repaint ──────────────────────────────
+ * Framer built the site dark: `#000` is the page and every surface, `#fff` is the ink,
+ * and ten `#ffffffXX` alphas are the borders, hairlines and secondary text. A light theme
+ * therefore flips the two roles as a pair:
+ *
+ *   • the `#000`/`#111`/`#1a1a1a` SURFACE tokens become white and two cool near-whites;
+ *   • the `#fff` INK token becomes deep navy `#0a1530`;
+ *   • every white ALPHA keeps its exact alpha but changes base to that navy, so a 6%
+ *     hairline stays a 6% hairline and 80% secondary text stays 80% text.
+ *
+ * Because the pairs flip together, every component keeps its original contrast
+ * relationship: the "Light" CTA (white fill, black label) becomes navy fill + white label,
+ * the dark cards become light cards, and so on, without editing any component.
+ *
+ * ── One accent: the brand blue ───────────────────────────────────────────────
+ * `#05f` stays the single accent (it is the hero "New" pill). The "Dark" CTA shell token
+ * (`f8734902`, formerly a near-black / navy button fill) now IS that blue, so secondary
+ * buttons read as brand buttons. Their labels need white, not ink, which is what
+ * `--ct-on-accent` is for (read by `ROLLING_TEXT_COLORS.Dark` and the rule at the end).
+ *
+ * The page colour is #E8F9FF (the client's ice tint) rather than white; cards are white.
+ *
+ * Verified (WCAG 2.x) on #E8F9FF: ink 16.6:1 · ink 80% 10.6:1 · muted 5.7:1 · #05f 5.2:1;
+ * on white cards: muted 6.1:1; white on #05f 5.61:1. All pass AA.
+ */
+
+body {
+  /* ── Surfaces ───────────────────────────────────────────────────────────── */
+
+  /** was #000 — page background, navbar notch, card interiors, SVG fills.
+   *  #E8F9FF: the brand's cool ice tint, used everywhere the page would be white. */
+  --token-a53beb93-2df8-4cea-8692-a810c05e478d: #e8f9ff;
+  /** was #111 — raised surface: a step lighter than the page. */
+  --token-a8471d98-b099-4061-946e-68d6bcaf188a: #f4fcff;
+  /** was #111111e6 — the page colour at 90%, behind blurred overlays. */
+  --token-5f2865e9-378d-430e-acd2-eb9119a65629: #e8f9ffe6;
+  /** was #121212b3 — the page colour at 70%, scrim. */
+  --token-462bfd45-cc6a-406c-b043-2bf80d378d7c: #e8f9ffb3;
+  /** was #1a1a1a — card / panel / badge fill: white, so cards lift off the tinted page. */
+  --token-e235ccb3-249e-4bbe-a0ec-afbbbabc7347: #ffffff;
+
+  /* ── Ink ────────────────────────────────────────────────────────────────── */
+
+  /** was #fff — primary text, icons, "Light" CTA fill. */
+  --token-55fce8bf-ab86-42dc-8b77-6335cf9cf588: #0a1530;
+  /** was #999 — muted body copy. 6.1:1 on white. */
+  --token-be5fd20d-23fc-463d-9ce0-7784436f5294: #56637d;
+  /** was #ccc — secondary copy. */
+  --token-d072d1f5-ef86-4b7c-bae1-6c9f6238e10b: #2f3b55;
+
+  /* Surface alphas: fills, hairlines, borders, glow blobs, skeleton bars. Framer's white
+     alphas at the same opacity, re-based on the brand blue #0055ff, so every grey shade
+     in the mock-UI cards and section glows reads as a blue tint of the theme. */
+  --token-73249cc1-e13f-4b9a-9f8c-120463984349: #0055ff08; /* was #ffffff08 */
+  --token-e4b6e893-c43a-43a8-9eff-b692c24f7ea6: #0055ff0f; /* was #ffffff0f */
+  --token-12307017-6017-4dc2-bd95-03dd133b2bde: #0055ff1a; /* was #ffffff1a */
+  --token-afe38531-3ffb-413e-b141-aa2cba0b989e: #0055ff2e; /* was #ffffff2e */
+  --token-957981e5-19a4-4a47-9eff-cfd3010c1560: #0055ff33; /* was #fff3 */
+  --token-a4c33a8a-f7ec-4c7c-86b7-12a5561a333a: #0055ff4d; /* was #ffffff4d */
+  --token-5c4c4689-2e9f-4d75-8648-a6fa99ee1dd8: #0055ff80; /* was #ffffff80 */
+  /** was #fffc — strong fills (progress bars, toggles, chart dots) plus small badge
+   *  labels: a deeper brand blue so the labels stay readable (6.3:1 on white). */
+  --token-ef339654-0b57-4e97-91bb-d6220ba70ab6: #0040c0e6;
+  /** was #ffffffb3 — body copy only, so it stays navy ink. */
+  --token-fc24edca-c6a9-4002-9aa0-e67221fb322a: #0a1530b3;
+
+  /* ── Accent ─────────────────────────────────────────────────────────────── */
+
+  /** #05f, the brand blue. 5.61:1 against white in both directions. */
+  --token-819e50e5-99c5-4547-ba7c-e2d71a9ee22d: #0055ff;
+  /** was #262626 — the "Dark" CTA shell. Now the brand blue. */
+  --token-f8734902-8d1d-4e80-b378-a091f0e2450d: #0055ff;
+
+  /** Text on the accent: white. Not a Framer token. */
+  --ct-on-accent: #ffffff;
+  /** Brand tint for large soft fills (footer gradient ends, page-header glow):
+   *  one step deeper than the page, same hue. */
+  --ct-accent-tint: #cdeeff;
+  /** Brand glow (CTA band). */
+  --ct-accent-glow: #0055ff1f;
+}
+
+/* "Dark" CTA labels. Their rolling-text rules in components.css set `--text` to the ink
+   token, which is now navy; on the blue shell they must be white. Scoped to the Dark
+   variant class, so "Light" CTAs (navy shell, white label) are untouched. */
+.framer-v-1c8kqsq [class*="rolling-text-inner"] {
+  --text: var(--ct-on-accent);
+}
+
+/* Page-header glow. Framer fades each inner page's header container from the 10% white
+   alpha to the page colour; with the ink flip that start stop became a grey smudge under
+   the navbar. Same stops, brand tint instead. `body` prefix outranks layout.css and the
+   blog post's own stylesheet regardless of load order. */
+body .framer-8WBKH .framer-1x101fe, /* about, services, industries */
+body .framer-sDidp .framer-to7td7, /* blog index */
+body .framer-AMlJM .framer-y0sa0n, /* blog post */
+body .framer-dq4EH .framer-x7nyjb, /* contact */
+body .framer-f2VXI .framer-18w4wh6 /* privacy policy */ {
+  background: linear-gradient(
+    180deg,
+    var(--ct-accent-tint) 0%,
+    var(--token-a53beb93-2df8-4cea-8692-a810c05e478d, #fff) 21.9489%
+  );
+}
+
+/* White-on-transparent logo artwork (the hero's tech-stack marquee and the case-study
+   client logos) disappears on the light page. `brightness(0)` renders each logo as a
+   solid silhouette; the opacity settles it to a quiet ink, the usual monochrome
+   "logo wall" treatment. */
+body .framer-GhI2H .framer-2xxwzy img,
+body [data-framer-name="ProPac Solution"] img,
+body [data-framer-name="Diexus"] img,
+body [data-framer-name="MIMA Group"] img,
+body [data-framer-name="Asmar Paints"] img {
+  filter: brightness(0);
+  opacity: 0.72;
+}
+
+/* ── Soft edges (desktop) ─────────────────────────────────────────────────────
+   On the pale page the hero card, the inner-page header cards and the navbar's notched
+   bar share one colour, so their shapes vanish. Instead of an outline they get depth:
+   the cards a soft neutral inner shadow (a faint hairline plus a wide, low inset glow),
+   and the bar, its notch and the hero's logo tab a soft drop shadow that falls onto the
+   card, so the inner shadow appears to follow the notches. Tinted with the brand blue.
+   Desktop only: below 1200px the cards run full-bleed and the navbar has no notch. */
+body {
+  --ct-card-inner-shadow:
+    inset 0 0 0 1px #0040c014,
+    inset 0 1px 28px #0055ff1a;
+}
+
+.ct-hero-edge {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: 20px;
+  pointer-events: none;
+  box-shadow: var(--ct-card-inner-shadow);
+}
+
+@media (min-width: 1200px) {
+  body {
+    --ct-bar-shadow: drop-shadow(0 3px 8px #0040c021);
+  }
+
+  .ct-hero-edge {
+    display: block;
+  }
+
+  /* The hero's logo tab (and its curved shoulders) casts upward onto the card. */
+  body .framer-GhI2H .framer-2xxwzy {
+    filter: drop-shadow(0 -3px 8px #0040c01c);
+  }
+
+  body .framer-8WBKH .framer-1x101fe,
+  body .framer-sDidp .framer-to7td7,
+  body .framer-AMlJM .framer-y0sa0n,
+  body .framer-dq4EH .framer-x7nyjb,
+  body .framer-f2VXI .framer-18w4wh6 {
+    box-shadow: var(--ct-card-inner-shadow);
+  }
+}
+
+/* ── On-blue re-scope ─────────────────────────────────────────────────────────
+   The ink tokens are navy now, but anything painted ON the brand blue (the hero "New"
+   pill, the blue page badges, the icon tiles in the solution cards, Dark CTAs) still needs
+   Framer's original white ink. Every blue fill on the site is an inline
+   `background-color: var(--token-819e50e5 | f8734902 …)`, so this re-scopes the ink
+   tokens back to their original white values inside those elements only. Descendants
+   (text, icons, hairlines) inherit it automatically: no per-component edits, and any
+   future blue surface is covered too. Both serialisations are matched: SSR writes no
+   space after the colon, Motion's client-side style updates write one. */
+[style*="background-color:var(--token-819e50e5"],
+[style*="background-color: var(--token-819e50e5"],
+[style*="background-color:var(--token-f8734902"],
+[style*="background-color: var(--token-f8734902"] {
+  --token-55fce8bf-ab86-42dc-8b77-6335cf9cf588: #ffffff;
+  --token-ef339654-0b57-4e97-91bb-d6220ba70ab6: #ffffffcc;
+  --token-fc24edca-c6a9-4002-9aa0-e67221fb322a: #ffffffb3;
+  --token-5c4c4689-2e9f-4d75-8648-a6fa99ee1dd8: #ffffff80;
+  --token-a4c33a8a-f7ec-4c7c-86b7-12a5561a333a: #ffffff4d;
+  --token-957981e5-19a4-4a47-9eff-cfd3010c1560: #ffffff33;
+  --token-afe38531-3ffb-413e-b141-aa2cba0b989e: #ffffff2e;
+  --token-12307017-6017-4dc2-bd95-03dd133b2bde: #ffffff1a;
+  --token-e4b6e893-c43a-43a8-9eff-b692c24f7ea6: #ffffff0f;
+  --token-73249cc1-e13f-4b9a-9f8c-120463984349: #ffffff08;
+  --token-d072d1f5-ef86-4b7c-bae1-6c9f6238e10b: #ffffffcc;
+  --token-be5fd20d-23fc-463d-9ce0-7784436f5294: #ffffffb3;
+  color: #ffffff;
+}
+
+/* ── No black shades ──────────────────────────────────────────────────────────
+   After the flip, anything Framer FILLED with its white ink (not text) rendered as solid
+   navy: the primary "Light" CTAs, the newsletter button, toggle knobs, the VS pill, and
+   the white-to-transparent highlight gradients. In the light theme those fills are brand
+   blues instead: solid fills take a deep brand blue (distinct from the bright #05f of the
+   secondary CTAs, so the two button levels still read apart), highlight gradients start
+   from the brand blue. Inline styles need `!important`; class rules do not. */
+body {
+  --ct-ink-fill: #0036b3;
+}
+
+[style*="background-color:var(--token-55fce8bf"],
+[style*="background-color: var(--token-55fce8bf"],
+[style*="background:var(--token-55fce8bf"],
+[style*="background: var(--token-55fce8bf"] {
+  background-color: var(--ct-ink-fill) !important;
+}
+
+body .framer-GhI2H .framer-4dk0mj {
+  background-color: var(--ct-ink-fill);
+}
+
+/* Process: the two animated progress lines. */
+.framer-bxvptv,
+.framer-13ar0lf {
+  background: linear-gradient(270deg, #0055ff 8%, #0055ff4d 100%) !important;
+}
+
+/* Benefits: the centre pillar's highlight edge and its inner glow. */
+.framer-BZuOL.framer-1x2yq0n {
+  background: linear-gradient(180deg, #0055ff8c 0%, #0055ff0f 39%) !important;
+}
+.framer-mb188 {
+  background: linear-gradient(2deg, #0055ff8c 0%, #0055ff0f 100%) !important;
+}
+
+/* Comparison: the Cloudex Technologies column's corner glow. */
+body .framer-GhI2H .framer-10svbwv {
+  background: linear-gradient(238deg, #0055ff80 0%, #0055ff0f 32%);
+}

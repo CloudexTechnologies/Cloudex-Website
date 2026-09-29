@@ -1,556 +1,73 @@
-"use client";
-import { useState } from "react";
-import Link from "next/link";
-import { Phone, Mail, MapPin, ArrowRight, CheckCircle } from "lucide-react";
-import { InnerPageLayout } from "@/components/InnerPageLayout";
-import { BlurText } from "@/components/ui/BlurText";
-import { ScrollReveal } from "@/components/ui/ScrollReveal";
-import { PageHeroBackground } from "@/components/ui/PageHeroBackground";
+import type { Metadata } from "next";
 
-const whatHappensNext = [
-  {
-    step: "01",
-    title: "We review your message",
-    desc: "We review your message and respond within one business day.",
-  },
-  {
-    step: "02",
-    title: "We schedule a discovery call",
-    desc: "A 30-minute discovery call no agenda apart from understanding your business.",
-  },
-  {
-    step: "03",
-    title: "We put together a proposal",
-    desc: "If there is a genuine fit, we put together a clear proposal within five working days.",
-  },
-];
+import { pageMetadata } from "@/lib/seo";
+
+import { ContactHero } from "@/components/contact/ContactHero";
+
+/**
+ * `/contact` — the whole route.
+ *
+ * Source: `_source/live/contact.html`. The page root is
+ *
+ *   <div data-framer-root class="framer-dq4EH framer-HFo8d framer-lJNWY framer-1frsxba"
+ *        style="min-height:100vh;width:auto;display:contents">
+ *
+ * and it is load-bearing, not decoration:
+ *   • `framer-dq4EH` is the page's serialization hash — EVERY layout rule for this route
+ *     in `app/framer/layout.css` is written `.framer-dq4EH .framer-8l81tn { … }`, so
+ *     dropping it strips the hero of its padding, gradient, grid and radii.
+ *   • `framer-HFo8d` and `framer-lJNWY` scope the shared text-style presets
+ *     (`framer-styles-preset-d8f6ar` = the `<h1>`, `framer-styles-preset-529u5a` = the
+ *     form labels). Without them the type falls back to the browser default.
+ *   • `framer-1frsxba` is this page's DESKTOP breakpoint hash (PLAN.md §1.1:
+ *     contact = 1frsxba / xt0inb / tlxb3v) and carries the root flex box.
+ *   • `display: contents` is inline in the SSR and overrides that root box's
+ *     `width: 1200px; height: 1080px`, letting the section size itself. It must stay.
+ *
+ * Only the page's OWN markup is rendered here. `app/layout.tsx` (orchestrator-owned)
+ * already supplies `<html><body><div id="main">`, the
+ * `.framer-dUOq6.framer-28a2o6[data-layout-template]` wrapper, `SiteNavbar`, the
+ * `.framer-1a909du` spacer and `SiteFooter`.
+ *
+ * Two siblings from the SSR are reproduced verbatim after the section:
+ *   • `div.framer-1rwbfyi-container` — Framer's `SmoothScroll_Prod` mount point. It SSRs
+ *     EMPTY (`<div class="framer-1rwbfyi-container"><div></div></div>`); the behaviour is
+ *     Lenis 1.1.2 `{ duration: 1 }` attached to the window, per
+ *     `_source/behaviours/smooth-scroll.md`. Wiring Lenis is a site-wide concern (it is on
+ *     every route), not a `/contact` one, and no primitive for it exists yet — see the
+ *     report. The container is kept so the DOM matches and so the eventual mount has a
+ *     home.
+ *   • `div#overlay` — Framer's per-page portal target, a sibling of the page root.
+ *
+ * The Framer badge (`#__framer-badge-container`, appear id `n0ccwk`) is dropped per
+ * PLAN.md §1.3.
+ *
+ * No `metadata` override: `contact.html`'s `<title>`, description, og:* and twitter:* are
+ * byte-identical to the ones `app/layout.tsx` already sets, so this page inherits them.
+ * Only the canonical URL differs, and that points at the Framer preview domain
+ * (`adaptable-octopus-801049.framer.app`), which must not ship.
+ */
+export const metadata: Metadata = pageMetadata({
+  title: "Contact Us: Book an AI Automation Consultation",
+  description:
+    "Talk to Cloudex Technologies about AI automation for your business. Email info@cloudextechnologies.io, call +44 7840 983410, or visit us in Wolverhampton, UK.",
+  path: "/contact",
+});
 
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
-    fullName: "",
-    businessName: "",
-    email: "",
-    phone: "",
-    interest: "",
-    challenge: "",
-    source: "",
-  });
-  const [submitted, setSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitting(true);
-    setTimeout(() => {
-      setSubmitting(false);
-      setSubmitted(true);
-    }, 1400);
-  };
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  const inputStyle: React.CSSProperties = {
-    width: "100%",
-    padding: "12px 16px",
-    borderRadius: 10,
-    border: "1px solid var(--border)",
-    background: "var(--surface)",
-    color: "var(--text-1)",
-    fontSize: 15,
-    fontFamily: "var(--font-body)",
-    outline: "none",
-    transition: "border-color 0.2s, box-shadow 0.2s",
-    boxSizing: "border-box",
-  };
-
-  const labelStyle: React.CSSProperties = {
-    display: "block",
-    fontSize: 13,
-    fontWeight: 600,
-    color: "var(--text-2)",
-    marginBottom: 7,
-    fontFamily: "var(--font-heading)",
-  };
-
   return (
-    <InnerPageLayout>
-      {/* ── Hero ── */}
-      <section
-        style={{
-          minHeight: "52vh",
-          display: "flex",
-          alignItems: "center",
-          background: "var(--bg)",
-          position: "relative",
-          overflow: "hidden",
-          paddingTop: 76,
-        }}
+    <>
+      <div
+        data-framer-root
+        className="framer-dq4EH framer-HFo8d framer-lJNWY framer-1frsxba"
+        style={{ minHeight: "100vh", width: "auto", display: "contents" }}
       >
-        <PageHeroBackground />
-        <div className="container page-hero-inner" style={{ position: "relative", zIndex: 1, paddingTop: 60, paddingBottom: 60 }}>
-          <div style={{ maxWidth: 720, margin: "0 auto", textAlign: "center" }}>
-            <ScrollReveal>
-              <span
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                  padding: "6px 18px",
-                  borderRadius: 999,
-                  background: "var(--surface)",
-                  border: "1px solid var(--border)",
-                  fontSize: 11,
-                  color: "var(--text-3)",
-                  fontFamily: "var(--font-heading)",
-                  fontWeight: 700,
-                  letterSpacing: "0.08em",
-                  textTransform: "uppercase",
-                  marginBottom: 32,
-                }}
-              >
-                Contact
-              </span>
-            </ScrollReveal>
-            <h1
-              style={{
-                fontSize: "clamp(32px, 5vw, 64px)",
-                fontWeight: 700,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.1,
-                marginBottom: 22,
-              }}
-            >
-              <BlurText text="Let us have a proper conversation." delay={0.1} wordDelay={0.042} />
-            </h1>
-            <ScrollReveal delay={0.4}>
-              <p
-                style={{
-                  fontSize: "clamp(16px, 1.7vw, 19px)",
-                  color: "var(--text-2)",
-                  lineHeight: 1.8,
-                  maxWidth: 580,
-                  margin: "0 auto",
-                }}
-              >
-                No pressure. No pitch deck until we know you actually need one.
-                Just a straight conversation about where your business is and
-                where technology can help it go.
-              </p>
-            </ScrollReveal>
-          </div>
+        <ContactHero />
+        <div className="framer-1rwbfyi-container">
+          <div />
         </div>
-      </section>
-
-      {/* ── Form + Details ── */}
-      <section className="section" style={{ background: "var(--bg-2)" }}>
-        <div className="container">
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(min(340px, 100%), 1fr))",
-              gap: "clamp(32px, 5vw, 60px)",
-              alignItems: "start",
-            }}
-          >
-            {/* Form */}
-            <ScrollReveal direction="left">
-              <div
-                style={{
-                  background: "var(--bg)",
-                  border: "1px solid var(--border)",
-                  borderRadius: 24,
-                  padding: "clamp(24px, 4vw, 40px) clamp(20px, 3vw, 36px)",
-                  boxShadow: "var(--card-shadow)",
-                }}
-              >
-                {submitted ? (
-                  <div style={{ textAlign: "center", padding: "40px 0" }}>
-                    <div
-                      style={{
-                        width: 64,
-                        height: 64,
-                        borderRadius: "50%",
-                        background: "rgba(34,197,94,0.12)",
-                        border: "1px solid rgba(34,197,94,0.3)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        margin: "0 auto 24px",
-                      }}
-                    >
-                      <CheckCircle size={28} style={{ color: "#22c55e" }} />
-                    </div>
-                    <h3
-                      style={{
-                        fontSize: 22,
-                        fontWeight: 700,
-                        marginBottom: 12,
-                        fontFamily: "var(--font-heading)",
-                      }}
-                    >
-                      Message received
-                    </h3>
-                    <p style={{ fontSize: 15, color: "var(--text-2)", lineHeight: 1.75 }}>
-                      We will review your message and get back to you within one
-                      business day.
-                    </p>
-                  </div>
-                ) : (
-                  <form onSubmit={handleSubmit}>
-                    <h2
-                      style={{
-                        fontSize: 22,
-                        fontWeight: 700,
-                        marginBottom: 28,
-                        fontFamily: "var(--font-heading)",
-                        letterSpacing: "-0.01em",
-                      }}
-                    >
-                      Get in touch
-                    </h2>
-
-                    <div
-                      className="form-two-col"
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: "1fr 1fr",
-                        gap: 16,
-                        marginBottom: 16,
-                      }}
-                    >
-                      <div>
-                        <label style={labelStyle}>Full Name *</label>
-                        <input
-                          required
-                          name="fullName"
-                          value={formData.fullName}
-                          onChange={handleChange}
-                          placeholder="Your full name"
-                          style={inputStyle}
-                          onFocus={(e) => {
-                            e.currentTarget.style.borderColor = "var(--accent)";
-                            e.currentTarget.style.boxShadow = "0 0 0 3px rgba(37,99,235,0.1)";
-                          }}
-                          onBlur={(e) => {
-                            e.currentTarget.style.borderColor = "var(--border)";
-                            e.currentTarget.style.boxShadow = "none";
-                          }}
-                        />
-                      </div>
-                      <div>
-                        <label style={labelStyle}>Business Name *</label>
-                        <input
-                          required
-                          name="businessName"
-                          value={formData.businessName}
-                          onChange={handleChange}
-                          placeholder="Your company"
-                          style={inputStyle}
-                          onFocus={(e) => {
-                            e.currentTarget.style.borderColor = "var(--accent)";
-                            e.currentTarget.style.boxShadow = "0 0 0 3px rgba(37,99,235,0.1)";
-                          }}
-                          onBlur={(e) => {
-                            e.currentTarget.style.borderColor = "var(--border)";
-                            e.currentTarget.style.boxShadow = "none";
-                          }}
-                        />
-                      </div>
-                    </div>
-
-                    <div style={{ marginBottom: 16 }}>
-                      <label style={labelStyle}>Email Address *</label>
-                      <input
-                        required
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        placeholder="you@company.com"
-                        style={inputStyle}
-                        onFocus={(e) => {
-                          e.currentTarget.style.borderColor = "var(--accent)";
-                          e.currentTarget.style.boxShadow = "0 0 0 3px rgba(37,99,235,0.1)";
-                        }}
-                        onBlur={(e) => {
-                          e.currentTarget.style.borderColor = "var(--border)";
-                          e.currentTarget.style.boxShadow = "none";
-                        }}
-                      />
-                    </div>
-
-                    <div style={{ marginBottom: 16 }}>
-                      <label style={labelStyle}>Phone Number</label>
-                      <input
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        placeholder="+44 7000 000000"
-                        style={inputStyle}
-                        onFocus={(e) => {
-                          e.currentTarget.style.borderColor = "var(--accent)";
-                          e.currentTarget.style.boxShadow = "0 0 0 3px rgba(37,99,235,0.1)";
-                        }}
-                        onBlur={(e) => {
-                          e.currentTarget.style.borderColor = "var(--border)";
-                          e.currentTarget.style.boxShadow = "none";
-                        }}
-                      />
-                    </div>
-
-                    <div style={{ marginBottom: 16 }}>
-                      <label style={labelStyle}>What are you looking for help with? *</label>
-                      <select
-                        required
-                        name="interest"
-                        value={formData.interest}
-                        onChange={handleChange}
-                        style={{ ...inputStyle, appearance: "none" }}
-                        onFocus={(e) => {
-                          e.currentTarget.style.borderColor = "var(--accent)";
-                          e.currentTarget.style.boxShadow = "0 0 0 3px rgba(37,99,235,0.1)";
-                        }}
-                        onBlur={(e) => {
-                          e.currentTarget.style.borderColor = "var(--border)";
-                          e.currentTarget.style.boxShadow = "none";
-                        }}
-                      >
-                        <option value="">Select an option</option>
-                        <option value="ai-solutions">AI Solutions</option>
-                        <option value="digital-growth">Digital Growth</option>
-                        <option value="custom-software">Custom Software</option>
-                        <option value="not-sure">Not Sure Yet</option>
-                      </select>
-                    </div>
-
-                    <div style={{ marginBottom: 16 }}>
-                      <label style={labelStyle}>Tell us about your challenge *</label>
-                      <textarea
-                        required
-                        name="challenge"
-                        value={formData.challenge}
-                        onChange={handleChange}
-                        rows={4}
-                        placeholder="What is the main problem you are trying to solve?"
-                        style={{
-                          ...inputStyle,
-                          resize: "vertical",
-                          minHeight: 100,
-                        }}
-                        onFocus={(e) => {
-                          e.currentTarget.style.borderColor = "var(--accent)";
-                          e.currentTarget.style.boxShadow = "0 0 0 3px rgba(37,99,235,0.1)";
-                        }}
-                        onBlur={(e) => {
-                          e.currentTarget.style.borderColor = "var(--border)";
-                          e.currentTarget.style.boxShadow = "none";
-                        }}
-                      />
-                    </div>
-
-                    <div style={{ marginBottom: 28 }}>
-                      <label style={labelStyle}>How did you find us? (optional)</label>
-                      <input
-                        name="source"
-                        value={formData.source}
-                        onChange={handleChange}
-                        placeholder="Google, referral, LinkedIn..."
-                        style={inputStyle}
-                        onFocus={(e) => {
-                          e.currentTarget.style.borderColor = "var(--accent)";
-                          e.currentTarget.style.boxShadow = "0 0 0 3px rgba(37,99,235,0.1)";
-                        }}
-                        onBlur={(e) => {
-                          e.currentTarget.style.borderColor = "var(--border)";
-                          e.currentTarget.style.boxShadow = "none";
-                        }}
-                      />
-                    </div>
-
-                    <button
-                      type="submit"
-                      disabled={submitting}
-                      style={{
-                        width: "100%",
-                        padding: "14px 24px",
-                        borderRadius: 10,
-                        background: submitting ? "var(--accent-hover)" : "var(--accent)",
-                        color: "#fff",
-                        fontFamily: "var(--font-heading)",
-                        fontWeight: 600,
-                        fontSize: 15,
-                        border: "none",
-                        cursor: submitting ? "not-allowed" : "pointer",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        gap: 8,
-                        transition: "all 0.25s",
-                        boxShadow: "0 4px 20px rgba(37,99,235,0.28)",
-                      }}
-                    >
-                      {submitting ? "Sending..." : "Send Message"}
-                      {!submitting && <ArrowRight size={16} />}
-                    </button>
-                  </form>
-                )}
-              </div>
-            </ScrollReveal>
-
-            {/* Contact Details */}
-            <ScrollReveal direction="right" delay={0.15}>
-              <div>
-                <h3
-                  style={{
-                    fontSize: 20,
-                    fontWeight: 700,
-                    marginBottom: 28,
-                    fontFamily: "var(--font-heading)",
-                    letterSpacing: "-0.01em",
-                  }}
-                >
-                  Contact Details
-                </h3>
-
-                <div style={{ display: "flex", flexDirection: "column", gap: 20, marginBottom: 48 }}>
-                  {[
-                    {
-                      icon: Phone,
-                      label: "Phone",
-                      value: "+44 7840 983410",
-                      href: "tel:+447840983410",
-                    },
-                    {
-                      icon: Mail,
-                      label: "Email",
-                      value: "info@cloudextechnologies.io",
-                      href: "mailto:info@cloudextechnologies.io",
-                    },
-                    {
-                      icon: MapPin,
-                      label: "Office",
-                      value: "852, 85 Dunstall Hill, Wolverhampton WV6 0SR, United Kingdom",
-                      href: null,
-                    },
-                  ].map((contact, i) => (
-                    <div
-                      key={i}
-                      style={{ display: "flex", alignItems: "flex-start", gap: 16 }}
-                    >
-                      <div
-                        style={{
-                          width: 42,
-                          height: 42,
-                          borderRadius: 11,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          flexShrink: 0,
-                          background: "var(--accent-subtle)",
-                          color: "var(--accent)",
-                          border: "1px solid rgba(37,99,235,0.15)",
-                        }}
-                      >
-                        <contact.icon size={18} strokeWidth={1.5} />
-                      </div>
-                      <div>
-                        <div
-                          style={{
-                            fontSize: 11,
-                            fontWeight: 700,
-                            color: "var(--text-3)",
-                            textTransform: "uppercase",
-                            letterSpacing: "0.07em",
-                            marginBottom: 4,
-                          }}
-                        >
-                          {contact.label}
-                        </div>
-                        {contact.href ? (
-                          <a
-                            href={contact.href}
-                            style={{
-                              fontSize: 15,
-                              color: "var(--text-1)",
-                              textDecoration: "none",
-                              lineHeight: 1.5,
-                            }}
-                          >
-                            {contact.value}
-                          </a>
-                        ) : (
-                          <span style={{ fontSize: 15, color: "var(--text-1)", lineHeight: 1.6 }}>
-                            {contact.value}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <div
-                  style={{
-                    padding: "28px 28px",
-                    borderRadius: 18,
-                    background: "var(--surface)",
-                    border: "1px solid var(--border)",
-                  }}
-                >
-                  <h4
-                    style={{
-                      fontSize: 16,
-                      fontWeight: 700,
-                      marginBottom: 20,
-                      fontFamily: "var(--font-heading)",
-                    }}
-                  >
-                    Here is what to expect after you reach out.
-                  </h4>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                    {whatHappensNext.map((item, i) => (
-                      <div key={i} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
-                        <div
-                          style={{
-                            fontSize: 12,
-                            fontWeight: 700,
-                            color: "var(--accent)",
-                            fontFamily: "var(--font-heading)",
-                            width: 28,
-                            flexShrink: 0,
-                            paddingTop: 2,
-                          }}
-                        >
-                          {item.step}
-                        </div>
-                        <div>
-                          <div
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 600,
-                              color: "var(--text-1)",
-                              marginBottom: 3,
-                            }}
-                          >
-                            {item.title}
-                          </div>
-                          <p style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.65 }}>
-                            {item.desc}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </ScrollReveal>
-          </div>
-        </div>
-      </section>
-    </InnerPageLayout>
+      </div>
+      <div id="overlay" />
+    </>
   );
 }

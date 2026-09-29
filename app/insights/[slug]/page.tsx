@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Clock, RefreshCw } from "lucide-react";
-import { InnerPageLayout } from "@/components/InnerPageLayout";
+import { InsightsShell } from "@/components/insights/InsightsShell";
 import { ArticleCard } from "@/components/insights/ArticleCard";
 import {
   ArticleCta,
@@ -88,7 +88,7 @@ export default async function ArticlePage({ params }: RouteProps) {
   const heroAlt = (post.heroImage as { alt?: string } | undefined)?.alt ?? post.title;
 
   return (
-    <InnerPageLayout>
+    <InsightsShell>
       <JsonLd data={articleGraph(post)} />
 
       <article>
@@ -292,6 +292,6 @@ export default async function ArticlePage({ params }: RouteProps) {
           </section>
         )}
       </article>
-    </InnerPageLayout>
+    </InsightsShell>
   );
 }

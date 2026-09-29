@@ -1,41 +1,24 @@
 import type { MetadataRoute } from "next";
-import { siteUrl } from "@/sanity/env";
+
+import { SITE_URL, absoluteUrl } from "@/lib/site";
 
 /**
- * Answer-engine crawlers are allowed deliberately: being quotable in ChatGPT,
- * Claude and Perplexity is an explicit goal of the insights programme, and
- * those bots respect these tokens separately from Googlebot.
+ * /robots.txt — everything public is crawlable, including by AI assistants and answer
+ * engines (GPTBot, ClaudeBot, PerplexityBot, Google-Extended), which is how the site gets
+ * cited in AI answers. Only the form API is excluded. Points crawlers at the sitemap and
+ * llms.txt.
  */
-const ANSWER_ENGINE_BOTS = [
-  "GPTBot",
-  "OAI-SearchBot",
-  "ChatGPT-User",
-  "ClaudeBot",
-  "Claude-Web",
-  "anthropic-ai",
-  "PerplexityBot",
-  "Perplexity-User",
-  "Google-Extended",
-  "Applebot-Extended",
-  "Bingbot",
-  "CCBot",
-];
-
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
+      { userAgent: "*", allow: "/", disallow: ["/api/"] },
       {
-        userAgent: "*",
-        allow: "/",
-        disallow: ["/api/", "/_next/", "/404", "/500"],
-      },
-      ...ANSWER_ENGINE_BOTS.map((userAgent) => ({
-        userAgent,
-        allow: "/",
+        userAgent: ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-User", "PerplexityBot", "Google-Extended", "Applebot-Extended"],
+        allow: ["/", "/llms.txt", "/llms-full.txt"],
         disallow: ["/api/"],
-      })),
+      },
     ],
-    sitemap: `${siteUrl}/sitemap.xml`,
-    host: siteUrl,
+    sitemap: absoluteUrl("/sitemap.xml"),
+    host: SITE_URL,
   };
 }

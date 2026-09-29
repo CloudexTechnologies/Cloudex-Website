@@ -1,0 +1,14 @@
+/* Framer CSS, ported verbatim. Import this once from app/layout.tsx.
+ *
+ * Cascade order mirrors Framer's document order:
+ *   reset+tokens -> @font-face -> layout -> per-instance -> breakpoints.
+ * (Framer emits fonts and breakpoints before the layout block; breakpoints
+ *  are all `!important` and @font-face is order-independent, so hoisting the
+ *  reset to the front and sinking breakpoints to the back is cascade-equivalent.)
+ */
+@import "./base.css";
+@import "./fonts.css";
+@import "./layout.css";
+@import "./components.css";
+@import "./breakpoints.css";
+@import "./theme.css";

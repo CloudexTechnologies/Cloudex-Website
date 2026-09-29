@@ -1,7 +1,7 @@
 import { ogImageUrl } from "@/sanity/image";
 import { siteUrl } from "@/sanity/env";
 import type { Post } from "@/sanity/types";
-import { SITE_NAME, SOCIAL_PROFILES } from "@/lib/seo";
+import { LOGO_URL, SITE_NAME } from "@/lib/site";
 
 const ORGANIZATION_ID = `${siteUrl}/#organization`;
 const WEBSITE_ID = `${siteUrl}/#website`;
@@ -11,7 +11,7 @@ export const organizationSchema = {
   "@id": ORGANIZATION_ID,
   name: SITE_NAME,
   url: siteUrl,
-  logo: `${siteUrl}/cloudex-logo.png`,
+  logo: `${siteUrl}${LOGO_URL}`,
   description:
     "Cloudex Technologies builds intelligent systems — AI employees, custom software, and digital growth solutions — that help businesses operate smarter and scale with confidence.",
   email: "info@cloudextechnologies.io",
@@ -22,7 +22,6 @@ export const organizationSchema = {
     url: `${siteUrl}/contact`,
     availableLanguage: "English",
   },
-  ...(SOCIAL_PROFILES.length ? { sameAs: SOCIAL_PROFILES.map((profile) => profile.url) } : {}),
 };
 
 /** Organization and WebSite: the entity graph the homepage anchors. */

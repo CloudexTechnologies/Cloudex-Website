@@ -1,0 +1,133 @@
+/*
+ * Insights (Sanity) in the ported Framer theme.
+ *
+ * The insights pages predate the Framer port and style themselves with a small set of
+ * variables (`--bg`, `--text-1`, `--accent`, …) and a handful of classes. Everything here is
+ * scoped to `.insights-root`, and every value resolves to a token from
+ * `app/framer/theme.css`, so the blog follows the site theme without touching Framer's CSS.
+ */
+
+.insights-root {
+  --font-heading: "Inter Display", "Inter Display Placeholder", sans-serif;
+  --font-body: "Inter", "Inter Placeholder", sans-serif;
+
+  --bg: var(--token-a53beb93-2df8-4cea-8692-a810c05e478d, #e8f9ff);
+  --bg-2: var(--token-a8471d98-b099-4061-946e-68d6bcaf188a, #f4fcff);
+  --bg-3: var(--token-e235ccb3-249e-4bbe-a0ec-afbbbabc7347, #ffffff);
+  --surface: var(--token-e235ccb3-249e-4bbe-a0ec-afbbbabc7347, #ffffff);
+  --border: var(--token-12307017-6017-4dc2-bd95-03dd133b2bde, #0055ff1a);
+
+  --text-1: var(--token-55fce8bf-ab86-42dc-8b77-6335cf9cf588, #0a1530);
+  --text-2: var(--token-d072d1f5-ef86-4b7c-bae1-6c9f6238e10b, #2f3b55);
+  --text-3: var(--token-be5fd20d-23fc-463d-9ce0-7784436f5294, #56637d);
+
+  --accent: var(--token-819e50e5-99c5-4547-ba7c-e2d71a9ee22d, #0055ff);
+  --accent-subtle: var(--token-e4b6e893-c43a-43a8-9eff-b692c24f7ea6, #0055ff0f);
+
+  --radius-pill: 999px;
+  --transition: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+
+  width: 100%;
+  background: var(--bg);
+  color: var(--text-1);
+  font-family: var(--font-body);
+  /* Clears the fixed site navbar. */
+  padding-top: 110px;
+}
+
+.insights-root h1,
+.insights-root h2,
+.insights-root h3,
+.insights-root h4 {
+  font-family: var(--font-heading);
+  color: var(--text-1);
+}
+
+.insights-root a {
+  color: inherit;
+}
+
+.insights-root .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.insights-root .section {
+  padding: 120px 0;
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  .insights-root { padding-top: 90px; }
+  .insights-root .section { padding: 64px 0; }
+  .insights-root .container { padding: 0 16px; }
+}
+
+@media (max-width: 480px) {
+  .insights-root .section { padding: 48px 0; }
+}
+
+.insight-layout {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr) 220px;
+  gap: 48px;
+  align-items: start;
+}
+
+.insight-layout > :nth-child(2) {
+  grid-column: 2;
+}
+
+/* Content-height so the rail can travel against the full article. */
+.insight-toc {
+  position: sticky;
+  top: 110px;
+  align-self: start;
+  max-height: calc(100vh - 150px);
+  overflow-y: auto;
+}
+
+@media (max-width: 1100px) {
+  .insight-layout { grid-template-columns: minmax(0, 1fr); }
+  .insight-toc { display: none; }
+  .insight-layout > :nth-child(2) { grid-column: 1; }
+}
+
+.insight-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+@media (max-width: 980px) {
+  .insight-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 640px) {
+  .insight-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+.insight-card:hover {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+  transform: translateY(-3px);
+}
+
+/* Featured card: two columns on desktop, stacked on mobile. */
+@media (max-width: 860px) {
+  .insight-card[data-featured="true"] {
+    flex-direction: column !important;
+    gap: 0 !important;
+  }
+  .insight-card[data-featured="true"] > div:last-child {
+    padding: 24px 24px 26px !important;
+  }
+}
+
+.insight-faq summary::-webkit-details-marker {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .insight-card:hover { transform: none; }
+}

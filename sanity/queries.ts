@@ -31,6 +31,11 @@ export const POSTS_BY_PILLAR_QUERY = groq`
   }
 `;
 
+/** Every published article, newest first, for /llms.txt. */
+export const LLMS_POSTS_QUERY = groq`
+  *[${PUBLISHED_FILTER}] | order(publishedAt desc) { title, "slug": slug.current, publishedAt }
+`;
+
 export const POSTS_COUNT_QUERY = groq`count(*[${PUBLISHED_FILTER}])`;
 
 export const POSTS_COUNT_BY_PILLAR_QUERY = groq`

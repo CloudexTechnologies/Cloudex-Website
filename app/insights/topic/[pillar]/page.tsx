@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { InnerPageLayout } from "@/components/InnerPageLayout";
+import { InsightsShell } from "@/components/insights/InsightsShell";
 import { ArticleCard } from "@/components/insights/ArticleCard";
 import { JsonLd } from "@/components/insights/JsonLd";
 import { Pagination } from "@/components/insights/Pagination";
 import { PillarNav } from "@/components/insights/PillarNav";
-import { PageHeroBackground } from "@/components/ui/PageHeroBackground";
 import { collectionGraph } from "@/lib/structuredData";
 import { client, freshClient } from "@/sanity/client";
 import { REVALIDATE_SECONDS } from "@/sanity/env";
@@ -82,7 +81,7 @@ export default async function PillarPage({ params, searchParams }: RouteProps) {
   const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
 
   return (
-    <InnerPageLayout>
+    <InsightsShell>
       {total > 0 && (
         <JsonLd
           data={collectionGraph({
@@ -103,7 +102,6 @@ export default async function PillarPage({ params, searchParams }: RouteProps) {
           paddingBottom: 40,
         }}
       >
-        <PageHeroBackground />
         <div className="container" style={{ position: "relative", zIndex: 1 }}>
           <div style={{ maxWidth: 760, margin: "0 auto", textAlign: "center" }}>
             <span
@@ -169,6 +167,6 @@ export default async function PillarPage({ params, searchParams }: RouteProps) {
           )}
         </div>
       </section>
-    </InnerPageLayout>
+    </InsightsShell>
   );
 }

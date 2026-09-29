@@ -1,51 +1,51 @@
+/**
+ * Per-page metadata in one shape: title (the root template appends "| Cloudex Technologies"),
+ * description, canonical URL, and matching Open Graph / Twitter cards.
+ */
+
 import type { Metadata } from "next";
 
-export const SITE_NAME = "Cloudex Technologies";
+import { OG_IMAGE, SITE_NAME } from "./site";
 
-/**
- * Public profiles, used for the footer links and the Organization `sameAs`.
- * Leave a value empty until the profile exists — a dead `#` link is worse for
- * crawlers than no link at all.
- */
-export const SOCIAL_PROFILES: { label: string; url: string }[] = [
-  { label: "LinkedIn", url: "" },
-  { label: "X", url: "" },
-  { label: "Instagram", url: "" },
-  { label: "Facebook", url: "" },
-  { label: "YouTube", url: "" },
-].filter((profile) => profile.url);
-
-/**
- * Metadata for a hand-authored page. Canonical and hreflang must be set per
- * route: anything set in the root layout is inherited by every page that does
- * not override it, which is how inner pages ended up canonicalised to "/".
- */
-export function pageMetadata({
-  title,
-  description,
-  path,
-}: {
+export function pageMetadata(input: {
   title: string;
   description: string;
   path: string;
+  image?: string;
+  type?: "website" | "article";
+  publishedTime?: string;
+  keywords?: readonly string[];
 }): Metadata {
+  const image = input.image ?? OG_IMAGE;
+  const fullTitle = `${input.title} | ${SITE_NAME}`;
   return {
-    title,
-    description,
-    alternates: {
-      canonical: path,
-      languages: { en: path, "x-default": path },
-      // Re-declared because a route's `alternates` replaces the root layout's wholesale.
-      types: { "application/rss+xml": "/insights/feed.xml" },
-    },
+    title: input.title,
+    description: input.description,
+    ...(input.keywords ? { keywords: [...input.keywords] } : null),
+    alternates: { canonical: input.path },
     openGraph: {
-      title,
-      description,
-      url: path,
+      type: input.type ?? "website",
+      url: input.path,
+      title: fullTitle,
+      description: input.description,
       siteName: SITE_NAME,
-      type: "website",
       locale: "en_US",
+      images: [{ url: image, alt: input.title }],
+      ...(input.publishedTime ? { publishedTime: input.publishedTime } : null),
     },
-    twitter: { card: "summary_large_image", title, description },
+    twitter: {
+      card: "summary_large_image",
+      title: fullTitle,
+      description: input.description,
+      images: [image],
+    },
   };
+}
+
+/** Trim to a search-snippet length at a word boundary. */
+export function snippet(text: string, max = 158): string {
+  const clean = text.replace(/\s+/g, " ").trim();
+  if (clean.length <= max) return clean;
+  const cut = clean.slice(0, max - 1);
+  return `${cut.slice(0, cut.lastIndexOf(" "))}…`;
 }

@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Lightbulb } from "lucide-react";
-import { InnerPageLayout } from "@/components/InnerPageLayout";
-import { BlurText } from "@/components/ui/BlurText";
-import { ScrollReveal } from "@/components/ui/ScrollReveal";
-import { PageHeroBackground } from "@/components/ui/PageHeroBackground";
+import { InsightsShell } from "@/components/insights/InsightsShell";
 import { ArticleCard } from "@/components/insights/ArticleCard";
 import { JsonLd } from "@/components/insights/JsonLd";
 import { PillarNav } from "@/components/insights/PillarNav";
@@ -56,7 +53,7 @@ export default async function InsightsPage({
   const rest = featured ? posts.slice(1) : posts;
 
   return (
-    <InnerPageLayout>
+    <InsightsShell>
       {total > 0 && (
         <JsonLd
           data={collectionGraph({
@@ -72,22 +69,19 @@ export default async function InsightsPage({
       {/* ── Hero ── */}
       <section
         style={{
-          minHeight: "62vh",
+          minHeight: "48vh",
           display: "flex",
           alignItems: "center",
           background: "var(--bg)",
           position: "relative",
           overflow: "hidden",
-          paddingTop: 76,
         }}
       >
-        <PageHeroBackground />
         <div
           className="container"
           style={{ position: "relative", zIndex: 1, paddingTop: 72, paddingBottom: 64 }}
         >
           <div style={{ maxWidth: 820, margin: "0 auto", textAlign: "center" }}>
-            <ScrollReveal>
               <span
                 style={{
                   display: "inline-flex",
@@ -108,7 +102,6 @@ export default async function InsightsPage({
               >
                 Insights
               </span>
-            </ScrollReveal>
 
             <h1
               style={{
@@ -119,14 +112,9 @@ export default async function InsightsPage({
                 marginBottom: 32,
               }}
             >
-              <BlurText
-                text="Thinking that helps you make better technology decisions."
-                delay={0.1}
-                wordDelay={0.036}
-              />
+              Thinking that helps you make better technology decisions.
             </h1>
 
-            <ScrollReveal delay={0.5}>
               <p
                 style={{
                   fontSize: "clamp(16px, 1.9vw, 20px)",
@@ -139,7 +127,6 @@ export default async function InsightsPage({
                 No hype. No generic listicles. Analysis of AI systems and the software around them,
                 from people who build and deploy them for real businesses — every claim sourced.
               </p>
-            </ScrollReveal>
           </div>
         </div>
       </section>
@@ -177,7 +164,7 @@ export default async function InsightsPage({
       ) : (
         <EmptyState />
       )}
-    </InnerPageLayout>
+    </InsightsShell>
   );
 }
 
