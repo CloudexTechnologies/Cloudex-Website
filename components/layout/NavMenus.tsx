@@ -137,7 +137,18 @@ function MegaItem({
         <span style={{ color: WHITE, fontSize: 14, fontWeight: 500, letterSpacing: "-0.02em", lineHeight: 1.2 }}>
           {item.title}
         </span>
-        <span style={{ color: MUTED, fontSize: 12.5, lineHeight: 1.35 }}>{item.blurb}</span>
+        {item.points ? (
+          <ul style={{ listStyle: "none", margin: "2px 0 0", padding: 0, display: "flex", flexDirection: "column", gap: 3 }}>
+            {item.points.map((point) => (
+              <li key={point} style={{ display: "flex", gap: 7, alignItems: "baseline", color: MUTED, fontSize: 12.5, lineHeight: 1.35 }}>
+                <span aria-hidden="true" style={{ width: 4, height: 4, flexShrink: 0, borderRadius: 999, backgroundColor: LINK_BLUE, transform: "translateY(-2px)" }} />
+                {point}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <span style={{ color: MUTED, fontSize: 12.5, lineHeight: 1.35 }}>{item.blurb}</span>
+        )}
       </span>
     </Anchor>
   );

@@ -639,6 +639,8 @@ export interface NavMenuItem {
   readonly href: string;
   readonly title: string;
   readonly blurb: string;
+  /** When present, listed under the title instead of the blurb (the Services menu). */
+  readonly points?: readonly string[];
   readonly icon: EnterpriseIconName;
 }
 
@@ -646,6 +648,7 @@ export const SERVICES_MENU: readonly NavMenuItem[] = SERVICE_PAGES.map((p) => ({
   href: serviceHref(p.slug),
   title: p.title,
   blurb: p.blurb,
+  points: p.items,
   icon: p.icon,
 }));
 

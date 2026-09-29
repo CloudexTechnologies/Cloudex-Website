@@ -141,6 +141,8 @@ export interface EnterpriseGridSectionProps {
   ctaHref: string;
   ctaUuids: readonly [string, string, string];
   cards: readonly EnterpriseCard[];
+  /** Rendered in place of the card grid, under the same heading and CTA. */
+  children?: React.ReactNode;
   reducedMotion?: ReducedMotionPolicy;
   disabled?: boolean;
 }
@@ -154,6 +156,7 @@ export function EnterpriseGridSection({
   ctaHref,
   ctaUuids,
   cards,
+  children,
   reducedMotion,
   disabled = false,
 }: EnterpriseGridSectionProps): React.ReactElement {
@@ -203,6 +206,7 @@ export function EnterpriseGridSection({
         </div>
       </AboutReveal>
 
+      {children ?? (
       <div className="framer-1qyn8gp" data-framer-name="Grid" style={{ alignItems: "stretch" }}>
         {cards.map((card, index) => {
           const delay = COLUMN_DELAYS[index % 3];
@@ -269,6 +273,7 @@ export function EnterpriseGridSection({
           );
         })}
       </div>
+      )}
     </section>
   );
 }

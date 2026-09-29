@@ -2,7 +2,8 @@
  * The body of every `/services/<slug>` and `/industries/<slug>` page.
  *
  * Section order: hero → what we offer (or solutions) → why Cloudex Technologies → related
- * pages of the other kind → FAQ → CTA band. Every section is an about-page section,
+ * pages of the other kind → FAQ → CTA band. Service pages explain each offer in a detail
+ * row with an animated scene (`ServiceDetails`) and skip the related-industries grid. Every section is an about-page section,
  * so the route root carries the about class list (see `app/services/page.tsx`).
  *
  * Each CTA's rolling-text uuids are fixed per section rather than per page: a page renders
@@ -18,6 +19,8 @@ import { FaqSection } from "@/components/shared/FaqSection";
 import { EnterpriseCalloutSection } from "./EnterpriseCalloutSection";
 import { EnterpriseGridSection } from "./EnterpriseGridSection";
 import { EnterpriseHero } from "./EnterpriseHero";
+import { ServiceDetails } from "./ServiceDetails";
+import { SERVICE_DETAILS } from "./service-details-content";
 import {
   type DetailPage,
   detailImage,
@@ -57,8 +60,8 @@ export interface EnterpriseDetailPageProps {
 export function EnterpriseDetailPage({ kind, page }: EnterpriseDetailPageProps): React.ReactElement {
   const isService = kind === "services";
 
-  // Three, so the related grid fills exactly one desktop row.
-  const related: EnterpriseCard[] = page.related
+  // Three, so the related grid fills exactly one desktop row. Service pages show none.
+  const related: EnterpriseCard[] = (isService ? [] : page.related)
     .slice(0, 3)
     .map((slug) => (isService ? getIndustryPage(slug) : getServicePage(slug)))
     .filter((p): p is DetailPage => p !== undefined)
@@ -92,7 +95,9 @@ export function EnterpriseDetailPage({ kind, page }: EnterpriseDetailPageProps):
           ctaHref="/contact"
           ctaUuids={OFFER_CTA_UUIDS}
           cards={page.offer.cards}
-        />
+        >
+          {isService ? <ServiceDetails cards={page.offer.cards} details={SERVICE_DETAILS[page.slug]} /> : undefined}
+        </EnterpriseGridSection>
         <EnterpriseCalloutSection
           name="Why Cloudex Technologies"
           badge="Why Cloudex Technologies"

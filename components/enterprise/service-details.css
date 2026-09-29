@@ -1,0 +1,289 @@
+/*
+ * Service detail rows (`ServiceDetails`) and their animated scenes (`ServiceVisual`).
+ * Colours come from the site theme tokens in `app/framer/theme.css`.
+ */
+
+.svd {
+  --svd-blue: var(--token-819e50e5-99c5-4547-ba7c-e2d71a9ee22d, #0055ff);
+  --svd-ink: var(--token-55fce8bf-ab86-42dc-8b77-6335cf9cf588, #0a1530);
+  --svd-body: var(--token-d072d1f5-ef86-4b7c-bae1-6c9f6238e10b, #2f3b55);
+  --svd-muted: var(--token-be5fd20d-23fc-463d-9ce0-7784436f5294, #56637d);
+  --svd-card: var(--token-e235ccb3-249e-4bbe-a0ec-afbbbabc7347, #ffffff);
+  --svd-tint: var(--ct-accent-tint, #cdeeff);
+  --svd-line: var(--token-957981e5-19a4-4a47-9eff-cfd3010c1560, #0055ff33);
+
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 96px;
+}
+
+.svd-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 64px;
+  align-items: center;
+}
+
+.svd-row[data-flip="true"] .svd-visual {
+  order: 2;
+}
+
+.svd-visual {
+  position: relative;
+  aspect-ratio: 10 / 7;
+  border-radius: 24px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 1px 1px, var(--svd-line) 1px, transparent 0) 0 0 / 22px 22px,
+    linear-gradient(135deg, var(--svd-card) 0%, var(--svd-tint) 100%);
+  border: 1px solid var(--svd-line);
+  box-shadow: 0 30px 60px -30px rgba(0, 85, 255, 0.25);
+}
+
+.svd-visual .svx {
+  position: absolute;
+  inset: 6%;
+  width: 88%;
+  height: 88%;
+}
+
+.svd-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.svd-num {
+  font-family: "Inter Display", "Inter Display Placeholder", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--svd-blue);
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--svd-card);
+  border: 1px solid var(--svd-line);
+}
+
+.svd-title {
+  margin: 0;
+  font-family: "Inter Display", "Inter Display Placeholder", sans-serif;
+  font-size: clamp(26px, 2.6vw, 36px);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: var(--svd-ink);
+}
+
+.svd-lead {
+  margin: 0;
+  font-family: "Inter", "Inter Placeholder", sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--svd-body);
+}
+
+.svd-kicker {
+  margin: 6px 0 0;
+  font-family: "Inter Display", "Inter Display Placeholder", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--svd-muted);
+}
+
+.svd-points {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.svd-points li {
+  position: relative;
+  padding-left: 30px;
+  font-family: "Inter", "Inter Placeholder", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--svd-ink);
+}
+
+/* A small blue tick in a tinted disc. */
+.svd-points li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: var(--svd-tint);
+}
+.svd-points li::after {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 7px;
+  width: 6px;
+  height: 9px;
+  border: solid var(--svd-blue);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+@media (max-width: 1199px) {
+  .svd { gap: 72px; }
+  .svd-row { gap: 40px; }
+}
+
+@media (max-width: 809px) {
+  .svd { gap: 56px; }
+  .svd-row { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .svd-row[data-flip="true"] .svd-visual { order: 0; }
+  .svd-lead { font-size: 16px; }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Scene paint                                                                 */
+/* -------------------------------------------------------------------------- */
+
+.svx * {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.svx .b { fill: var(--svd-blue); }
+.svx .t { fill: var(--svd-tint); }
+.svx .t2 { fill: #7fb2ff; }
+.svx .w { fill: #fff; }
+.svx .ink { fill: var(--svd-ink); }
+.svx .code2 { fill: #3a4a6e; }
+.svx .unit { fill: #1b2a4d; }
+.svx .led-ok { fill: #22c55e; }
+.svx .card { fill: var(--svd-card); stroke: var(--svd-line); stroke-width: 1.5; }
+.svx .box { fill: #fff; stroke: var(--svd-blue); stroke-width: 2.5; }
+.svx .gear { fill: #fff; }
+.svx .lens { fill: rgba(255, 255, 255, 0.55); }
+.svx .s { stroke: var(--svd-blue); }
+.svx .ck { fill: none; stroke: #fff; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.svx .track { fill: none; stroke: var(--svd-line); stroke-width: 2; }
+.svx .ring { fill: none; stroke: var(--svd-blue); stroke-width: 2; opacity: 0; }
+.svx .flowline { fill: none; stroke: var(--svd-blue); stroke-width: 2.5; stroke-dasharray: 6 8; stroke-linecap: round; opacity: 0.6; }
+.svx .draw { fill: none; stroke: var(--svd-blue); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.svx .draw.thick { stroke-width: 12; }
+.svx .sweep { opacity: 0.18; }
+.svx .gauge-track { fill: none; stroke: var(--svd-tint); stroke-width: 20; stroke-linecap: round; }
+.svx .gauge-fill { fill: none; stroke: var(--svd-blue); stroke-width: 20; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.svx .needle { stroke: var(--svd-ink); stroke-width: 6; stroke-linecap: round; }
+.svx .meridian { fill: none; stroke: var(--svd-blue); stroke-width: 2; opacity: 0.45; }
+.svx .lbl {
+  font-family: "Inter", "Inter Placeholder", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  fill: var(--svd-muted);
+  text-anchor: middle;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Motion                                                                      */
+/* -------------------------------------------------------------------------- */
+
+.svx .svx-feed    { animation: svx-feed 6s var(--d, 0s) infinite ease-in-out; opacity: 0; }
+.svx .svx-pop     { animation: svx-pop 6s var(--d, 0s) infinite ease-out; opacity: 0; }
+.svx .svx-float   { animation: svx-float 4s var(--d, 0s) infinite ease-in-out; }
+.svx .svx-pulse   { animation: svx-pulse 2s var(--d, 0s) infinite ease-in-out; }
+.svx .svx-ring    { animation: svx-ring 2.4s var(--d, 0s) infinite ease-out; }
+.svx .svx-blink   { animation: svx-blink 4s var(--d, 0s) infinite; }
+.svx .svx-wave    { animation: svx-wave 1.1s var(--d, 0s) infinite ease-in-out; }
+.svx .svx-dash    { animation: svx-dash 1.2s linear infinite; }
+.svx .svx-rev     { animation-direction: reverse; }
+.svx .svx-draw    { animation: svx-draw 6s var(--d, 0s) infinite ease-in-out; }
+.svx .svx-draw.fast { animation-duration: 2.4s; }
+.svx .svx-scan    { animation: svx-scan 3.2s infinite ease-in-out; }
+.svx .svx-spin    { animation: svx-spin 5s linear infinite; }
+.svx .svx-wobble  { animation: svx-wobble 3s infinite ease-in-out; }
+.svx .svx-blip    { animation: svx-blip 4s var(--d, 0s) infinite; opacity: 0; }
+.svx .svx-hit     { animation: svx-hit 4s var(--d, 0s) infinite; }
+.svx .svx-roam    { animation: svx-roam 8s infinite ease-in-out; }
+.svx .svx-bar     { animation: svx-bar 6s infinite ease-in-out; transform-origin: left center; }
+.svx .svx-drop    { animation: svx-drop 6s var(--d, 0s) infinite ease-in; opacity: 0; }
+.svx .svx-type    { animation: svx-type 6s var(--d, 0s) infinite ease-out; transform-origin: left center; }
+.svx .svx-caret   { animation: svx-caret 1s steps(1) infinite; }
+.svx .svx-grow    { animation: svx-grow 5s var(--d, 0s) infinite ease-in-out; transform-origin: center bottom; }
+.svx .svx-fill    { animation: svx-fill 5s infinite ease-in-out; }
+.svx .svx-needle  { animation: svx-needle 5s infinite ease-in-out; }
+.svx .svx-rise    { animation: svx-rise 3s var(--d, 0s) infinite ease-in; opacity: 0; }
+.svx .svx-led     { animation: svx-led 1.6s var(--d, 0s) infinite ease-in-out; }
+.svx .svx-meridian { animation: svx-meridian 3.6s var(--d, 0s) infinite ease-in-out; }
+
+/* Only the rows on screen animate. */
+.svd-visual:not([data-play]) .svx *,
+.svd-visual:not([data-play]) .svx { animation-play-state: paused; }
+
+@media (prefers-reduced-motion: reduce) {
+  .svx *, .svx { animation: none !important; }
+  .svx .svx-feed, .svx .svx-pop, .svx .svx-blip, .svx .svx-drop, .svx .svx-rise { opacity: 1; }
+  .svx .draw, .svx .gauge-fill { stroke-dashoffset: 0; }
+}
+
+@keyframes svx-feed {
+  0%   { opacity: 0; transform: translateX(-12px); }
+  10%  { opacity: 1; transform: translateX(0); }
+  40%  { opacity: 1; transform: translateX(0); }
+  62%  { opacity: 0; transform: translateX(80px) scale(0.8); }
+  100% { opacity: 0; transform: translateX(80px) scale(0.8); }
+}
+@keyframes svx-pop {
+  0%, 8% { opacity: 0; transform: scale(0.6); }
+  16%    { opacity: 1; transform: scale(1.06); }
+  22%    { opacity: 1; transform: scale(1); }
+  82%    { opacity: 1; transform: scale(1); }
+  92%, 100% { opacity: 0; transform: scale(0.96); }
+}
+@keyframes svx-float  { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes svx-pulse  { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.12); } }
+@keyframes svx-ring   { 0% { transform: scale(0.8); opacity: 0.6; } 100% { transform: scale(1.6); opacity: 0; } }
+@keyframes svx-blink  { 0%, 90%, 100% { transform: scaleY(1); } 94% { transform: scaleY(0.1); } }
+@keyframes svx-wave   { 0%, 100% { transform: scaleY(0.3); } 50% { transform: scaleY(1); } }
+@keyframes svx-dash   { to { stroke-dashoffset: -28; } }
+@keyframes svx-draw {
+  0%, 5%   { stroke-dashoffset: 1; opacity: 1; }
+  40%, 85% { stroke-dashoffset: 0; opacity: 1; }
+  100%     { stroke-dashoffset: 0; opacity: 0; }
+}
+@keyframes svx-scan   { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(184px); } }
+@keyframes svx-spin   { to { transform: rotate(360deg); } }
+@keyframes svx-wobble { 0%, 100% { transform: rotate(-25deg); } 50% { transform: rotate(35deg); } }
+@keyframes svx-blip   { 0%, 100% { opacity: 0; } 10%, 60% { opacity: 1; } 80% { opacity: 0; } }
+@keyframes svx-hit    { 0%, 100% { fill: var(--svd-card); } 20%, 45% { fill: var(--svd-tint); } }
+@keyframes svx-roam {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(144px, 0); }
+  50% { transform: translate(144px, 64px); }
+  75% { transform: translate(0, 64px); }
+}
+@keyframes svx-bar    { 0%, 5% { transform: scaleX(0); } 70%, 90% { transform: scaleX(1); } 100% { transform: scaleX(0); } }
+@keyframes svx-drop {
+  0%   { opacity: 0; transform: translateY(-36px); }
+  12%  { opacity: 1; }
+  40%  { opacity: 1; transform: translateY(64px); }
+  48%, 100% { opacity: 0; transform: translateY(64px); }
+}
+@keyframes svx-type   { 0%, 4% { transform: scaleX(0); } 22%, 88% { transform: scaleX(1); opacity: 1; } 100% { transform: scaleX(1); opacity: 0; } }
+@keyframes svx-caret  { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes svx-grow   { 0%, 6% { transform: scaleY(0.12); } 40%, 82% { transform: scaleY(1); } 100% { transform: scaleY(0.12); } }
+@keyframes svx-fill   { 0%, 6% { stroke-dashoffset: 1; } 45%, 80% { stroke-dashoffset: 0.22; } 100% { stroke-dashoffset: 1; } }
+@keyframes svx-needle { 0%, 6% { transform: rotate(-80deg); } 45%, 80% { transform: rotate(50deg); } 100% { transform: rotate(-80deg); } }
+@keyframes svx-rise {
+  0%   { opacity: 0; transform: translateY(0) scale(0.8); }
+  15%  { opacity: 1; transform: translateY(-10px) scale(1); }
+  75%  { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-80px) scale(0.7); }
+}
+@keyframes svx-led      { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+@keyframes svx-meridian { 0%, 100% { transform: scaleX(1); } 50% { transform: scaleX(0.08); } }
