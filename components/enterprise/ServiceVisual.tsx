@@ -18,7 +18,7 @@ import type { EnterpriseIconName } from "./EnterpriseIcon";
 type Scene =
   | "agent" | "chat" | "flow" | "records" | "team" | "shield" | "lock" | "key"
   | "radar" | "magnify" | "checklist" | "commerce" | "stack" | "code" | "chart"
-  | "gauge" | "cloud" | "cycle" | "server" | "globe";
+  | "gauge" | "cloud" | "cycle" | "server" | "globe" | "website";
 
 const SCENE_FOR_ICON: Partial<Record<EnterpriseIconName, Scene>> = {
   bot: "agent",
@@ -37,6 +37,7 @@ const SCENE_FOR_ICON: Partial<Record<EnterpriseIconName, Scene>> = {
   cart: "commerce",
   layers: "stack",
   code: "code",
+  browser: "website",
   chart: "chart",
   gauge: "gauge",
   cloud: "cloud",
@@ -408,6 +409,37 @@ function CodeScene() {
   );
 }
 
+function WebsiteScene() {
+  return (
+    <>
+      {/* Desktop browser: the page assembles block by block. */}
+      <rect x="30" y="36" width="252" height="200" rx="16" className="card" />
+      <path d="M30 64 H282" className="track" />
+      {[0, 1, 2].map((i) => (
+        <circle key={i} cx={48 + i * 14} cy="50" r="4.5" className="t2" />
+      ))}
+      <rect x="104" y="44" width="150" height="12" rx="6" className="t" />
+      <rect x="48" y="80" width="216" height="58" rx="10" className="b svx-pop" style={d(0)} />
+      <rect x="62" y="96" width="92" height="9" rx="4.5" className="w svx-pop" style={d(0.3)} />
+      <rect x="62" y="112" width="60" height="14" rx="7" className="w svx-pop" style={d(0.5)} />
+      {[0, 1, 2].map((i) => (
+        <rect key={i} x={48 + i * 74} y="150" width="68" height="46" rx="10" className="t svx-pop" style={d(0.9 + i * 0.3)} />
+      ))}
+      <rect x="48" y="206" width="120" height="8" rx="4" className="t svx-pop" style={d(1.9)} />
+      {/* The same page on a phone. */}
+      <rect x="300" y="70" width="76" height="150" rx="16" className="card" />
+      <rect x="310" y="88" width="56" height="34" rx="8" className="b svx-pop" style={d(0.4)} />
+      {[0, 1].map((i) => (
+        <rect key={i} x="310" y={130 + i * 30} width="56" height="22" rx="7" className="t svx-pop" style={d(1.2 + i * 0.3)} />
+      ))}
+      {/* A visitor's pointer heading for the call to action. */}
+      <g className="svx-cursor">
+        <path d="M0 0 L0 20 L6 15 L10 24 L14 22 L10 13 L17 13 Z" className="ink" transform="translate(150 150)" />
+      </g>
+    </>
+  );
+}
+
 function ChartScene() {
   const bars = [70, 100, 88, 140, 170];
   return (
@@ -562,6 +594,7 @@ function SceneFor({ scene, icon }: { scene: Scene; icon: EnterpriseIconName }) {
     case "cycle": return <CycleScene />;
     case "server": return <ServerScene />;
     case "globe": return <GlobeScene />;
+    case "website": return <WebsiteScene />;
   }
 }
 

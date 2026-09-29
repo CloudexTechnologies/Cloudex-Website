@@ -100,9 +100,9 @@ export const SERVICE_PAGES: readonly DetailPage[] = [
     slug: "digital-transformation",
     icon: "compass",
     title: "Digital Transformation",
-    blurb: "Strategy, commerce and business applications",
+    blurb: "Strategy, websites, commerce and business applications",
     summary: "Strategy and platforms that modernise how you operate and sell.",
-    items: ["Digital consulting and strategy", "Digital commerce", "ERP, CRM and custom software"],
+    items: ["Digital consulting and strategy", "Websites and digital commerce", "ERP, CRM and custom software"],
     heading: "Modernise How Your Business Operates",
     notch: "From strategy to working platforms",
     intro:
@@ -115,6 +115,7 @@ export const SERVICE_PAGES: readonly DetailPage[] = [
       cards: [
         { icon: "compass", title: "Digital Strategy", body: "Current-state assessment, target operating model and a prioritised transformation roadmap." },
         { icon: "clipboard", title: "Process Redesign", body: "Map, simplify and digitise core processes before automating them." },
+        { icon: "browser", title: "Website Design and Development", body: "Fast, modern websites that explain what you do, work on every device and turn visitors into enquiries." },
         { icon: "cart", title: "Digital Commerce", body: "B2B and B2C storefronts, catalogues and ordering portals built to convert." },
         { icon: "layers", title: "ERP and CRM", body: "Implementation, customisation and integration of the systems that run your business." },
         { icon: "code", title: "Custom Software", body: "Web and mobile applications built for workflows packaged software cannot handle." },

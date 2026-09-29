@@ -84,6 +84,14 @@ export const SERVICE_DETAILS: Readonly<Record<string, readonly ServiceDetail[]>>
       ],
     },
     {
+      lead: "Your website is often the first place people meet your business. We design and build fast, modern sites that explain what you do in plain words, look great on phones and computers, and make it easy for visitors to get in touch.",
+      points: [
+        "A clear, modern design that fits your brand",
+        "Fast pages that work on every screen size",
+        "Enquiry forms, bookings and search-friendly pages built in",
+      ],
+    },
+    {
       lead: "We build online stores and ordering portals that make buying easy, whether your customers are shoppers or other businesses. Clear catalogues, simple checkout and smooth reordering turn visits into orders.",
       points: [
         "Storefronts for consumers and business buyers",

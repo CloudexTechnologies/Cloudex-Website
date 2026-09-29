@@ -220,6 +220,7 @@
 .svx .svx-rise    { animation: svx-rise 3s var(--d, 0s) infinite ease-in; opacity: 0; }
 .svx .svx-led     { animation: svx-led 1.6s var(--d, 0s) infinite ease-in-out; }
 .svx .svx-meridian { animation: svx-meridian 3.6s var(--d, 0s) infinite ease-in-out; }
+.svx .svx-cursor  { animation: svx-cursor 6s infinite ease-in-out; }
 
 /* Only the rows on screen animate. */
 .svd-visual:not([data-play]) .svx *,
@@ -287,3 +288,10 @@
 }
 @keyframes svx-led      { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 @keyframes svx-meridian { 0%, 100% { transform: scaleX(1); } 50% { transform: scaleX(0.08); } }
+@keyframes svx-cursor {
+  0%, 20% { transform: translate(60px, 40px); }
+  45%     { transform: translate(-60px, -34px); }
+  52%     { transform: translate(-60px, -34px) scale(0.85); }
+  58%, 80% { transform: translate(-60px, -34px); }
+  100%    { transform: translate(60px, 40px); }
+}
