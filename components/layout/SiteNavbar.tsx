@@ -164,6 +164,9 @@ export const NOTCH_MID_WIDTH = { closed: 48, open: 900 } as const;
  *   line3 ("top"):    closed `top: 6px`  → open `calc(51.6129% - 1px)` = 15px  → y +9
  *   line 1 ("bottom"):closed `bottom:5px` (top 24px) → 15px                   → y −9
  */
+/** Bar colour: the brand blue, so the icon reads on the light theme (Framer shipped white). */
+const HAMBURGER_BAR_COLOR = "var(--token-819e50e5-99c5-4547-ba7c-e2d71a9ee22d, rgb(0, 85, 255))";
+
 export const HAMBURGER_BAR_Y = { top: 9, bottom: -9 } as const;
 
 /** Notch shoulder paths, verbatim from `O89z7Q561.js`. viewBox `0 0 87 34` for both. */
@@ -269,12 +272,6 @@ export interface NavLink {
  */
 export const NAV_LINKS: readonly NavLink[] = [
   {
-    webPageId: "augiA20Il",
-    label: "Home",
-    href: "/",
-    containerClassName: "framer-kbmi72-container",
-  },
-  {
     webPageId: "lab5WFjmU",
     label: "Company",
     href: "/about",
@@ -312,8 +309,9 @@ export const NAV_LINKS: readonly NavLink[] = [
   },
 ] as const;
 
-/** Index into `NAV_LINKS` of the links rendered BEFORE the logo row (four before, three after). */
-const LINKS_BEFORE_LOGO = 4;
+/** Index into `NAV_LINKS` of the links rendered BEFORE the logo row (three each side).
+ *  There is no Home link: the logo links home. */
+const LINKS_BEFORE_LOGO = 3;
 
 /* -------------------------------------------------------------------------- */
 /* Breakpoint wrappers — the shared LAYOUT triple, not the per-page one        */
@@ -531,14 +529,14 @@ export function Hamburger({
         initial={false}
         animate={{ y: open ? HAMBURGER_BAR_Y.top : 0, rotate: open ? 45 : 0 }}
         transition={transition}
-        style={{ backgroundColor: "rgb(255, 255, 255)", top: 6 }}
+        style={{ backgroundColor: HAMBURGER_BAR_COLOR, top: 6 }}
       />
       {/* line2 — the MIDDLE bar. Removed from the tree when open. */}
       {!open && (
         <div
           className="framer-1hypfvb"
           data-framer-name="line2"
-          style={{ backgroundColor: "rgb(255, 255, 255)" }}
+          style={{ backgroundColor: HAMBURGER_BAR_COLOR }}
         />
       )}
       {/* line 1 — Framer's name really does contain a space. The BOTTOM bar: −45°. */}
@@ -549,7 +547,7 @@ export function Hamburger({
         animate={{ y: open ? HAMBURGER_BAR_Y.bottom : 0, rotate: open ? -45 : 0 }}
         transition={transition}
         style={{
-          backgroundColor: "rgb(255, 255, 255)",
+          backgroundColor: HAMBURGER_BAR_COLOR,
           top: "auto",
           bottom: 5,
         }}
