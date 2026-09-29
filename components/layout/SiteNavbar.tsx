@@ -257,6 +257,8 @@ export interface NavLink {
   readonly href: string;
   /** The per-instance Framer container class; it carries the mobile `order`. */
   readonly containerClassName: string;
+  /** Small tag shown with the label, e.g. "Flagship". */
+  readonly badge?: string;
 }
 
 /**
@@ -293,6 +295,7 @@ export const NAV_LINKS: readonly NavLink[] = [
     webPageId: "ai-workforce",
     label: "AI Workforce",
     href: "/ai-workforce",
+    badge: "Flagship",
     containerClassName: "framer-d3zajn-container",
   },
   {
@@ -403,7 +406,28 @@ export interface NavItemProps {
    * navigating: adds `aria-expanded` and a "+"/"−" marker after the label.
    */
   expanded?: boolean;
+  /** Tag for the link (`NavLink.badge`). */
+  badge?: string;
+  /** Desktop floats the tag above the label so the bar's widths do not change; the phone
+   *  menu sets it inline after the label. */
+  badgePlacement?: "above" | "inline";
 }
+
+const BADGE_STYLE: React.CSSProperties = {
+  display: "inline-block",
+  padding: "2px 7px",
+  borderRadius: 999,
+  background: "var(--token-819e50e5-99c5-4547-ba7c-e2d71a9ee22d, rgb(0, 85, 255))",
+  color: "#fff",
+  fontSize: 9.5,
+  fontWeight: 600,
+  lineHeight: 1.3,
+  letterSpacing: "0.06em",
+  textTransform: "uppercase",
+  whiteSpace: "nowrap",
+  textDecoration: "none",
+  pointerEvents: "none",
+};
 
 /**
  * One nav link. Renders EXACTLY Framer's two nodes: the `<a>` and the RichText `<div>`
@@ -422,6 +446,8 @@ export function NavItem({
   textTransition,
   animate,
   expanded,
+  badge,
+  badgePlacement = "inline",
 }: NavItemProps): React.ReactElement {
   const isOut = variant === "Out";
   const stateKey = isOut ? "out" : variant === "In" ? "in" : "inDelayed";
@@ -461,7 +487,21 @@ export function NavItem({
           className="framer-text framer-styles-preset-141u1yr"
           data-styles-preset="pAzayDUZg"
         >
-          {label}
+          {badge && badgePlacement === "above" ? (
+            <span style={{ position: "relative", display: "inline-block" }}>
+              {label}
+              <span
+                style={{ ...BADGE_STYLE, position: "absolute", left: "50%", bottom: "100%", transform: "translate(-50%, -3px)" }}
+              >
+                {badge}
+              </span>
+            </span>
+          ) : (
+            label
+          )}
+          {badge && badgePlacement === "inline" ? (
+            <span style={{ ...BADGE_STYLE, marginLeft: 8, verticalAlign: "middle", transform: "translateY(-1px)" }}>{badge}</span>
+          ) : null}
           {expanded === undefined ? null : (
             <span aria-hidden="true" style={{ marginLeft: 6, display: "inline-block", width: "0.7em" }}>
               {expanded ? "−" : "+"}
@@ -792,6 +832,8 @@ export function SiteNavbar({
         <NavItem
           label={link.label}
           href={link.href}
+          badge={link.badge}
+          badgePlacement={scope === "desktop" ? "above" : "inline"}
           variant={variant}
           expanded={scope === "phone" && menuKey ? phoneMenu === menuKey : undefined}
           /* Scroll-to-top always; `v8vPIIBUk` (close the menu) only in the phone-open
