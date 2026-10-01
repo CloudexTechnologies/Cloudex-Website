@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { SiteFooter, SiteNavbar } from "@/components/layout";
 import { ScrollTopOnNavigate } from "@/components/layout/ScrollTopOnNavigate";
 import { CalBookingPopup } from "@/components/layout/CalBookingPopup";
@@ -12,6 +13,7 @@ import {
   SITE_URL,
 } from "@/lib/site";
 import { organizationSchema, websiteSchema } from "@/lib/structured-data";
+import { WHOP_PIXEL_SNIPPET } from "@/lib/whop-pixel";
 import "./framer/index.css";
 
 export const metadata: Metadata = {
@@ -65,6 +67,12 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Whop Pixel: attributes visits to Whop sales — lib/whop-pixel.ts. */}
+        <Script id="whop-pixel" strategy="beforeInteractive">
+          {WHOP_PIXEL_SNIPPET}
+        </Script>
+      </head>
       <body>
         <div id="main">
           <div
