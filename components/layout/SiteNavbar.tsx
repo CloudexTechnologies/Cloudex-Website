@@ -731,6 +731,18 @@ export function SiteNavbar({
   /* -- Services / Industries menus (post-migration, see ./NavMenus) ---------- */
   /** Desktop: which mega panel is showing. Only meaningful while the bar is open. */
   const [desktopMenu, setDesktopMenu] = React.useState<NavMenuKey | null>(null);
+  /** Desktop: viewport x of the hovered link's centre, so its panel opens right below it. */
+  const [desktopMenuAnchor, setDesktopMenuAnchor] = React.useState<number | null>(null);
+  const openDesktopMenu = React.useCallback(
+    (menuKey: NavMenuKey | undefined, target: HTMLElement) => {
+      setDesktopMenu(menuKey ?? null);
+      if (menuKey) {
+        const rect = target.getBoundingClientRect();
+        setDesktopMenuAnchor(rect.left + rect.width / 2);
+      }
+    },
+    [],
+  );
   /** Phone: which sub-list is expanded in the open menu. */
   const [phoneMenu, setPhoneMenu] = React.useState<NavMenuKey | null>(null);
   React.useEffect(() => {
@@ -815,8 +827,8 @@ export function SiteNavbar({
         /* Desktop: pointing at a link opens its mega panel, or closes the other one. */
         {...(scope === "desktop"
           ? {
-              onMouseEnter: () => setDesktopMenu(menuKey ?? null),
-              onFocus: () => setDesktopMenu(menuKey ?? null),
+              onMouseEnter: (event: React.MouseEvent<HTMLDivElement>) => openDesktopMenu(menuKey, event.currentTarget),
+              onFocus: (event: React.FocusEvent<HTMLDivElement>) => openDesktopMenu(menuKey, event.currentTarget),
             }
           : null)}
       >
@@ -998,6 +1010,7 @@ export function SiteNavbar({
 
           <NavMegaPanel
             open={isDesktopOpen ? desktopMenu : null}
+            anchorX={desktopMenuAnchor}
             onNavigate={closeDesktopMenus}
             transition={itemSpring}
           />

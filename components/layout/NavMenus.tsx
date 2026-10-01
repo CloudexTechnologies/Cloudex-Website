@@ -5,9 +5,10 @@
  * original: all three were added after the migration. Products lists every page in
  * `components/products/products.ts` and ends with "All products" (`/products`).
  *
- *   • {@link NavMegaPanel} — desktop. Opens below the bar while the pointer is over the
- *     Services or Industries link, lists every page with its one-line blurb, and ends with
- *     a "View all" link. It renders OUTSIDE the `<nav>` (which is `overflow: hidden` at
+ *   • {@link NavMegaPanel} — desktop. Opens right below the hovered Capabilities,
+ *     Industries or Products link (clamped to the viewport), so the pointer can travel
+ *     straight down into it without crossing another link, which would switch or close
+ *     the menu. Lists every page with its one-line blurb, and ends with a "View all" link. It renders OUTSIDE the `<nav>` (which is `overflow: hidden` at
  *     58px) but inside `.framer-kvjt16-container`, which now owns the hover handlers, so
  *     moving the pointer from the link down into the panel keeps everything open.
  *   • {@link NavSubList} — tablet + phone. Tapping Services or Industries in the open menu
@@ -75,11 +76,13 @@ const FONT = '"Inter Display", "Inter Display Placeholder", sans-serif';
 /* Desktop                                                                     */
 /* -------------------------------------------------------------------------- */
 
+/** Gap kept between a panel and the viewport edge. */
+const PANEL_EDGE_GAP = 24;
+
 const PANEL_WRAP_STYLE: React.CSSProperties = {
   position: "absolute",
   top: "100%",
-  left: "50%",
-  maxWidth: "calc(100vw - 48px)",
+  maxWidth: `calc(100vw - ${PANEL_EDGE_GAP * 2}px)`,
   /* The transparent top padding is a hover bridge across the gap under the bar. */
   paddingTop: 10,
   zIndex: 20,
@@ -165,11 +168,25 @@ function MegaItem({
 
 export interface NavMegaPanelProps {
   open: NavMenuKey | null;
+  /**
+   * Viewport x of the hovered link's centre. The panel's container spans the viewport
+   * (`.framer-kvjt16-container` is fixed, left 0 / right 0), so this is also its x there.
+   */
+  anchorX: number | null;
   onNavigate: () => void;
   transition: Transition;
 }
 
-export function NavMegaPanel({ open, onNavigate, transition }: NavMegaPanelProps): React.ReactElement {
+/** Centre the panel on the link, then slide it back inside the viewport if it overflows. */
+function panelLeft(anchorX: number | null, width: number): string {
+  if (anchorX === null || typeof window === "undefined") return `calc(50% - ${width / 2}px)`;
+  const viewport = window.innerWidth;
+  const shown = Math.min(width, viewport - PANEL_EDGE_GAP * 2);
+  const left = Math.min(Math.max(anchorX - shown / 2, PANEL_EDGE_GAP), viewport - PANEL_EDGE_GAP - shown);
+  return `${left}px`;
+}
+
+export function NavMegaPanel({ open, anchorX, onNavigate, transition }: NavMegaPanelProps): React.ReactElement {
   const menu = open ? NAV_MENUS[open] : null;
   return (
     <AnimatePresence>
@@ -179,11 +196,11 @@ export function NavMegaPanel({ open, onNavigate, transition }: NavMegaPanelProps
           role="menu"
           aria-label={menu.label}
           data-nav-menu={open}
-          initial={{ opacity: 0, y: -8, x: "-50%" }}
-          animate={{ opacity: 1, y: 0, x: "-50%" }}
-          exit={{ opacity: 0, y: -8, x: "-50%" }}
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
           transition={transition}
-          style={{ ...PANEL_WRAP_STYLE, width: menu.width }}
+          style={{ ...PANEL_WRAP_STYLE, width: menu.width, left: panelLeft(anchorX, menu.width) }}
         >
           <div style={PANEL_STYLE}>
             <div
