@@ -292,16 +292,16 @@ export const NAV_LINKS: readonly NavLink[] = [
     containerClassName: "framer-d3zajn-container",
   },
   {
+    webPageId: "products",
+    label: "Products",
+    href: "/products",
+    containerClassName: "framer-d3zajn-container",
+  },
+  {
     webPageId: "ai-workforce",
     label: "AI Workforce",
     href: "/ai-workforce",
     badge: "Flagship",
-    containerClassName: "framer-d3zajn-container",
-  },
-  {
-    webPageId: "products",
-    label: "Products",
-    href: "/products",
     containerClassName: "framer-d3zajn-container",
   },
   {
@@ -318,9 +318,11 @@ export const NAV_LINKS: readonly NavLink[] = [
   },
 ] as const;
 
-/** Index into `NAV_LINKS` of the links rendered BEFORE the logo row (three each side).
- *  There is no Home link: the logo links home. */
-const LINKS_BEFORE_LOGO = 3;
+/** Index into `NAV_LINKS` of the links rendered BEFORE the logo row. Four plain links
+ *  balance three on the right because AI Workforce and its Flagship badge are wide: this
+ *  split puts the logo within ~17px of the viewport centre (3 + 4 left it 74px off).
+ *  Re-measure if a label changes. There is no Home link: the logo links home. */
+const LINKS_BEFORE_LOGO = 4;
 
 /* -------------------------------------------------------------------------- */
 /* Breakpoint wrappers — the shared LAYOUT triple, not the per-page one        */
