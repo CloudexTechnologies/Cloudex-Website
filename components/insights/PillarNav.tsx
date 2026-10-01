@@ -4,36 +4,17 @@ import type { Pillar } from "@/sanity/types";
 /**
  * Pillars double as the topical hub structure: every article links up to one,
  * and each hub page is an internal-link target that consolidates authority.
+ *
+ * Rendered as an underlined tab row (`.topic-tabs` in `app/insights/insights.css`) that
+ * scrolls sideways on narrow screens rather than wrapping into a pill cloud.
  */
 export function PillarNav({ pillars, active }: { pillars: Pillar[]; active?: string }) {
-  const chip = (isActive: boolean) =>
-    ({
-      display: "inline-flex",
-      alignItems: "center",
-      gap: 8,
-      padding: "9px 18px",
-      borderRadius: "var(--radius-pill)",
-      border: "1px solid var(--border)",
-      background: isActive ? "var(--accent)" : "var(--surface)",
-      color: isActive ? "#fff" : "var(--text-2)",
-      fontSize: 14,
-      fontWeight: 500,
-      textDecoration: "none",
-      transition: "var(--transition)",
-    }) as const;
-
+  const total = pillars.reduce((sum, pillar) => sum + pillar.count, 0);
   return (
-    <nav
-      aria-label="Article topics"
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        gap: 10,
-        justifyContent: "center",
-      }}
-    >
-      <Link href="/insights" style={chip(!active)}>
+    <nav aria-label="Article topics" className="topic-tabs">
+      <Link href="/insights" className="topic-tab" aria-current={!active ? "page" : undefined}>
         All
+        <span className="topic-count">{total}</span>
       </Link>
       {pillars
         .filter((pillar) => pillar.count > 0 || pillar.slug === active)
@@ -41,17 +22,11 @@ export function PillarNav({ pillars, active }: { pillars: Pillar[]; active?: str
           <Link
             key={pillar._id}
             href={`/insights/topic/${pillar.slug}`}
-            style={chip(pillar.slug === active)}
+            className="topic-tab"
+            aria-current={pillar.slug === active ? "page" : undefined}
           >
             {pillar.title}
-            <span
-              style={{
-                fontSize: 12,
-                opacity: 0.6,
-              }}
-            >
-              {pillar.count}
-            </span>
+            <span className="topic-count">{pillar.count}</span>
           </Link>
         ))}
     </nav>

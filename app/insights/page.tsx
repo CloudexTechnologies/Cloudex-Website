@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Lightbulb } from "lucide-react";
 import { InsightsShell } from "@/components/insights/InsightsShell";
-import { ArticleCard } from "@/components/insights/ArticleCard";
+import { InsightsBento } from "@/components/insights/InsightsBento";
+import { InsightsHeader } from "@/components/insights/InsightsHeader";
 import { JsonLd } from "@/components/insights/JsonLd";
 import { PillarNav } from "@/components/insights/PillarNav";
 import { Pagination } from "@/components/insights/Pagination";
@@ -20,13 +21,13 @@ const PER_PAGE = 9;
 export const metadata: Metadata = {
   title: "Insights on AI Systems, Automation and Software | Cloudex Technologies",
   description:
-    "Technical analysis of AI systems, agent architectures, and applied automation — plus practical guidance on deploying them inside a real business. Written and cited, not generated filler.",
+    "Technical analysis of AI systems, agent architectures and applied automation, with practical guidance on deploying them inside a real business. Written and cited, not generated filler.",
   alternates: { canonical: "/insights", languages: { en: "/insights", "x-default": "/insights" } },
   openGraph: {
     type: "website",
     title: "Insights on AI Systems, Automation and Software",
     description:
-      "Technical analysis of AI systems, agent architectures, and applied automation — plus practical guidance on deploying them inside a real business.",
+      "Technical analysis of AI systems, agent architectures and applied automation, with practical guidance on deploying them inside a real business.",
     url: "/insights",
     siteName: "Cloudex Technologies",
   },
@@ -48,9 +49,6 @@ export default async function InsightsPage({
   ]);
 
   const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
-  // The lead slot only makes sense on the first page of the newest-first list.
-  const featured = page === 1 ? posts[0] : undefined;
-  const rest = featured ? posts.slice(1) : posts;
 
   return (
     <InsightsShell>
@@ -66,98 +64,18 @@ export default async function InsightsPage({
         />
       )}
 
-      {/* ── Hero ── */}
-      <section
-        style={{
-          minHeight: "48vh",
-          display: "flex",
-          alignItems: "center",
-          background: "var(--bg)",
-          position: "relative",
-          overflow: "hidden",
-        }}
+      <InsightsHeader
+        eyebrow="Insights"
+        title="Thinking that helps you make better technology decisions"
+        deck="Analysis of AI systems and the software around them, from people who build and deploy them for real businesses. No hype, no listicles, and every claim sourced."
       >
-        <div
-          className="container"
-          style={{ position: "relative", zIndex: 1, paddingTop: 72, paddingBottom: 64 }}
-        >
-          <div style={{ maxWidth: 820, margin: "0 auto", textAlign: "center" }}>
-              <span
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                  padding: "6px 18px",
-                  borderRadius: 999,
-                  background: "var(--surface)",
-                  border: "1px solid var(--border)",
-                  fontSize: 11,
-                  color: "var(--text-3)",
-                  fontFamily: "var(--font-heading)",
-                  fontWeight: 700,
-                  letterSpacing: "0.08em",
-                  textTransform: "uppercase",
-                  marginBottom: 36,
-                }}
-              >
-                Insights
-              </span>
+        {pillars.length > 0 && <PillarNav pillars={pillars} />}
+      </InsightsHeader>
 
-            <h1
-              style={{
-                fontSize: "clamp(34px, 5.8vw, 70px)",
-                fontWeight: 700,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.06,
-                marginBottom: 32,
-              }}
-            >
-              Thinking that helps you make better technology decisions.
-            </h1>
-
-              <p
-                style={{
-                  fontSize: "clamp(16px, 1.9vw, 20px)",
-                  color: "var(--text-2)",
-                  lineHeight: 1.8,
-                  maxWidth: 620,
-                  margin: "0 auto",
-                }}
-              >
-                No hype. No generic listicles. Analysis of AI systems and the software around them,
-                from people who build and deploy them for real businesses — every claim sourced.
-              </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Pillar navigation ── */}
-      {pillars.length > 0 && (
-        <section style={{ background: "var(--bg)", paddingBottom: 8 }}>
-          <div className="container">
-            <PillarNav pillars={pillars} />
-          </div>
-        </section>
-      )}
-
-      {/* ── Articles ── */}
       {total > 0 ? (
-        <section style={{ background: "var(--bg)", paddingTop: 48, paddingBottom: 104 }}>
+        <section className="insights-list">
           <div className="container">
-            {featured && (
-              <div style={{ marginBottom: 40 }}>
-                <ArticleCard post={featured} featured />
-              </div>
-            )}
-
-            {rest.length > 0 && (
-              <div className="insight-grid">
-                {rest.map((post) => (
-                  <ArticleCard key={post._id} post={post} />
-                ))}
-              </div>
-            )}
-
+            <InsightsBento posts={posts} />
             <Pagination basePath="/insights" current={page} totalPages={totalPages} />
           </div>
         </section>

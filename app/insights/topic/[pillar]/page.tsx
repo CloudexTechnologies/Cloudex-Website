@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { InsightsShell } from "@/components/insights/InsightsShell";
-import { ArticleCard } from "@/components/insights/ArticleCard";
+import { InsightsBento } from "@/components/insights/InsightsBento";
+import { InsightsHeader } from "@/components/insights/InsightsHeader";
 import { JsonLd } from "@/components/insights/JsonLd";
 import { Pagination } from "@/components/insights/Pagination";
 import { PillarNav } from "@/components/insights/PillarNav";
@@ -93,67 +94,15 @@ export default async function PillarPage({ params, searchParams }: RouteProps) {
         />
       )}
 
-      <section
-        style={{
-          background: "var(--bg)",
-          position: "relative",
-          overflow: "hidden",
-          paddingTop: 150,
-          paddingBottom: 40,
-        }}
-      >
-        <div className="container" style={{ position: "relative", zIndex: 1 }}>
-          <div style={{ maxWidth: 760, margin: "0 auto", textAlign: "center" }}>
-            <span
-              style={{
-                display: "inline-block",
-                fontSize: 11,
-                fontWeight: 700,
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-                color: "var(--text-3)",
-                marginBottom: 20,
-              }}
-            >
-              Insights · Topic
-            </span>
-            <h1
-              style={{
-                fontFamily: "var(--font-heading)",
-                fontSize: "clamp(30px, 4.6vw, 52px)",
-                fontWeight: 700,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.1,
-                color: "var(--text-1)",
-                marginBottom: 20,
-              }}
-            >
-              {pillar.title}
-            </h1>
-            {pillar.description && (
-              <p style={{ fontSize: 18, lineHeight: 1.75, color: "var(--text-2)" }}>
-                {pillar.description}
-              </p>
-            )}
-          </div>
-        </div>
-      </section>
+      <InsightsHeader eyebrow="Insights topic" title={pillar.title} deck={pillar.description}>
+        <PillarNav pillars={pillars} active={pillar.slug} />
+      </InsightsHeader>
 
-      <section style={{ background: "var(--bg)", paddingBottom: 12 }}>
-        <div className="container">
-          <PillarNav pillars={pillars} active={pillar.slug} />
-        </div>
-      </section>
-
-      <section style={{ background: "var(--bg)", paddingTop: 44, paddingBottom: 104 }}>
+      <section className="insights-list">
         <div className="container">
           {posts.length > 0 ? (
             <>
-              <div className="insight-grid">
-                {posts.map((post) => (
-                  <ArticleCard key={post._id} post={post} />
-                ))}
-              </div>
+              <InsightsBento posts={posts} />
               <Pagination
                 basePath={`/insights/topic/${pillar.slug}`}
                 current={page}
