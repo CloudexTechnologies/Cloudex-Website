@@ -156,6 +156,35 @@ export function serviceSchema(input: {
   };
 }
 
+export function productSchema(input: {
+  name: string;
+  description: string;
+  path: string;
+  image: string;
+  price: number;
+  currency: string;
+  checkoutUrl: string;
+}): Json {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "@id": `${absoluteUrl(input.path)}#product`,
+    name: input.name,
+    description: input.description,
+    url: absoluteUrl(input.path),
+    image: absoluteUrl(input.image),
+    brand: { "@id": ORG_ID },
+    offers: {
+      "@type": "Offer",
+      price: input.price.toFixed(2),
+      priceCurrency: input.currency,
+      availability: "https://schema.org/InStock",
+      url: input.checkoutUrl,
+      seller: { "@id": ORG_ID },
+    },
+  };
+}
+
 export function articleSchema(input: {
   headline: string;
   description: string;

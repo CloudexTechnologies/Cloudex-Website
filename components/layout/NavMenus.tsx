@@ -1,9 +1,9 @@
 "use client";
 
 /**
- * Services / Industries / Our Products menus for `SiteNavbar`. NOT part of the Framer
- * original: all three were added after the migration. Our Products has no index route;
- * its items are external product sites and open in a new tab.
+ * Capabilities / Industries / Products menus for `SiteNavbar`. NOT part of the Framer
+ * original: all three were added after the migration. Products lists every page in
+ * `components/products/products.ts` and ends with "All products" (`/products`).
  *
  *   • {@link NavMegaPanel} — desktop. Opens below the bar while the pointer is over the
  *     Services or Industries link, lists every page with its one-line blurb, and ends with
@@ -27,9 +27,10 @@ import {
   type NavMenuItem,
 } from "@/components/enterprise/detail-pages";
 import { EnterpriseIcon } from "@/components/enterprise/EnterpriseIcon";
+import { PRODUCTS_MENU } from "@/components/products/products";
 import { scrollTopOnClick } from "@/lib/scroll-top";
 
-export type NavMenuKey = "services" | "industries";
+export type NavMenuKey = "services" | "industries" | "products";
 
 interface NavMenu {
   label: string;
@@ -45,12 +46,20 @@ interface NavMenu {
 export const NAV_MENUS: Record<NavMenuKey, NavMenu> = {
   services: { label: "Capabilities", index: { href: "/services", label: "All capabilities" }, items: SERVICES_MENU, columns: 3, width: 820 },
   industries: { label: "Industries", index: { href: "/industries", label: "All industries" }, items: INDUSTRIES_MENU, columns: 3, width: 820 },
+  products: {
+    label: "Products",
+    index: { href: "/products", label: "All products" },
+    items: PRODUCTS_MENU,
+    columns: Math.min(PRODUCTS_MENU.length, 3),
+    width: 300 + 260 * (Math.min(PRODUCTS_MENU.length, 3) - 1),
+  },
 };
 
 /** Which top-level nav href owns a menu. */
 export function menuKeyForHref(href: string): NavMenuKey | undefined {
   if (href === "/services") return "services";
   if (href === "/industries") return "industries";
+  if (href === "/products") return "products";
   return undefined;
 }
 

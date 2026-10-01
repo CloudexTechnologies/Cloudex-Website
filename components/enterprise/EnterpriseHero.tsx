@@ -74,6 +74,11 @@ export interface EnterpriseHeroProps {
   /** Up to three, filling the about hero's three stat slots. Omit on detail pages. */
   stats?: readonly EnterpriseStat[];
   image: EnterpriseImage;
+  /**
+   * `contain` shows the whole image on a solid fill instead of cropping it to the frame.
+   * Product screenshots need it: the phone frame is portrait, and `cover` slices them.
+   */
+  imageFit?: { fit: "contain"; background: string };
   reducedMotion?: ReducedMotionPolicy;
   disabled?: boolean;
 }
@@ -85,6 +90,7 @@ export function EnterpriseHero({
   intro,
   stats = [],
   image,
+  imageFit,
   reducedMotion,
   disabled = false,
 }: EnterpriseHeroProps): React.ReactElement {
@@ -131,7 +137,10 @@ export function EnterpriseHero({
             reducedMotion={reducedMotion}
             disabled={disabled}
           >
-            <div style={BACKGROUND_WRAPPER_STYLE} data-framer-background-image-wrapper="true">
+            <div
+              style={imageFit ? { ...BACKGROUND_WRAPPER_STYLE, backgroundColor: imageFit.background } : BACKGROUND_WRAPPER_STYLE}
+              data-framer-background-image-wrapper="true"
+            >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 decoding="async"
@@ -141,7 +150,7 @@ export function EnterpriseHero({
                 srcSet={image.srcSet}
                 src={image.src}
                 alt={image.alt}
-                style={BACKGROUND_IMAGE_STYLE}
+                style={imageFit ? { ...BACKGROUND_IMAGE_STYLE, objectFit: imageFit.fit } : BACKGROUND_IMAGE_STYLE}
               />
             </div>
 

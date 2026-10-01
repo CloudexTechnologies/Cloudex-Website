@@ -168,6 +168,7 @@ export const FOOTER_PAGE_LINKS = [
   { className: "framer-42zu09", href: "/about", label: "About" },
   { className: "framer-17it8en", href: "/services", label: "Services" },
   { className: "framer-17it8en", href: "/industries", label: "Industries" },
+  { className: "framer-17it8en", href: "/products", label: "Products" },
   { className: "framer-17it8en", href: "/insights", label: "Insights" },
   { className: "framer-196eq5m", href: "/contact", label: "Contact" },
 ] as const;
