@@ -8,7 +8,7 @@
 
 set -euo pipefail
 
-VPS_HOST="${VPS_HOST:-ubuntu@135.125.233.21}"
+VPS_HOST="${VPS_HOST:-ubuntu@137.74.44.20}"
 SSH_KEY="${SSH_KEY:-$HOME/.ssh/id_ed25519}"
 REMOTE_DIR="/home/ubuntu/cloudex-content"
 HERMES_SCRIPTS="/home/ubuntu/.hermes/scripts"
