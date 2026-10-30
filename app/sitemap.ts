@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next";
 
 import { INDUSTRY_PAGES, SERVICE_PAGES, industryHref, serviceHref } from "@/components/enterprise/detail-pages";
-import { PRODUCTS, productHref } from "@/components/products/products";
 import { absoluteUrl } from "@/lib/site";
 import { client } from "@/sanity/client";
 import { CONTENT_INDEX_QUERY } from "@/sanity/queries";
@@ -26,7 +25,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: absoluteUrl("/"), lastModified: now, changeFrequency: "weekly", priority: 1 },
     { url: absoluteUrl("/services"), lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     { url: absoluteUrl("/industries"), lastModified: now, changeFrequency: "monthly", priority: 0.9 },
-    { url: absoluteUrl("/products"), lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     { url: absoluteUrl("/ai-workforce"), lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     { url: absoluteUrl("/about"), lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: absoluteUrl("/contact"), lastModified: now, changeFrequency: "yearly", priority: 0.7 },
@@ -46,13 +44,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: now,
     changeFrequency: "monthly" as const,
     priority: 0.8,
-  }));
-
-  const products = PRODUCTS.map((p) => ({
-    url: absoluteUrl(productHref(p.slug)),
-    lastModified: now,
-    changeFrequency: "monthly" as const,
-    priority: 0.9,
   }));
 
   let content: IndexResult = { posts: [], pillars: [] };
@@ -77,5 +68,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  return [...core, ...products, ...services, ...industries, ...pillars, ...posts];
+  return [...core, ...services, ...industries, ...pillars, ...posts];
 }

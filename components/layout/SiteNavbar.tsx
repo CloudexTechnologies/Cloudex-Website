@@ -152,8 +152,8 @@ const INSTANT: Transition = { type: "tween", duration: 0, delay: 0 };
 
 /**
  * `.framer-jyjdtl` ("Mid"): the ONE property the desktop hover animates. Framer's open
- * width was 340 for four links; Capabilities, Industries, AI Workforce and Products (added
- * post-migration) widen the revealed row to seven, and the full wordmark logo is wider,
+ * width was 340 for four links; Capabilities, Industries and AI Workforce (added
+ * post-migration) widen the revealed row to six, and the full wordmark logo is wider,
  * so the notch opens to 900 to keep the same margin around them.
  * The inline animated width overrides the `framer-v-1pw3m48` rule's 340px.
  */
@@ -266,11 +266,11 @@ export interface NavLink {
  * mobile the CSS `order` property re-stacks them with the logo row first — do not
  * reorder here.
  *
- * Capabilities, Industries, AI Workforce and Products were added after the migration and
+ * Capabilities, Industries and AI Workforce were added after the migration and
  * have no Framer container class. Each borrows its neighbour's (About's or Blog's): the
  * rules are identical apart from the phone `order`, and on an `order` tie flexbox falls
  * back to DOM order, so the phone menu keeps the order below with no new CSS. On the
- * phone, Capabilities, Industries and Products open their sub-list instead of navigating.
+ * phone, Capabilities and Industries open their sub-list instead of navigating.
  */
 export const NAV_LINKS: readonly NavLink[] = [
   {
@@ -289,12 +289,6 @@ export const NAV_LINKS: readonly NavLink[] = [
     webPageId: "industries",
     label: "Industries",
     href: "/industries",
-    containerClassName: "framer-d3zajn-container",
-  },
-  {
-    webPageId: "products",
-    label: "Products",
-    href: "/products",
     containerClassName: "framer-d3zajn-container",
   },
   {
@@ -318,11 +312,11 @@ export const NAV_LINKS: readonly NavLink[] = [
   },
 ] as const;
 
-/** Index into `NAV_LINKS` of the links rendered BEFORE the logo row. Four plain links
- *  balance three on the right because AI Workforce and its Flagship badge are wide: this
- *  split puts the logo within ~17px of the viewport centre (3 + 4 left it 74px off).
+/** Index into `NAV_LINKS` of the links rendered BEFORE the logo row. Three each side puts
+ *  the logo ~33px left of the viewport centre, because AI Workforce and its Flagship badge
+ *  are wide; moving Insights left overshoots to ~50px right, so 3 + 3 is the closest split.
  *  Re-measure if a label changes. There is no Home link: the logo links home. */
-const LINKS_BEFORE_LOGO = 4;
+const LINKS_BEFORE_LOGO = 3;
 
 /* -------------------------------------------------------------------------- */
 /* Breakpoint wrappers — the shared LAYOUT triple, not the per-page one        */

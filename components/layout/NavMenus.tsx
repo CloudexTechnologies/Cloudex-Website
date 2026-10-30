@@ -1,12 +1,11 @@
 "use client";
 
 /**
- * Capabilities / Industries / Products menus for `SiteNavbar`. NOT part of the Framer
- * original: all three were added after the migration. Products lists every page in
- * `components/products/products.ts` and ends with "All products" (`/products`).
+ * Capabilities / Industries menus for `SiteNavbar`. NOT part of the Framer original: both
+ * were added after the migration.
  *
- *   • {@link NavMegaPanel} — desktop. Opens right below the hovered Capabilities,
- *     Industries or Products link (clamped to the viewport), so the pointer can travel
+ *   • {@link NavMegaPanel} — desktop. Opens right below the hovered Capabilities or
+ *     Industries link (clamped to the viewport), so the pointer can travel
  *     straight down into it without crossing another link, which would switch or close
  *     the menu. Lists every page with its one-line blurb, and ends with a "View all" link. It renders OUTSIDE the `<nav>` (which is `overflow: hidden` at
  *     58px) but inside `.framer-kvjt16-container`, which now owns the hover handlers, so
@@ -28,10 +27,9 @@ import {
   type NavMenuItem,
 } from "@/components/enterprise/detail-pages";
 import { EnterpriseIcon } from "@/components/enterprise/EnterpriseIcon";
-import { PRODUCTS_MENU } from "@/components/products/products";
 import { scrollTopOnClick } from "@/lib/scroll-top";
 
-export type NavMenuKey = "services" | "industries" | "products";
+export type NavMenuKey = "services" | "industries";
 
 interface NavMenu {
   label: string;
@@ -47,20 +45,12 @@ interface NavMenu {
 export const NAV_MENUS: Record<NavMenuKey, NavMenu> = {
   services: { label: "Capabilities", index: { href: "/services", label: "All capabilities" }, items: SERVICES_MENU, columns: 3, width: 820 },
   industries: { label: "Industries", index: { href: "/industries", label: "All industries" }, items: INDUSTRIES_MENU, columns: 3, width: 820 },
-  products: {
-    label: "Products",
-    index: { href: "/products", label: "All products" },
-    items: PRODUCTS_MENU,
-    columns: Math.min(PRODUCTS_MENU.length, 3),
-    width: 300 + 260 * (Math.min(PRODUCTS_MENU.length, 3) - 1),
-  },
 };
 
 /** Which top-level nav href owns a menu. */
 export function menuKeyForHref(href: string): NavMenuKey | undefined {
   if (href === "/services") return "services";
   if (href === "/industries") return "industries";
-  if (href === "/products") return "products";
   return undefined;
 }
 
