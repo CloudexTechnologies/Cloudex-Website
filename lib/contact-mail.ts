@@ -100,12 +100,12 @@ export function buildMessage(fields: Record<string, string>, env: MailEnv) {
   const email = fields["Email"] ?? "";
   const rows = CONTACT_FORM_FIELDS.map((f) => [f.label, fields[f.name] ?? ""] as const);
 
-  // The Worker sets its own thread Reply-To on every send, so "Reply" in webmail would
-  // come back to our own mailbox. The visitor's address therefore leads the subject and
-  // body: reply by writing to it directly.
+  // Without reply_to the Worker sets its own thread Reply-To, and "Reply" in webmail would
+  // come back to our own mailbox. The visitor's address also leads the subject and body.
   return {
     from: env.from,
     to: env.to,
+    reply_to: email,
     subject: `New enquiry from ${name} <${email}>`,
     text: `Reply to: ${email}\n\n` + rows.map(([l, v]) => `${l}:\n${v}`).join("\n\n"),
     html:
