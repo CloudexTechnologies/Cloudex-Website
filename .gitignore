@@ -43,3 +43,10 @@ pipeline/state/
 studio/node_modules/
 studio/dist/
 studio/.sanity/
+.vercel
+.env*
+
+# cloudflare (OpenNext build output, local wrangler state, local secrets)
+/.open-next/
+/.wrangler/
+.dev.vars*

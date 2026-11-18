@@ -1,0 +1,37 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "cloudex-website",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-11-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    {
+      // Lets OpenNext call back into this Worker (ISR background revalidation).
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "cloudex-website"
+    }
+  ],
+  "kv_namespaces": [
+    {
+      // ISR page cache for the Sanity-backed /insights pages.
+      "binding": "NEXT_INC_CACHE_KV",
+      "id": "24d1fe18cff042e3b3f7bff864567b3a"
+    }
+  ],
+  "d1_databases": [
+    {
+      // Records revalidatePath() calls (from /api/revalidate and /api/hermes/posts).
+      "binding": "NEXT_TAG_CACHE_D1",
+      "database_name": "cloudex-website-tag-cache",
+      "database_id": "b2a4c7ed-895d-476d-9ee1-274109f4d8fa"
+    }
+  ],
+  "vars": {
+    "NEXT_PUBLIC_SITE_URL": "https://cloudextechnologies.io"
+  },
+  "observability": { "enabled": true }
+}
