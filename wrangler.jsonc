@@ -2,6 +2,8 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "cloudex-website",
   "main": ".open-next/worker.js",
+  // Keep the *.workers.dev test address alongside the custom domains.
+  "workers_dev": true,
   "compatibility_date": "2026-11-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": {
@@ -33,5 +35,10 @@
   "vars": {
     "NEXT_PUBLIC_SITE_URL": "https://cloudextechnologies.io"
   },
+  // Production domains (Cloudflare DNS). Cloudflare creates the DNS records and certificates.
+  "routes": [
+    { "pattern": "cloudextechnologies.io", "custom_domain": true },
+    { "pattern": "www.cloudextechnologies.io", "custom_domain": true }
+  ],
   "observability": { "enabled": true }
 }
