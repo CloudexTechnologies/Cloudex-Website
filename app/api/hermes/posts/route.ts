@@ -23,7 +23,6 @@ import {
   SanityWriteError,
   isWriteConfigured,
   mutate,
-  waitForCdn,
   query,
   uploadImageFromUrl,
 } from "@/lib/hermes/sanity-write";
@@ -153,10 +152,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     // createIfNotExists for new posts, so two concurrent creates of one slug cannot
     // both succeed; createOrReplace only when Hermes explicitly asked to overwrite.
-    const rev = await mutate([existing ? { createOrReplace: document } : { createIfNotExists: document }]);
-    // Refresh only once Sanity's CDN serves this version, or the old page would be
-    // cached again for a whole ISR window (see waitForCdn).
-    if (!(await waitForCdn(document._id, rev))) console.warn("[hermes] CDN did not catch up; refreshing anyway", input.slug);
+    await mutate([existing ? { createOrReplace: document } : { createIfNotExists: document }]);
 
     revalidateInsights(input.slug, pillar.slug);
     if (existing?.pillar && existing.pillar !== pillar.slug) revalidateInsights(undefined, existing.pillar);
