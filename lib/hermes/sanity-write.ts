@@ -53,12 +53,46 @@ export async function query<T>(groq: string, params: Record<string, unknown> = {
   return body.result;
 }
 
-export async function mutate(mutations: unknown[]): Promise<void> {
-  await call(`${base()}/data/mutate/${dataset}?returnIds=true&visibility=sync`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ mutations }),
-  });
+/** Applies the mutations and returns the transaction id (the new `_rev` of each changed document). */
+export async function mutate(mutations: unknown[]): Promise<string> {
+  const result = await call<{ transactionId: string }>(
+    `${base()}/data/mutate/${dataset}?returnIds=true&visibility=sync`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ mutations }),
+    },
+  );
+  return result.transactionId;
+}
+
+/**
+ * The site reads Sanity through its CDN, which can serve the previous version of a
+ * document for a few seconds after a write. Revalidating before the CDN catches up would
+ * re-cache the old page for a whole ISR window, so wait (up to `maxMs`) until the CDN
+ * returns revision `rev` of document `id`. Returns whether it caught up in time.
+ */
+export async function waitForCdn(id: string, rev: string, maxMs = 20_000): Promise<boolean> {
+  const url = new URL(`https://${projectId}.apicdn.sanity.io/v${apiVersion}/data/query/${dataset}`);
+  url.searchParams.set("query", "*[_id == $id][0]._rev");
+  url.searchParams.set("$id", JSON.stringify(id));
+  const deadline = Date.now() + maxMs;
+  while (Date.now() < deadline) {
+    try {
+      // A unique parameter per attempt, so the CDN cannot answer from its query cache.
+      url.searchParams.set("$attempt", JSON.stringify(Date.now()));
+      const response = await fetch(url, { signal: AbortSignal.timeout(5_000) });
+      if (response.ok && ((await response.json()) as { result?: string }).result === rev) {
+        // The replica has the write; give the CDN's cached queries a moment to be purged.
+        await new Promise((resolve) => setTimeout(resolve, 3_000));
+        return true;
+      }
+    } catch {
+      // Network blip: try again until the deadline.
+    }
+    await new Promise((resolve) => setTimeout(resolve, 1_500));
+  }
+  return false;
 }
 
 /**

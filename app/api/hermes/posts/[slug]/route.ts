@@ -8,7 +8,7 @@ import { NextResponse, type NextRequest } from "next/server";
 
 import { isAuthorized } from "@/lib/hermes/contract";
 import { revalidateInsights } from "@/lib/hermes/revalidate";
-import { isWriteConfigured, mutate, query } from "@/lib/hermes/sanity-write";
+import { isWriteConfigured, mutate, query, waitForCdn } from "@/lib/hermes/sanity-write";
 
 export const dynamic = "force-dynamic";
 
@@ -31,7 +31,9 @@ export async function DELETE(
       { slug },
     );
     if (!doc) return NextResponse.json({ error: "Not found" }, { status: 404, headers: NO_STORE });
-    await mutate([{ patch: { id: doc._id, set: { status: "archived" } } }]);
+    const rev = await mutate([{ patch: { id: doc._id, set: { status: "archived" } } }]);
+    // Refresh only once Sanity's CDN serves the archived version (see waitForCdn).
+    if (!(await waitForCdn(doc._id, rev))) console.warn("[hermes] CDN did not catch up; refreshing anyway", slug);
     revalidateInsights(slug, doc.pillar);
     return NextResponse.json({ ok: true, slug, status: "archived" }, { headers: NO_STORE });
   } catch (error) {
